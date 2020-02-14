@@ -1,5 +1,7 @@
 # Live Survey Polling
 
+![project structure](./structure.png "Project Structure")
+
 ## Description
 
 Conducting surveys and live polling the classroom are excellent techniques for measuring understanding and teaching effectiveness.
@@ -21,6 +23,4 @@ Conducting surveys and live polling the classroom are excellent techniques for m
 
 1.	**Visual Interface**
 1.	The capstone requires a back-end and front-end. You’re welcome to create whatever visual interface you feel is appropriate.
-
-![project structure](./structure.png "Project Structure")
  
