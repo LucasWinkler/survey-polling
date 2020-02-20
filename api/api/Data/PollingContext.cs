@@ -1,9 +1,5 @@
-﻿using JetBrains.Annotations;
+﻿using api.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace api.Data
 {
@@ -12,6 +8,11 @@ namespace api.Data
         public PollingContext(DbContextOptions<PollingContext> options) : base(options)
         {
         }
+
+        public DbSet<Answer> Answers { get; set; }
+        public DbSet<Poll> Polls { get; set; }
+        public DbSet<Question> Questions { get; set; }
+        public DbSet<Vote> Votes { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
