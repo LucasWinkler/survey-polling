@@ -1,11 +1,10 @@
-# Live Survey Polling
+# MorumOSS - Live Survey Polling
 
 ![project structure](./structure.png "Project Structure")
 
 ## Description
 
 Conducting surveys and live polling the classroom are excellent techniques for measuring understanding and teaching effectiveness.
-
 
 ## Notable Feature Requirements
 
