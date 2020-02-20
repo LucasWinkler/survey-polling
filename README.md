@@ -21,5 +21,5 @@ Conducting surveys and live polling the classroom are excellent techniques for m
 ## Capstone Requirements
 
 1.	**Visual Interface**
-a.	The capstone requires a back-end and front-end. You’re welcome to create whatever visual interface you feel is appropriate.
+    1.	The capstone requires a back-end and front-end. You’re welcome to create whatever visual interface you feel is appropriate.
  
