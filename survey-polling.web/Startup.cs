@@ -1,12 +1,12 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using survey_polling.api.Hubs;
 
-namespace survey_polling.api
+namespace survey_polling.web
 {
     public class Startup
     {
@@ -17,54 +17,49 @@ namespace survey_polling.api
 
         public IConfiguration Configuration { get; }
 
+        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
 
-            services.AddCors(options => options.AddPolicy("CorsPolicy", builder =>
-            {
-                builder.AllowAnyMethod().AllowAnyHeader()
-                       .WithOrigins("http://localhost:5000")
-                       .AllowCredentials();
-            }));
+            services.AddControllersWithViews();
 
-            // Enable support for websockets
-            services.AddSignalR();
-
-            // React spa files
+            // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
-                configuration.RootPath = "../survey-polling.client/public";
+                configuration.RootPath = "ClientApp/build";
             });
         }
 
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                app.UseExceptionHandler("/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
+            }
 
             app.UseHttpsRedirection();
-            app.UseRouting();
-            app.UseAuthorization();
-            app.UseWebSockets();
-            app.UseCors("CorsPolicy");
+            app.UseStaticFiles();
             app.UseSpaStaticFiles();
+
+            app.UseRouting();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
-
-                // Map the websocket hubs
-                endpoints.MapHub<PollingHub>("/polling");
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller}/{action=Index}/{id?}");
             });
 
-            // Use our react spa
             app.UseSpa(spa =>
             {
-
-                spa.Options.SourcePath = "../survey-polling.client";
+                spa.Options.SourcePath = "ClientApp";
 
                 if (env.IsDevelopment())
                 {
