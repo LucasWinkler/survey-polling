@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using api.Hubs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace api.Controllers
 {
@@ -11,6 +13,13 @@ namespace api.Controllers
     [ApiController]
     public class PollController : ControllerBase
     {
+        private readonly IHubContext<PollHub> pollHub;
+
+        public PollController(IHubContext<PollHub> pollHub)
+        {
+            this.pollHub = pollHub;
+        }
+
         // GET: api/Poll
         [HttpGet]
         public IEnumerable<string> Get()
