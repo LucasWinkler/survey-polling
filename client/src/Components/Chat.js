@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { HubConnectionBuilder } from '@aspnet/signalr';
+import { HubConnectionBuilder, LogLevel } from '@aspnet/signalr';
 
 export default class Chat extends Component {
   constructor(props) {
@@ -18,6 +18,7 @@ export default class Chat extends Component {
 
     const hubConnection = new HubConnectionBuilder()
       .withUrl('http://localhost:5000/chat')
+      .configureLogging(LogLevel.Information)
       .build();
 
     this.setState({ hubConnection, nick }, () => {
@@ -26,7 +27,7 @@ export default class Chat extends Component {
         .then(() => console.log('Connection started!'))
         .catch(err => console.log('Error while establishing connection :('));
 
-      this.state.hubConnection.on('send', (nick, receivedMessage) => {
+      this.state.hubConnection.on('sendToAll', (nick, receivedMessage) => {
         const text = `${nick}: ${receivedMessage}`;
         const messages = this.state.messages.concat([text]);
         this.setState({ messages });
@@ -36,7 +37,7 @@ export default class Chat extends Component {
 
   sendMessage = () => {
     this.state.hubConnection
-      .invoke('send', this.state.nick, this.state.message)
+      .invoke('sendToAll', this.state.nick, this.state.message)
       .catch(err => console.error(err));
 
     this.setState({ message: '' });
