@@ -1,7 +1,7 @@
-﻿using api.Models;
+﻿using survey_polling.api.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace api.Data
+namespace survey_polling.api.Data
 {
     public class PollingContext : DbContext
     {

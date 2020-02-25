@@ -1,12 +1,12 @@
-using api.Data;
-using api.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using survey_polling.api.Hubs;
 
-namespace api
+namespace survey_polling.api
 {
     public class Startup
     {
@@ -17,7 +17,6 @@ namespace api
 
         public IConfiguration Configuration { get; }
 
-        // Adds services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
@@ -25,14 +24,20 @@ namespace api
             services.AddCors(options => options.AddPolicy("CorsPolicy", builder =>
             {
                 builder.AllowAnyMethod().AllowAnyHeader()
-                       .WithOrigins("http://localhost:3000")
+                       .WithOrigins("http://localhost:5000")
                        .AllowCredentials();
             }));
 
+            // Enable support for websockets
             services.AddSignalR();
+
+            // React spa build files
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "../survey-polling.client/build";
+            });
         }
 
-        // Configures the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -41,16 +46,30 @@ namespace api
             }
 
             app.UseHttpsRedirection();
-
             app.UseRouting();
-
             app.UseAuthorization();
-
+            app.UseWebSockets();
             app.UseCors("CorsPolicy");
+            app.UseSpaStaticFiles();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapHub<PollHub>("/chat");
+                endpoints.MapControllers();
+
+                // Map the websocket hubs
+                endpoints.MapHub<PollingHub>("/polling");
+            });
+
+            // Use our react spa
+            app.UseSpa(spa =>
+            {
+
+                spa.Options.SourcePath = "../survey-polling.client";
+
+                if (env.IsDevelopment())
+                {
+                    spa.UseReactDevelopmentServer(npmScript: "start");
+                }
             });
         }
     }

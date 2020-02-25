@@ -17,7 +17,7 @@ export default class Chat extends Component {
     const nick = window.prompt('Your name:', 'John');
 
     const hubConnection = new HubConnectionBuilder()
-      .withUrl('http://localhost:5000/chat')
+      .withUrl('http://localhost:5000/polling')
       .configureLogging(LogLevel.Information)
       .build();
 
