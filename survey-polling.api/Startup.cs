@@ -1,15 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using survey_polling.api.Hubs;
 
 namespace survey_polling.api
@@ -30,12 +24,18 @@ namespace survey_polling.api
             services.AddCors(options => options.AddPolicy("CorsPolicy", builder =>
             {
                 builder.AllowAnyMethod().AllowAnyHeader()
-                       .WithOrigins("http://localhost:3000")
+                       .WithOrigins("http://localhost:5000")
                        .AllowCredentials();
             }));
 
             // Enable support for websockets
             services.AddSignalR();
+
+            // React spa build files
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "../survey-polling.client/build";
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -50,6 +50,7 @@ namespace survey_polling.api
             app.UseAuthorization();
             app.UseWebSockets();
             app.UseCors("CorsPolicy");
+            app.UseSpaStaticFiles();
 
             app.UseEndpoints(endpoints =>
             {
@@ -57,6 +58,18 @@ namespace survey_polling.api
 
                 // Map the websocket hubs
                 endpoints.MapHub<PollingHub>("/polling");
+            });
+
+            // Use our react spa
+            app.UseSpa(spa =>
+            {
+
+                spa.Options.SourcePath = "../survey-polling.client";
+
+                if (env.IsDevelopment())
+                {
+                    spa.UseReactDevelopmentServer(npmScript: "start");
+                }
             });
         }
     }
