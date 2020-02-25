@@ -1,12 +1,18 @@
-using api.Data;
-using api.Hubs;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using survey_polling.api.Hubs;
 
-namespace api
+namespace survey_polling.api
 {
     public class Startup
     {
@@ -17,7 +23,6 @@ namespace api
 
         public IConfiguration Configuration { get; }
 
-        // Adds services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
@@ -29,10 +34,10 @@ namespace api
                        .AllowCredentials();
             }));
 
+            // Enable support for websockets
             services.AddSignalR();
         }
 
-        // Configures the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -41,16 +46,17 @@ namespace api
             }
 
             app.UseHttpsRedirection();
-
             app.UseRouting();
-
             app.UseAuthorization();
-
+            app.UseWebSockets();
             app.UseCors("CorsPolicy");
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapHub<PollHub>("/chat");
+                endpoints.MapControllers();
+
+                // Map the websocket hubs
+                endpoints.MapHub<PollingHub>("/polling");
             });
         }
     }

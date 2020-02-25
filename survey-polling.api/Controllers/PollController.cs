@@ -2,22 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using api.Hubs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Logging;
+using survey_polling.api.Hubs;
 
-namespace api.Controllers
+namespace survey_polling.api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class PollController : ControllerBase
     {
-        private readonly IHubContext<PollHub> pollHub;
+        private readonly IHubContext<PollingHub> _pollHub;
+        private readonly ILogger<PollController> _logger;
 
-        public PollController(IHubContext<PollHub> pollHub)
+        public PollController(IHubContext<PollingHub> pollHub, ILogger<PollController> logger)
         {
-            this.pollHub = pollHub;
+            _pollHub = pollHub;
+            _logger = logger;
         }
 
         // GET: api/Poll
