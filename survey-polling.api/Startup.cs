@@ -31,10 +31,10 @@ namespace survey_polling.api
             // Enable support for websockets
             services.AddSignalR();
 
-            // React spa files
+            // React production files
             services.AddSpaStaticFiles(configuration =>
             {
-                configuration.RootPath = "../survey-polling.client/public";
+                configuration.RootPath = "../survey-polling.client/build";
             });
         }
 
@@ -55,15 +55,12 @@ namespace survey_polling.api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-
-                // Map the websocket hubs
                 endpoints.MapHub<PollingHub>("/polling");
             });
 
             // Use our react spa
             app.UseSpa(spa =>
             {
-
                 spa.Options.SourcePath = "../survey-polling.client";
 
                 if (env.IsDevelopment())

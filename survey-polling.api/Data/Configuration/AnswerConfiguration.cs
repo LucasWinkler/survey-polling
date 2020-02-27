@@ -5,9 +5,9 @@ using System;
 
 namespace survey_polling.api.Data.Configuration
 {
-    public class AnswerConfiguration : IEntityTypeConfiguration<Answer>
+    public class AnswerConfiguration : IEntityTypeConfiguration<Option>
     {
-        public void Configure(EntityTypeBuilder<Answer> builder)
+        public void Configure(EntityTypeBuilder<Option> builder)
         {
             throw new NotImplementedException();
         }

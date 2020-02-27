@@ -10,7 +10,7 @@ namespace survey_polling.api.Data
             
         }
 
-        public DbSet<Answer> Answers { get; set; }
+        public DbSet<Option> Answers { get; set; }
         public DbSet<Poll> Polls { get; set; }
         public DbSet<Question> Questions { get; set; }
         public DbSet<Vote> Votes { get; set; }
@@ -18,7 +18,6 @@ namespace survey_polling.api.Data
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
             base.OnConfiguring(options);
-            options.UseSqlite("Data Source=morumoss-polling.db");
         }
     }
 }

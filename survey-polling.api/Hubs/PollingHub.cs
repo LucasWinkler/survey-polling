@@ -5,6 +5,7 @@ namespace survey_polling.api.Hubs
 {
     public class PollingHub : Hub
     {
+        // This is an example of sending a message to all connected clients
         public async Task SendToAll(string username, string message)
         {
             await Clients.All.SendAsync("sendToAll", username, message);
