@@ -1,15 +1,17 @@
-﻿using survey_polling.api.Data;
-using System.Collections.Generic;
-
-namespace survey_polling.api.Models
+﻿namespace survey_polling.api.Models
 {
-    public class Option : Entity
+    /// <summary>
+    /// A selectable Option in a Poll.
+    /// </summary>
+    public class Option
     {
         public int Id { get; set; }
-        public string Text { get; set; }
+        public int PollId { get; set; }
         public int QuestionId { get; set; }
+        public string Content { get; set; }
+        public bool IsAnswer { get; set; }
 
+        public Poll Poll { get; set; }
         public Question Question { get; set; }
-        public ICollection<Vote> Votes { get; set; }
     }
 }

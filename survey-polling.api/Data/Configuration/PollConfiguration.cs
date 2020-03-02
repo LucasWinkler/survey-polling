@@ -12,19 +12,15 @@ namespace survey_polling.api.Data.Configuration
 
             builder.HasKey(u => u.Id);
 
-            builder.Property(p => p.Title)
+            builder.Property(p => p.HostId)
                 .IsRequired();
 
-            builder.Property(p => p.TeacherId)
-                .IsRequired();
-
-            builder.HasOne(p => p.Teacher)
-                .WithMany(t => t.Polls)
-                .HasForeignKey(q => q.TeacherId)
-                .OnDelete(DeleteBehavior.Restrict);
-
             builder.Property(p => p.Title)
+                .IsRequired()
                 .HasMaxLength(100);
+
+            builder.Property(u => u.IsActive)
+               .HasDefaultValue(false);
         }
     }
 }

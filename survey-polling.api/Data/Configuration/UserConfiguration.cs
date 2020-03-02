@@ -14,6 +14,9 @@ namespace survey_polling.api.Data.Configuration
 
             builder.Property(u => u.Name)
                 .IsRequired();
+
+            builder.Property(u => u.IsHost)
+                .HasDefaultValue(false);
         }
     }
 }
