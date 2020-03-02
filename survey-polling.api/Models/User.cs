@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace survey_polling.api.Models
 {
     public class User
     {
-        [Required]
-        [StringLength(15, MinimumLength = 3)]
+        public int Id { get; set; }
         public string Name { get; set; }
+        public bool IsTeacher { get; set; } // Temp prop for testing
 
-        // Temp prop for testing
-        public bool IsTeacher { get; set; }
+        public ICollection<Poll> Polls { get; set; }
+        public ICollection<Vote> Votes { get; set; }
     }
 }

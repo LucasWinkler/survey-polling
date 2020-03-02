@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using survey_polling.api.Data;
 using survey_polling.api.Hubs;
 
 namespace survey_polling.api
@@ -19,6 +21,9 @@ namespace survey_polling.api
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<PollingContext>(options => 
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddControllers();
 
             services.AddCors(options => options.AddPolicy("CorsPolicy", builder =>

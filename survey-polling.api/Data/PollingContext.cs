@@ -1,5 +1,7 @@
 ﻿using survey_polling.api.Models;
 using Microsoft.EntityFrameworkCore;
+using survey_polling.api.Data.Configuration;
+using System.Reflection;
 
 namespace survey_polling.api.Data
 {
@@ -10,14 +12,17 @@ namespace survey_polling.api.Data
             
         }
 
-        public DbSet<Option> Answers { get; set; }
+        public DbSet<Option> Options { get; set; }
         public DbSet<Poll> Polls { get; set; }
         public DbSet<Question> Questions { get; set; }
         public DbSet<Vote> Votes { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder options)
+        protected override void OnModelCreating(ModelBuilder builder)
         {
-            base.OnConfiguring(options);
+            base.OnModelCreating(builder);
+
+            // Apply all enttiy type configurations
+            builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
     }
 }
