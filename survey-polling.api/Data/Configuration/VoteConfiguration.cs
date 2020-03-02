@@ -10,22 +10,25 @@ namespace survey_polling.api.Data.Configuration
         {
             builder.ToTable("Vote");
 
-            builder.HasKey(v => new { v.StudentId, v.OptionId });
+            builder.HasKey(v => v.Id);
 
-            builder.Property(v => v.StudentId)
+            builder.Property(v => v.PollId)
+                .IsRequired();
+
+            builder.Property(v => v.QuestionId)
                 .IsRequired();
 
             builder.Property(v => v.OptionId)
                 .IsRequired();
 
-            builder.HasOne(v => v.Student)
-                .WithMany(s => s.Votes)
-                .HasForeignKey(v => v.StudentId)
+            builder.HasOne(v => v.Poll)
+                .WithMany(p => p.Votes)
+                .HasForeignKey(v => v.PollId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(v => v.Option)
-                .WithMany(o => o.Votes)
-                .HasForeignKey(v => v.OptionId)
+            builder.HasOne(v => v.Question)
+                .WithMany(q => q.Votes)
+                .HasForeignKey(v => v.QuestionId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

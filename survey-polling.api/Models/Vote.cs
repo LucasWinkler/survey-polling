@@ -1,13 +1,17 @@
-﻿using survey_polling.api.Data;
-
-namespace survey_polling.api.Models
+﻿namespace survey_polling.api.Models
 {
-    public class Vote : Entity
+    /// <summary>
+    /// Contains information for which Vote corresponds to which Poll and Question.
+    /// </summary>
+    public class Vote
     {
-        public int StudentId { get; set; }
+        public int Id { get; set; }
+        public int PollId { get; set; }
+        public int QuestionId { get; set; }
         public int OptionId { get; set; }
 
-        public User Student { get; set; }
+        public Poll Poll { get; set; }
+        public Question Question { get; set; }
         public Option Option { get; set; }
     }
 }
