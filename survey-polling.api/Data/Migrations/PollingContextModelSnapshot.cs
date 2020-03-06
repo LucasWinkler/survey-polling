@@ -7,7 +7,7 @@ using survey_polling.api.Data;
 
 namespace survey_polling.api.Data.Migrations
 {
-    [DbContext(typeof(PollingContext))]
+    [DbContext(typeof(PollContext))]
     partial class PollingContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

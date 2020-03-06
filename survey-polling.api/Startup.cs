@@ -24,7 +24,7 @@ namespace survey_polling.api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<PollingContext>(options =>
+            services.AddDbContext<PollContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("LocalConnection")));
 
             // Standard authentication code for Auth0
@@ -82,7 +82,7 @@ namespace survey_polling.api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHub<PollingHub>("/polling");
+                endpoints.MapHub<PollHub>("/poll");
             });
 
             app.UseSpa(spa =>
