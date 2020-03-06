@@ -13,50 +13,50 @@ namespace survey_polling.api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PollController : ControllerBase
+    public class OptionController : ControllerBase
     {
         private readonly PollingContext _context;
-        private readonly ILogger<PollController> _logger;
+        private readonly ILogger<OptionController> _logger;
 
-        public PollController(PollingContext context, ILogger<PollController> logger)
+        public OptionController(PollingContext context, ILogger<OptionController> logger)
         {
             _context = context;
             _logger = logger;
         }
 
-        // GET: api/Poll
+        // GET: api/Option
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Poll>>> GetPolls()
+        public async Task<ActionResult<IEnumerable<Option>>> GetOptions()
         {
-            return await _context.Polls.ToListAsync();
+            return await _context.Options.ToListAsync();
         }
 
-        // GET: api/Poll/5
+        // GET: api/Option/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Poll>> GetPoll(int id)
+        public async Task<ActionResult<Option>> GetOption(int id)
         {
-            var poll = await _context.Polls.FindAsync(id);
+            var option = await _context.Options.FindAsync(id);
 
-            if (poll == null)
+            if (option == null)
             {
                 return NotFound();
             }
 
-            return poll;
+            return option;
         }
 
-        // PUT: api/Poll/5
+        // PUT: api/Option/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPoll(int id, Poll poll)
+        public async Task<IActionResult> PutOption(int id, Option option)
         {
-            if (id != poll.Id)
+            if (id != option.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(poll).State = EntityState.Modified;
+            _context.Entry(option).State = EntityState.Modified;
 
             try
             {
@@ -64,7 +64,7 @@ namespace survey_polling.api.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!PollExists(id))
+                if (!OptionExists(id))
                 {
                     return NotFound();
                 }
@@ -77,37 +77,37 @@ namespace survey_polling.api.Controllers
             return NoContent();
         }
 
-        // POST: api/Poll
+        // POST: api/Option
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<Poll>> PostPoll(Poll poll)
+        public async Task<ActionResult<Option>> PostOption(Option option)
         {
-            _context.Polls.Add(poll);
+            _context.Options.Add(option);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetPoll", new { id = poll.Id }, poll);
+            return CreatedAtAction("GetOption", new { id = option.Id }, option);
         }
 
-        // DELETE: api/Poll/5
+        // DELETE: api/Option/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Poll>> DeletePoll(int id)
+        public async Task<ActionResult<Option>> DeleteOption(int id)
         {
-            var poll = await _context.Polls.FindAsync(id);
-            if (poll == null)
+            var option = await _context.Options.FindAsync(id);
+            if (option == null)
             {
                 return NotFound();
             }
 
-            _context.Polls.Remove(poll);
+            _context.Options.Remove(option);
             await _context.SaveChangesAsync();
 
-            return poll;
+            return option;
         }
 
-        private bool PollExists(int id)
+        private bool OptionExists(int id)
         {
-            return _context.Polls.Any(e => e.Id == id);
+            return _context.Options.Any(e => e.Id == id);
         }
     }
 }
