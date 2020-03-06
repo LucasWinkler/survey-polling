@@ -4,9 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using survey_polling.api.Hubs;
+using survey_polling.api.Data;
+using survey_polling.api.Models;
 
 namespace survey_polling.api.Controllers
 {
@@ -14,45 +15,99 @@ namespace survey_polling.api.Controllers
     [ApiController]
     public class PollController : ControllerBase
     {
-        private readonly IHubContext<PollingHub> _pollHub;
+        private readonly PollingContext _context;
         private readonly ILogger<PollController> _logger;
 
-        public PollController(IHubContext<PollingHub> pollHub, ILogger<PollController> logger)
+        public PollController(PollingContext context, ILogger<PollController> logger)
         {
-            _pollHub = pollHub;
+            _context = context;
             _logger = logger;
         }
 
         // GET: api/Poll
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<ActionResult<IEnumerable<Poll>>> GetPolls()
         {
-            return new string[] { "value1", "value2" };
+            return await _context.Polls.ToListAsync();
         }
 
         // GET: api/Poll/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Poll>> GetPoll(int id)
         {
-            return "value";
-        }
+            var poll = await _context.Polls.FindAsync(id);
 
-        // POST: api/Poll
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
+            if (poll == null)
+            {
+                return NotFound();
+            }
+
+            return poll;
         }
 
         // PUT: api/Poll/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
+        // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IActionResult> PutPoll(int id, Poll poll)
         {
+            if (id != poll.Id)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(poll).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!PollExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
         }
 
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        // POST: api/Poll
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
+        // more details see https://aka.ms/RazorPagesCRUD.
+        [HttpPost]
+        public async Task<ActionResult<Poll>> PostPoll(Poll poll)
         {
+            _context.Polls.Add(poll);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetPoll", new { id = poll.Id }, poll);
+        }
+
+        // DELETE: api/Poll/5
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Poll>> DeletePoll(int id)
+        {
+            var poll = await _context.Polls.FindAsync(id);
+            if (poll == null)
+            {
+                return NotFound();
+            }
+
+            _context.Polls.Remove(poll);
+            await _context.SaveChangesAsync();
+
+            return poll;
+        }
+
+        private bool PollExists(int id)
+        {
+            return _context.Polls.Any(e => e.Id == id);
         }
     }
 }
