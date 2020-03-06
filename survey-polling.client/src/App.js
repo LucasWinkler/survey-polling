@@ -6,7 +6,8 @@ import Poll from './Components/Poll';
 function App() {
   return (
     <div className='App'>
-      <Chat />
+      {/* <Chat /> */}
+      <Poll />
     </div>
   );
 }
