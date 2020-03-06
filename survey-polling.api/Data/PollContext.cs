@@ -4,9 +4,9 @@ using System.Reflection;
 
 namespace survey_polling.api.Data
 {
-    public class PollingContext : DbContext
+    public class PollContext : DbContext
     {
-        public PollingContext(DbContextOptions<PollingContext> options)
+        public PollContext(DbContextOptions<PollContext> options)
             : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder builder)

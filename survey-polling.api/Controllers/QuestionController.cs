@@ -15,10 +15,10 @@ namespace survey_polling.api.Controllers
     [ApiController]
     public class QuestionController : ControllerBase
     {
-        private readonly PollingContext _context;
+        private readonly PollContext _context;
         private readonly ILogger<QuestionController> _logger;
 
-        public QuestionController(PollingContext context, ILogger<QuestionController> logger)
+        public QuestionController(PollContext context, ILogger<QuestionController> logger)
         {
             _context = context;
             _logger = logger;
