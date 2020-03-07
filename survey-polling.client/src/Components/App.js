@@ -1,6 +1,5 @@
 import React from 'react';
-import './App.css';
-import Poll from './Components/Poll';
+import Poll from './Poll';
 
 function App() {
   return (
