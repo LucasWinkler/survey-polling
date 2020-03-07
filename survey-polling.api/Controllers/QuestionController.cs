@@ -13,50 +13,50 @@ namespace survey_polling.api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PollController : ControllerBase
+    public class QuestionController : ControllerBase
     {
         private readonly PollContext _context;
-        private readonly ILogger<PollController> _logger;
+        private readonly ILogger<QuestionController> _logger;
 
-        public PollController(PollContext context, ILogger<PollController> logger)
+        public QuestionController(PollContext context, ILogger<QuestionController> logger)
         {
             _context = context;
             _logger = logger;
         }
 
-        // GET: api/Poll
+        // GET: api/Question
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Poll>>> GetPolls()
+        public async Task<ActionResult<IEnumerable<Question>>> GetQuestions()
         {
-            return await _context.Polls.ToListAsync();
+            return await _context.Questions.ToListAsync();
         }
 
-        // GET: api/Poll/5
+        // GET: api/Question/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Poll>> GetPoll(int id)
+        public async Task<ActionResult<Question>> GetQuestion(int id)
         {
-            var poll = await _context.Polls.FindAsync(id);
+            var question = await _context.Questions.FindAsync(id);
 
-            if (poll == null)
+            if (question == null)
             {
                 return NotFound();
             }
 
-            return poll;
+            return question;
         }
 
-        // PUT: api/Poll/5
+        // PUT: api/Question/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPoll(int id, Poll poll)
+        public async Task<IActionResult> PutQuestion(int id, Question question)
         {
-            if (id != poll.Id)
+            if (id != question.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(poll).State = EntityState.Modified;
+            _context.Entry(question).State = EntityState.Modified;
 
             try
             {
@@ -64,7 +64,7 @@ namespace survey_polling.api.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!PollExists(id))
+                if (!QuestionExists(id))
                 {
                     return NotFound();
                 }
@@ -77,37 +77,37 @@ namespace survey_polling.api.Controllers
             return NoContent();
         }
 
-        // POST: api/Poll
+        // POST: api/Question
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<Poll>> PostPoll(Poll poll)
+        public async Task<ActionResult<Question>> PostQuestion(Question question)
         {
-            _context.Polls.Add(poll);
+            _context.Questions.Add(question);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetPoll", new { id = poll.Id }, poll);
+            return CreatedAtAction("GetQuestion", new { id = question.Id }, question);
         }
 
-        // DELETE: api/Poll/5
+        // DELETE: api/Question/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Poll>> DeletePoll(int id)
+        public async Task<ActionResult<Question>> DeleteQuestion(int id)
         {
-            var poll = await _context.Polls.FindAsync(id);
-            if (poll == null)
+            var question = await _context.Questions.FindAsync(id);
+            if (question == null)
             {
                 return NotFound();
             }
 
-            _context.Polls.Remove(poll);
+            _context.Questions.Remove(question);
             await _context.SaveChangesAsync();
 
-            return poll;
+            return question;
         }
 
-        private bool PollExists(int id)
+        private bool QuestionExists(int id)
         {
-            return _context.Polls.Any(e => e.Id == id);
+            return _context.Questions.Any(e => e.Id == id);
         }
     }
 }

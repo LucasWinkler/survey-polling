@@ -9,7 +9,7 @@ using survey_polling.api.Data;
 
 namespace survey_polling.api.Data.Migrations
 {
-    [DbContext(typeof(PollingContext))]
+    [DbContext(typeof(PollContext))]
     [Migration("20200302044714_Initial")]
     partial class Initial
     {
