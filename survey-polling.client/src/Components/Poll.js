@@ -1,18 +1,12 @@
 ﻿import React, { Component } from 'react';
 import { Doughnut } from 'react-chartjs-2';
 
-function getRandomInt(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-const getState = () => ({
+var getState = () => ({
   labels: ['Red', 'Green', 'Yellow'],
   datasets: [
     {
       data: [
-        getRandomInt(50, 200),
-        getRandomInt(100, 150),
-        getRandomInt(150, 250)
+        3,5,7
       ],
       backgroundColor: ['#CCC', '#36A2EB', '#FFCE56'],
       hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
@@ -30,6 +24,14 @@ class Poll extends Component {
     return getState();
   }
 
+  chartReference = {};
+
+  morumUpdateChart(barNumber) {
+  let currentChart = this.reference.chartInstance;
+  currentChart.data.datasets[0].data[barNumber] = currentChart.data.datasets[0].data[barNumber] + 1;
+  currentChart.update();
+  }
+
   componentWillMount() {
     setInterval(() => {
       this.setState({ chartData: getState() });
@@ -39,7 +41,9 @@ class Poll extends Component {
   render() {
     return (
       <div className='chart'>
-        <Doughnut data={this.state.chartData} options={{}} />
+        <Doughnut data={this.state.chartData} options={{}}
+        ref = {(reference) => this.reference = reference} />
+        <button onClick={() => this.morumUpdateChart(0)}>Test</button>
       </div>
     );
   }
@@ -47,7 +51,3 @@ class Poll extends Component {
 
 export default Poll;
 
-//morumUpdateChart(barNumber) {
-//    myBarChart.data.datasets[0].data[barNumber] = myBarChart.data.datasets[0].data[barNumber] + 1;
-//    myBarChart.update();
-//}
