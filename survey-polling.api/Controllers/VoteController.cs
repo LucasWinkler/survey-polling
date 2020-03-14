@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using survey_polling.api.Data;
+using survey_polling.api.Hubs;
 using survey_polling.api.Models;
 
 namespace survey_polling.api.Controllers
@@ -17,11 +18,13 @@ namespace survey_polling.api.Controllers
     {
         private readonly PollContext _context;
         private readonly ILogger<VoteController> _logger;
+        private readonly PollHub _pollHub;
 
-        public VoteController(PollContext context, ILogger<VoteController> logger)
+        public VoteController(PollContext context, ILogger<VoteController> logger, PollHub pollHub)
         {
             _context = context;
             _logger = logger;
+            _pollHub = pollHub;
         }
 
         // GET: api/Vote
@@ -46,8 +49,6 @@ namespace survey_polling.api.Controllers
         }
 
         // PUT: api/Vote/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
         public async Task<IActionResult> PutVote(int id, Vote vote)
         {
@@ -61,6 +62,9 @@ namespace survey_polling.api.Controllers
             try
             {
                 await _context.SaveChangesAsync();
+
+                // Send updated vote to all connected clients
+                await _pollHub.SendVote(vote);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -78,13 +82,14 @@ namespace survey_polling.api.Controllers
         }
 
         // POST: api/Vote
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
         public async Task<ActionResult<Vote>> PostVote(Vote vote)
         {
-            _context.Votes.Add(vote);
+            await _context.Votes.AddAsync(vote);
             await _context.SaveChangesAsync();
+
+            // Send vote to all connected clients
+            await _pollHub.SendVote(vote);
 
             return CreatedAtAction("GetVote", new { id = vote.Id }, vote);
         }
