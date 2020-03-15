@@ -12,7 +12,7 @@ var getState = () => ({
   ]
 });
 
-class Poll extends Component {
+export default class DynamicChart extends Component {
   constructor(props) {
     super(props);
     this.state = { chartData: this.getInitialState() };
@@ -39,12 +39,8 @@ class Poll extends Component {
           options={{}}
           ref={reference => (this.reference = reference)}
         />
-        <button onClick={() => this.morumUpdateChart(0)}>
-          Test Dynamic Chart
-        </button>
+        <button onClick={() => this.morumUpdateChart(0)}>Add 1 to red</button>
       </div>
     );
   }
 }
-
-export default Poll;

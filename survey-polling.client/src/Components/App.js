@@ -1,10 +1,10 @@
 import React from 'react';
-import Poll from './Poll';
+import DynamicChart from './DynamicChart/DynamicChart';
 
 function App() {
   return (
     <div className='App'>
-      <Poll />
+      <DynamicChart />
     </div>
   );
 }
