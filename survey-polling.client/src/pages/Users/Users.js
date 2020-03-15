@@ -31,7 +31,7 @@ export default function Polls() {
             <tr key={item.id}>
               <td>{item.id}</td>
               <td>{item.name}</td>
-              <td key={item.id}>{item.isHost.toString()}</td>
+              <td>{item.isHost.toString()}</td>
             </tr>
           ))}
         </tbody>
