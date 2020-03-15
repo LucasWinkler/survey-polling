@@ -1,16 +1,26 @@
 .nav {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
-  min-height: 10vh;
+  min-height: 60px;
   background: rgb(73, 79, 82);
   color: white;
+  padding: 0 3em;
 
   &__links {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
-    width: 50%;
     list-style: none;
+  }
+
+  &__link {
+    padding: 1em;
+    margin: 0 1em;
+    color: rgb(243, 243, 243);
+
+    &:hover {
+      color: rgb(206, 206, 206);
+    }
   }
 }

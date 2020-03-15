@@ -8,13 +8,19 @@ export default function Nav() {
       <h3>Logo</h3>
       <ul className='nav__links'>
         <li>
-          <Link to='/'>Home</Link>
+          <Link to='/' className='nav__link'>
+            Home
+          </Link>
         </li>
         <li>
-          <Link to='/about'>About</Link>
+          <Link to='/about' className='nav__link'>
+            About
+          </Link>
         </li>
         <li>
-          <Link to='/polls'>Polls</Link>
+          <Link to='/users' className='nav__link'>
+            Users
+          </Link>
         </li>
       </ul>
     </nav>
