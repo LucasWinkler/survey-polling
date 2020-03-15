@@ -1,8 +1,9 @@
 ﻿import React, { Component } from 'react';
 import { Doughnut } from 'react-chartjs-2';
+import './DynamicChart.scss';
 
 var getState = () => ({
-  labels: ['Red', 'Green', 'Yellow'],
+  labels: ['Red', 'Blue', 'Yellow'],
   datasets: [
     {
       data: [3, 5, 7],
@@ -33,13 +34,30 @@ export default class DynamicChart extends Component {
 
   render() {
     return (
-      <div className='chart'>
+      <div className='dynamic_chart'>
         <Doughnut
           data={this.state.chartData}
           options={{}}
           ref={reference => (this.reference = reference)}
         />
-        <button onClick={() => this.morumUpdateChart(0)}>Add 1 to red</button>
+        <button
+          className='dynamic_chart__btn dynamic_chart__btn--red'
+          onClick={() => this.morumUpdateChart(0)}
+        >
+          Add red
+        </button>
+        <button
+          className='dynamic_chart__btn dynamic_chart__btn--blue'
+          onClick={() => this.morumUpdateChart(1)}
+        >
+          Add blue
+        </button>
+        <button
+          className='dynamic_chart__btn dynamic_chart__btn--yellow'
+          onClick={() => this.morumUpdateChart(2)}
+        >
+          Add yellow
+        </button>
       </div>
     );
   }

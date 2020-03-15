@@ -1,4 +1,7 @@
-# About
+# Morum OSS - Live Survey Polling Client
 
-This is the front-end for our capstone project. 
-It is for the capstone project only and will not be added into the final morum oss project.
+![morum oss project components](./morumoss.png 'Morum OSS Project Components')
+
+## Description
+
+The client for this project that is built using React and styled with SCSS.
