@@ -4,4 +4,4 @@
 
 ## Description
 
-The client for this project that is built using React and styled with SCSS.
+The client for this project that is built using React.
