@@ -1,6 +1,6 @@
 # Morum OSS - Live Survey Polling Client
 
-![morum oss project components](./morumoss.png 'Morum OSS Project Components')
+![morum oss project components](../morumoss.png 'Morum OSS Project Components')
 
 ## Description
 
