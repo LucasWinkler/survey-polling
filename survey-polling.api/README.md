@@ -1,9 +1,5 @@
 # Morum OSS - Live Survey Polling API
 
-![morum oss project components](./morumoss.png "Morum OSS Project Components")
-
-## Description
-
 The API for this project that is built using ASP.NET Core 3.0, SignalR and Auth0.
 
 ## Features
