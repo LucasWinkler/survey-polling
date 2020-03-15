@@ -2,7 +2,7 @@
 import { Doughnut } from 'react-chartjs-2';
 import './DynamicChart.scss';
 
-var getState = () => ({
+const getState = () => ({
   labels: ['Red', 'Blue', 'Yellow'],
   datasets: [
     {
@@ -26,9 +26,9 @@ export default class DynamicChart extends Component {
   chartReference = {};
 
   morumUpdateChart(barNumber) {
-    let currentChart = this.reference.chartInstance;
-    currentChart.data.datasets[0].data[barNumber] =
-      currentChart.data.datasets[0].data[barNumber] + 1;
+    const currentChart = this.reference.chartInstance;
+
+    currentChart.data.datasets[0].data[barNumber] += 1;
     currentChart.update();
   }
 
@@ -37,7 +37,6 @@ export default class DynamicChart extends Component {
       <div className='dynamic_chart'>
         <Doughnut
           data={this.state.chartData}
-          options={{}}
           ref={reference => (this.reference = reference)}
         />
         <button
