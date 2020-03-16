@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,12 +17,10 @@ namespace survey_polling.api.Controllers
     public class PollController : ControllerBase
     {
         private readonly PollContext _context;
-        private readonly ILogger<PollController> _logger;
 
-        public PollController(PollContext context, ILogger<PollController> logger)
+        public PollController(PollContext context)
         {
             _context = context;
-            _logger = logger;
         }
 
         // GET: api/Poll

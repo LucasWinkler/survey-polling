@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
@@ -8,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using survey_polling.api.Authorization;
 using survey_polling.api.Data;
 using survey_polling.api.Hubs;
 using System.Security.Claims;
@@ -23,33 +25,34 @@ namespace survey_polling.api
 
         public IConfiguration Configuration { get; }
 
+        private readonly string AllowSpecificOrigins = "_allowSpecificOrigins";
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<PollContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("LocalConnection")));
 
-            // Standard authentication code for Auth0
-            //string domain = $"https://{Configuration["Auth0:Domain"]}/";
-            //services.AddAuthentication(options =>
-            //{
-            //    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            //    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            //}).AddJwtBearer(options =>
-            //{
-            //    options.Authority = domain;
-            //    options.Audience = Configuration["Auth0:ApiIdentifier"];
-            //    options.TokenValidationParameters = new TokenValidationParameters
-            //    {
-            //        NameClaimType = ClaimTypes.NameIdentifier
-            //    };
-            //});
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.Authority = Configuration["Auth0:Domain"];
+                options.Audience = Configuration["Auth0:ApiIdentifier"];
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    NameClaimType = ClaimTypes.NameIdentifier
+                };
+            });
+
+            services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
 
             services.AddControllers();
 
-            services.AddCors(options => options.AddPolicy("AllowSpecificOrigin", builder =>
+            services.AddCors(options => options.AddPolicy(AllowSpecificOrigins, builder =>
             {
-                builder.AllowAnyMethod().AllowAnyHeader()
-                       .WithOrigins("http://localhost:5000")
+                builder.WithOrigins("http://localhost:5000", "http://localhost:3000")
                        .AllowAnyMethod()
                        .AllowAnyHeader()
                        .AllowCredentials();
@@ -65,11 +68,10 @@ namespace survey_polling.api
             });
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
-                logger.LogInformation("In development environment");
                 app.UseDeveloperExceptionPage();
             }
 
@@ -78,7 +80,7 @@ namespace survey_polling.api
             app.UseAuthorization();
             app.UseAuthentication();
             app.UseWebSockets();
-            app.UseCors("AllowSpecificOrigin");
+            app.UseCors(AllowSpecificOrigins);
             app.UseSpaStaticFiles();
 
             app.UseEndpoints(endpoints =>
