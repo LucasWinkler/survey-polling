@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+
 import './Users.scss';
 
 export default function Polls() {
@@ -10,9 +11,10 @@ export default function Polls() {
 
   const fetchItems = async () => {
     const data = await fetch('http://localhost:5000/api/user/');
-
     const items = await data.json();
+
     console.log(items);
+
     setItems(items);
   };
 
