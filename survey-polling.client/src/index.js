@@ -1,8 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+
 import './styles/main.scss';
+
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import NotFound from './pages/NotFound/NotFound';
 import Home from './pages/Home/Home';
@@ -10,7 +12,7 @@ import About from './pages/About/About';
 import Users from './pages/Users/Users';
 import Nav from './components/Nav/Nav';
 
-const routing = (
+ReactDOM.render(
   <Router>
     <Nav />
     <Switch>
@@ -19,8 +21,7 @@ const routing = (
       <Route path='/users' component={Users} />
       <Route component={NotFound} />
     </Switch>
-  </Router>
+  </Router>,
+  document.getElementById('root')
 );
-
-ReactDOM.render(routing, document.getElementById('root'));
 serviceWorker.unregister();

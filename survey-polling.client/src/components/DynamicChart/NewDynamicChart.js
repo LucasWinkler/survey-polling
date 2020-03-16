@@ -13,6 +13,8 @@ const exampleChartData = () => ({
   ]
 });
 
+// When clicking an add button the component will break
+
 export default function NewDynamicChart() {
   const [chartData, setChartData] = useState(exampleChartData);
   const chartReference = useRef(null);
