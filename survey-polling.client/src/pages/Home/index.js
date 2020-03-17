@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './Home.scss';
+import './styles.scss';
 
 export default function Home() {
   return (

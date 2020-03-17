@@ -1,7 +1,7 @@
 ﻿import React, { Component } from 'react';
 import { Doughnut } from 'react-chartjs-2';
 
-import './DynamicChart.scss';
+import './styles.scss';
 
 const getState = () => ({
   labels: ['Red', 'Blue', 'Yellow'],
