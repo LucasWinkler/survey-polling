@@ -14,7 +14,7 @@ const getState = () => ({
   ]
 });
 
-export default class DynamicChart extends Component {
+export default class Index extends Component {
   constructor(props) {
     super(props);
     this.state = { chartData: this.getInitialState() };

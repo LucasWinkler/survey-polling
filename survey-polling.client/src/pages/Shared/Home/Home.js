@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+
 import logo from '../../../assets/images/morum_logo.png';
 
-import './styles.scss';
+import './Home.scss';
 
 export default function Home() {
   return (

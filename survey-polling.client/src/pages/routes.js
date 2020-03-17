@@ -6,12 +6,12 @@ import {
   Redirect
 } from 'react-router-dom';
 
-import NotFound from './Shared/NotFound';
-import Home from './Shared/Home';
-import About from './Shared/About';
-import Users from './Shared/Users';
-import TeacherHome from './Teacher';
-import StudentHome from './Student';
+import NotFound from './Shared/NotFound/NotFound';
+import Home from './Shared/Home/Home';
+import About from './Shared/About/About';
+import Users from './Shared/Users/Users';
+import TeacherHome from './Teacher/Teacher';
+import StudentHome from './Student/Student';
 
 export default () => (
   <Router>

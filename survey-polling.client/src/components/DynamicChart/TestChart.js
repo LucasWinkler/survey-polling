@@ -1,7 +1,7 @@
 ﻿import React, { useState, useEffect, useRef } from 'react';
 import { Doughnut } from 'react-chartjs-2';
 
-import './styles.scss';
+import './DynamicChart.scss';
 
 const exampleChartData = () => ({
   labels: ['Red', 'Blue', 'Yellow'],
@@ -15,7 +15,7 @@ const exampleChartData = () => ({
 });
 
 // When clicking an add button the component will break
-export default function v2() {
+export default function TestChart() {
   const [chartData, setChartData] = useState(exampleChartData);
   const chartReference = useRef(null);
 

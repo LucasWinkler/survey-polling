@@ -58,8 +58,7 @@ export default class Chat extends Component {
         <div>
           {this.state.messages.map((message, index) => (
             <span style={{ display: 'block' }} key={index}>
-              {' '}
-              {message}{' '}
+              {message}
             </span>
           ))}
         </div>

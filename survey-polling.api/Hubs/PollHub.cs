@@ -16,7 +16,15 @@ namespace survey_polling.api.Hubs
         /// </summary>
         public async Task SendVote(Vote vote)
         {
-            await Clients.All.SendAsync(PollActions.VOTE_RECEIVED, vote);
+            await Clients.All.SendAsync(PollActions.USER_VOTED, vote);
+        }
+
+        /// <summary>
+        /// Test
+        /// </summary>
+        public async Task SendPoll(string msg)
+        {
+            await Clients.All.SendAsync(PollActions.POLL_STARTED, msg);
         }
     }
 }

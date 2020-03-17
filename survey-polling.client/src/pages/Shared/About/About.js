@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './styles.scss';
+import './About.scss';
 
 export default function About() {
   return (

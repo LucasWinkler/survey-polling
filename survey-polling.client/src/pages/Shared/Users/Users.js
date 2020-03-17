@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import './styles.scss';
+import './Users.scss';
 
 export default function Users() {
   const [items, setItems] = useState([]);

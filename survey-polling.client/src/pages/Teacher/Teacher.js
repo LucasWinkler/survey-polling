@@ -1,5 +1,7 @@
 import React from 'react';
 
+import './Teacher.scss';
+
 export default function index() {
   return (
     <div>
