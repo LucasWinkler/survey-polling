@@ -10,8 +10,9 @@ import NotFound from './Shared/NotFound/NotFound';
 import Home from './Shared/Home/Home';
 import About from './Shared/About/About';
 import Users from './Shared/Users/Users';
-import TeacherHome from './Teacher/Teacher';
-import StudentHome from './Student/Student';
+import Dashboard from './Teacher/Teacher';
+import Lobby from './Student/Student';
+import Voting from './Student/pages/Vote/Vote';
 
 export default () => (
   <Router>
@@ -20,8 +21,9 @@ export default () => (
       <Route exact path='/' component={Home} />
       <Route exact path='/about' component={About} />
       <Route exact path='/users' component={Users} />
-      <Route exact path='/dashboard' component={TeacherHome} />
-      <Route exact path='/lobby' component={StudentHome} />
+      <Route exact path='/dashboard' component={Dashboard} />
+      <Route exact path='/lobby' component={Lobby} />
+      <Route exact path='/vote' component={Voting} />
       <Route path='*' component={NotFound} />
     </Switch>
   </Router>
