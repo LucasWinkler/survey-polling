@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import './styles.scss';
 
-export default function Polls() {
+export default function Users() {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
