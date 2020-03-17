@@ -1,7 +1,7 @@
 ﻿import React, { Component } from 'react';
 import { Doughnut } from 'react-chartjs-2';
 
-import './styles.scss';
+import './DynamicChart.scss';
 
 const getState = () => ({
   labels: ['Red', 'Blue', 'Yellow'],
@@ -14,7 +14,7 @@ const getState = () => ({
   ]
 });
 
-export default class Index extends Component {
+export default class DynamicChart extends Component {
   constructor(props) {
     super(props);
     this.state = { chartData: this.getInitialState() };
