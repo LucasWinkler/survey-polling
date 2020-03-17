@@ -1,22 +1,28 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect
+} from 'react-router-dom';
 
-// Pages
-import NotFound from './NotFound';
-import Home from './Home';
-import About from './About';
-import Users from './Users';
-
-// import TempNav from '../components/TempNav';
+import NotFound from './Shared/NotFound';
+import Home from './Shared/Home';
+import About from './Shared/About';
+import Users from './Shared/Users';
+import TeacherHome from './Teacher';
+import StudentHome from './Student';
 
 export default () => (
   <Router>
-    {/* <TempNav /> */}
     <Switch>
+      <Redirect exact from='/home' to='/' />
       <Route exact path='/' component={Home} />
-      <Route path='/about' component={About} />
-      <Route path='/users' component={Users} />
-      <Route component={NotFound} />
+      <Route exact path='/about' component={About} />
+      <Route exact path='/users' component={Users} />
+      <Route exact path='/dashboard' component={TeacherHome} />
+      <Route exact path='/lobby' component={StudentHome} />
+      <Route path='*' component={NotFound} />
     </Switch>
   </Router>
 );
