@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import './Users.scss';
+import './styles.scss';
 
 export default function Polls() {
   const [items, setItems] = useState([]);

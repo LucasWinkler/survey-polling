@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import './Nav.scss';
+import './styles.scss';
 
-export default function Nav() {
+export default function TempNav() {
   return (
     <nav className='nav'>
       <h3>Logo</h3>
