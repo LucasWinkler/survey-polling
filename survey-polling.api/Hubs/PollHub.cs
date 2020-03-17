@@ -24,7 +24,7 @@ namespace survey_polling.api.Hubs
         /// </summary>
         public async Task SendPoll(string msg)
         {
-            await Clients.All.SendAsync(PollActions.POLL_STARTED, msg);
+            await Clients.Caller.SendAsync(PollActions.POLL_STARTED, msg);
         }
     }
 }
