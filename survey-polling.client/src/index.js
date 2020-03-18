@@ -5,6 +5,10 @@ import * as serviceWorker from './serviceWorker';
 import './styles/main.scss';
 
 import Routes from './pages/routes';
+import Vote from './pages/Student/pages/Vote/Vote';
+import Chat from './components/Chat/Chat';
+import Student from './pages/Student/Student';
 
-ReactDOM.render(<Routes />, document.getElementById('root'));
+
+ReactDOM.render(<Vote />, document.getElementById('root'));
 serviceWorker.unregister();

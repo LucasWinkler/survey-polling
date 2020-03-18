@@ -36,7 +36,7 @@ export default function Student() {
     hubConnection
       .invoke('SendPoll', 'Fake poll started')
       .catch(err => console.error(err));
-  };
+    };
 
   const joinPoll = () => {
     console.log('joined poll');
