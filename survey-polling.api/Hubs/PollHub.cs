@@ -20,11 +20,11 @@ namespace survey_polling.api.Hubs
         }
 
         /// <summary>
-        /// Test
+        /// Sends a message to all clients which notifies them that there is an active poll.
         /// </summary>
-        public async Task SendPoll(string msg)
+        public async Task ActivatePoll(string msg)
         {
-            await Clients.Caller.SendAsync(PollActions.POLL_STARTED, msg);
+            await Clients.All.SendAsync(PollActions.POLL_ACTIVE, msg);
         }
     }
 }

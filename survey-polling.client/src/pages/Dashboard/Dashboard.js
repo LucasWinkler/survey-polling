@@ -1,11 +1,11 @@
 import React from 'react';
 
-import './Teacher.scss';
+import './Dashboard.scss';
 
-export default function index() {
+export default function Dashboard() {
   return (
     <div>
-      <h1>Teacher Home</h1>
+      <h1>Teacher Dashboard</h1>
       <p>
         Lorem, ipsum dolor sit amet consectetur adipisicing elit. Asperiores
         blanditiis, eius ab corrupti cumque fugit?

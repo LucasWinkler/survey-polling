@@ -6,25 +6,44 @@ import {
   Redirect
 } from 'react-router-dom';
 
-import NotFound from './Shared/NotFound/NotFound';
-import Home from './Shared/Home/Home';
-import About from './Shared/About/About';
-import Users from './Shared/Users/Users';
-import Dashboard from './Teacher/Teacher';
-import Lobby from './Student/Student';
-import Voting from './Student/pages/Vote/Vote';
+// Pages
+import Home from './Home/Home';
+import Dashboard from './Dashboard/Dashboard';
+import Lobby from './Lobby/Lobby';
+import Poll from './Poll/Poll';
+import PollOver from './PollOver/PollOver';
 
 export default () => (
   <Router>
     <Switch>
-      <Redirect exact from='/home' to='/' />
+      {/* Home:
+            - Allows a user to choose the role of a teacher (host) or a student (voter).
+            - This is a temporary page as the roles will be predetermined.
+        */}
       <Route exact path='/' component={Home} />
-      <Route exact path='/about' component={About} />
-      <Route exact path='/users' component={Users} />
+      {/* Host dashboard:
+            - Will have extra routes for creating/editing polls and viewing results of previously ran polls.
+            - Examples:
+              -  /dashboard/poll/:id (editing a poll)
+       */}
       <Route exact path='/dashboard' component={Dashboard} />
+      {/* Waiting room/lobby:
+            - Poll id passed from start button in dashboard through props/location state?
+            - Displays count of users in lobby.
+            - Displays poll title.
+       */}
       <Route exact path='/lobby' component={Lobby} />
-      <Route exact path='/vote' component={Voting} />
-      <Route path='*' component={NotFound} />
+      {/* Current poll:
+            - Poll id is passed down from lobby?
+            - Displays current question.
+       */}
+      <Route exact path='/poll/:id' component={Poll} />\
+      {/* Poll Over
+            - Simple page saying that the poll is now over.
+       */}
+      <Route exact path='/poll-over' component={PollOver} />
+      {/* Redirect to home instead of a "Not Found" page */}
+      <Redirect from='*' to='/' />
     </Switch>
   </Router>
 );

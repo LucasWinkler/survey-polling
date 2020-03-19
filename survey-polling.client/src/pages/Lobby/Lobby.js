@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { HubConnectionBuilder, LogLevel } from '@aspnet/signalr';
 
-import './Student.scss';
+import './Lobby.scss';
 
-export default function Student() {
-  const [hubConnection, setHubConnection] = useState(null);
+export default function Lobby() {
+  const [hubConnection, setHubConnection] = useState({});
   const [poll, setPoll] = useState('');
 
   useEffect(() => {
@@ -18,7 +18,7 @@ export default function Student() {
         await hub.start();
         console.log('Connection successful!');
 
-        hub.on('pollStarted', poll => {
+        hub.on('pollActive', poll => {
           console.log(poll);
           setPoll(poll);
         });
@@ -33,13 +33,17 @@ export default function Student() {
   }, []);
 
   const setFakePoll = () => {
-    hubConnection
-      .invoke('SendPoll', 'Fake poll started')
-      .catch(err => console.error(err));
+    try {
+      hubConnection
+        .invoke('ActivatePoll', 'Fake poll started')
+        .catch(err => console.error(err));
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const joinPoll = () => {
-    console.log('joined poll');
+    console.log('fake joined poll');
   };
 
   return (
