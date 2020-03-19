@@ -16,7 +16,15 @@ namespace survey_polling.api.Hubs
         /// </summary>
         public async Task SendVote(Vote vote)
         {
-            await Clients.All.SendAsync(PollActions.VOTE_RECEIVED, vote);
+            await Clients.All.SendAsync(PollActions.USER_VOTED, vote);
+        }
+
+        /// <summary>
+        /// Sends a message to all clients which notifies them that there is an active poll.
+        /// </summary>
+        public async Task ActivatePoll(string msg)
+        {
+            await Clients.All.SendAsync(PollActions.POLL_ACTIVE, msg);
         }
     }
 }

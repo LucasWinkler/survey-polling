@@ -18,6 +18,21 @@
         /// <summary>
         /// User voted on a question.
         /// </summary>
-        public static readonly string VOTE_RECEIVED = "voteReceived";
+        public static readonly string USER_VOTED = "userVoted";
+
+        /// <summary>
+        /// Teacher made a poll active
+        /// </summary>
+        public static readonly string POLL_ACTIVE = "pollActive";
+
+        /// <summary>
+        /// Teacher started a poll
+        /// </summary>
+        public static readonly string POLL_STARTED = "pollStarted";        
+
+        /// <summary>
+        /// Teacher ended a poll
+        /// </summary>
+        public static readonly string POLL_ENDED = "pollEnded";
     }
 }

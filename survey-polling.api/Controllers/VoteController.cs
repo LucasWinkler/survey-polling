@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -17,13 +18,11 @@ namespace survey_polling.api.Controllers
     public class VoteController : ControllerBase
     {
         private readonly PollContext _context;
-        private readonly ILogger<VoteController> _logger;
         private readonly PollHub _pollHub;
 
-        public VoteController(PollContext context, ILogger<VoteController> logger, PollHub pollHub)
+        public VoteController(PollContext context, PollHub pollHub)
         {
             _context = context;
-            _logger = logger;
             _pollHub = pollHub;
         }
 

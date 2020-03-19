@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using survey_polling.api.Data;
+using survey_polling.api.Hubs;
 using survey_polling.api.Models;
 
 namespace survey_polling.api.Controllers
@@ -16,12 +18,12 @@ namespace survey_polling.api.Controllers
     public class PollController : ControllerBase
     {
         private readonly PollContext _context;
-        private readonly ILogger<PollController> _logger;
+        private readonly PollHub _pollHub;
 
-        public PollController(PollContext context, ILogger<PollController> logger)
+        public PollController(PollContext context, PollHub pollHub)
         {
             _context = context;
-            _logger = logger;
+            _pollHub = pollHub;
         }
 
         // GET: api/Poll
@@ -61,6 +63,8 @@ namespace survey_polling.api.Controllers
             try
             {
                 await _context.SaveChangesAsync();
+
+                await _pollHub.ActivatePoll("Fake poll activated");
             }
             catch (DbUpdateConcurrencyException)
             {

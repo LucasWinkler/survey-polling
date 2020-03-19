@@ -16,12 +16,10 @@ namespace survey_polling.api.Controllers
     public class UserController : ControllerBase
     {
         private readonly PollContext _context;
-        private readonly ILogger<UserController> _logger;
 
-        public UserController(PollContext context, ILogger<UserController> logger)
+        public UserController(PollContext context)
         {
             _context = context;
-            _logger = logger;
         }
 
         // GET: api/User
