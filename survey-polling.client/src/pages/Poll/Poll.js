@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { Doughnut } from 'react-chartjs-2';
 
-import './Vote.scss';
+import './Poll.scss';
 
 const exampleData = () => ({
   labels: ['Red', 'Blue', 'Yellow'],
@@ -14,21 +14,12 @@ const exampleData = () => ({
   ]
 });
 
-const fakePoll = () => ({
-  title: 'Poll about fake stuff',
-  question: 'What is the meaning of this and that'
-});
-
-/* 
-      1. poll active question 
-      2. chart 
-      3. voting buttons 
-      4. active users (bottom right or something) */
-
-export default function Vote(props) {
-  const [questionTitle, setQuestionTitle] = useState('');
-  const [poll, setPoll] = useState(fakePoll);
+export default function Poll(props) {
   const chartReference = useRef({});
+
+  const { id } = props.match.params;
+
+  console.log(id);
 
   const updateChart = barNumber => {
     const currentChart = chartReference.current.chartInstance;
@@ -40,24 +31,24 @@ export default function Vote(props) {
   const fetchData = () => exampleData();
 
   return (
-    <div className='container voting'>
-      <h1>{poll.question}</h1>
+    <div className='container poll'>
+      <h1>Poll title</h1>
       <Doughnut ref={chartReference} data={fetchData} />
-      <div className='voting__btn_wrapper'>
+      <div className='poll__btn_wrapper'>
         <button
-          className='voting__btn voting__btn--red'
+          className='poll__btn poll__btn--red'
           onClick={() => updateChart(0)}
         >
           Add red
         </button>
         <button
-          className='voting__btn voting__btn--blue'
+          className='poll__btn poll__btn--blue'
           onClick={() => updateChart(1)}
         >
           Add blue
         </button>
         <button
-          className='voting__btn voting__btn--yellow'
+          className='poll__btn poll__btn--yellow'
           onClick={() => updateChart(2)}
         >
           Add yellow

@@ -21,12 +21,17 @@
         public static readonly string USER_VOTED = "userVoted";
 
         /// <summary>
-        /// Teacher/host started a poll.
+        /// Teacher made a poll active
         /// </summary>
-        public static readonly string POLL_STARTED = "pollStarted";
+        public static readonly string POLL_ACTIVE = "pollActive";
 
         /// <summary>
-        /// Teacher/host ended a poll.
+        /// Teacher started a poll
+        /// </summary>
+        public static readonly string POLL_STARTED = "pollStarted";        
+
+        /// <summary>
+        /// Teacher ended a poll
         /// </summary>
         public static readonly string POLL_ENDED = "pollEnded";
     }
