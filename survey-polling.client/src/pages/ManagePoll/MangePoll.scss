@@ -1,17 +1,59 @@
 .questionColumn {
-    float: left;
-    width: 50%;
-    padding: 10px;
-  }
-  .optionsColumn{
-    float: left;
-    width: 50%;
-    padding: 10px;
-  }
+  float: left;
+  width: 50%;
+  padding: 10px;
+  padding-left: 40px;
+  height: 100%;
+  position: relative;
+  background-color: #eae8e5;
+  height: 55em;
+}
+.optionsColumn{
+  float: left;
+  width: 50%;
+  padding: 10px;
+  padding-left: 40px;
+  height: 55em;
+}
 
+#btnAddQuestion{
+  padding-left: 32px;
+  padding-right: 32px;
+  margin-left: 0px;
+}
+#btnAddOption{
+  padding-left: 32px;
+  padding-right: 32px;
+  margin-left: 0px;
+  margin-bottom: 45px;
+}
+
+#btnOptions{
+  padding-left: 32px;
+  padding-right: 32px;
+  margin-left: 0px;
+  margin-bottom: 45px;
+}
+
+#txtQuestion{
+  width: 48em;
+}
+
+#txtOptions{
+  width: 48em;
+}
+
+#txtQuestionOptions{
+  width: 48em;
+
+}
+
+#txtOptions{
+
+}
   
-  .row:after {
-    content: "";
-    display: table;
-    clear: both;
-  }
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
