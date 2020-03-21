@@ -12,6 +12,7 @@ import Dashboard from './Dashboard/Dashboard';
 import Lobby from './Lobby/Lobby';
 import Poll from './Poll/Poll';
 import PollOver from './PollOver/PollOver';
+import MangePoll from './ManagePoll/ManagePoll';
 
 export default () => (
   <Router>
@@ -42,6 +43,9 @@ export default () => (
             - Simple page saying that the poll is now over.
        */}
       <Route exact path='/poll-over' component={PollOver} />
+      {/* Redirect to home instead of a "Not Found" page */}
+
+      <Route exact path='/manage-poll' component={MangePoll} />
       {/* Redirect to home instead of a "Not Found" page */}
       <Redirect from='*' to='/' />
     </Switch>
