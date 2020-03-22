@@ -61,9 +61,6 @@ namespace survey_polling.api.Controllers
             try
             {
                 await _context.SaveChangesAsync();
-
-                // Send updated vote to all connected clients
-                await _pollHub.SendVote(vote);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -86,9 +83,6 @@ namespace survey_polling.api.Controllers
         {
             await _context.Votes.AddAsync(vote);
             await _context.SaveChangesAsync();
-
-            // Send vote to all connected clients
-            await _pollHub.SendVote(vote);
 
             return CreatedAtAction("GetVote", new { id = vote.Id }, vote);
         }
