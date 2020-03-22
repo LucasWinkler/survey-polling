@@ -15,6 +15,9 @@ namespace survey_polling.api.Data.Configuration
             builder.Property(v => v.PollId)
                 .IsRequired();
 
+            builder.Property(v => v.Pin)
+               .IsRequired();
+
             builder.HasOne(v => v.Poll)
                 .WithMany(p => p.Lobbies)
                 .HasForeignKey(v => v.PollId)

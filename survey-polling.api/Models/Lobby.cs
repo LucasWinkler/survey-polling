@@ -6,6 +6,7 @@ namespace survey_polling.api.Models
     {
         public int Id { get; set; }
         public int PollId { get; set; }
+        public string Pin { get; set; }
 
         public Poll Poll { get; set; }
         public ICollection<User> Users { get; set; }
