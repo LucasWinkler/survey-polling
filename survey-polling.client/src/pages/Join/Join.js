@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import './Join.scss';
 
 export default function Join() {
+  const [pin, setPin] = useState('');
+
   const joinPoll = event => {
     event.preventDefault();
 

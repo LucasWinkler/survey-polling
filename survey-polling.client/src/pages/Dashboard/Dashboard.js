@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import './Dashboard.scss';
 
@@ -10,6 +11,10 @@ export default function Dashboard() {
         Lorem, ipsum dolor sit amet consectetur adipisicing elit. Asperiores
         blanditiis, eius ab corrupti cumque fugit?
       </p>
+      {/* This button is for testing the manage poll page */}
+      <Link className='btn btn--blue' to='/dashboard/poll/1'>
+        Create Poll
+      </Link>
     </div>
   );
 }
