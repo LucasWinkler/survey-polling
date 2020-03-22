@@ -18,9 +18,6 @@ namespace survey_polling.api.Data.Configuration
             builder.Property(p => p.Title)
                 .IsRequired()
                 .HasMaxLength(100);
-
-            builder.Property(u => u.IsActive)
-               .HasDefaultValue(false);
         }
     }
 }
