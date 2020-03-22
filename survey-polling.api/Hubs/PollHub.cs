@@ -14,9 +14,9 @@ namespace survey_polling.api.Hubs
         /// Sends a message to all clients which notifies them that there was a new vote.
         /// Used to visualize the new data on the front-end.
         /// </summary>
-        public async Task SendVote(Vote vote)
+        public async Task SendVote(int dataIndex)
         {
-            await Clients.All.SendAsync(PollActions.USER_VOTED, vote);
+            await Clients.All.SendAsync(PollActions.USER_VOTED, "");
         }
 
         /// <summary>

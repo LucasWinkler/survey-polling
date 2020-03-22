@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { HubConnectionBuilder, LogLevel } from '@aspnet/signalr';
+import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 
 import './Lobby.scss';
 
@@ -10,7 +10,7 @@ export default function Lobby() {
   useEffect(() => {
     const createHubConnection = async () => {
       const hub = new HubConnectionBuilder()
-        .withUrl('http://localhost:5000/poll')
+        .withUrl('http://localhost:5000/polling')
         .configureLogging(LogLevel.Information)
         .build();
 
