@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   HubConnectionBuilder,
   HubConnectionState,
@@ -18,6 +18,10 @@ export default function Lobby(props) {
     title: String,
     questions: [{ id: Number, pollId: Number, content: String }]
   });
+
+  useEffect(() => {
+    document.title = props.title;
+  }, []);
 
   const createHubConnection = async () => {
     const connection = new HubConnectionBuilder()

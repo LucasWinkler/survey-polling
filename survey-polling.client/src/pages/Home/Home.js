@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import logo from '../../assets/images/morum_logo.png';
 
 import './Home.scss';
 
-export default function Home() {
+export default function Home(props) {
+  useEffect(() => {
+    document.title = props.title;
+  }, []);
+
   return (
     <div className='container home'>
       <img src={logo} alt='Morum OSS Logo' className='home__logo' />
@@ -14,7 +18,8 @@ export default function Home() {
         <Link to='/dashboard' className='btn btn--colour-orange'>
           Teacher
         </Link>
-        <Link to='/lobby' className='btn btn--colour-blue'>
+        {/* Temp id for testing */}
+        <Link to='/lobby/1' className='btn btn--colour-blue'>
           Student
         </Link>
       </div>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import './Poll.scss';
 import logo from '../../assets/images/morum_logo.png';
@@ -6,6 +6,10 @@ import { Link } from 'react-router-dom';
 
 export default function Poll(props) {
   const { id } = props.match.params;
+
+  useEffect(() => {
+    document.title = props.title;
+  }, []);
 
   const addQuestion = event => {};
   const addOptions = event => {};
@@ -24,11 +28,12 @@ export default function Poll(props) {
             name='pollTitle poll__input'
             placeholder='Enter poll title'
           />
-          <button className='btn btn--colour-blue'>Start</button>
+          <button className='btn'>Exit</button>
+          <button className='btn btn--colour-blue'>Save</button>
         </div>
       </nav>
       <div className='poll__questions'>
-        <h2 className='poll__questions_title'>Questions</h2>
+        <h2 className='poll__heading'>Questions</h2>
         <form onSubmit={addQuestion}>
           <div className=''>
             <input
@@ -59,8 +64,8 @@ export default function Poll(props) {
           </button>
         </form>
       </div>
-      <div className='poll__question_settings'>
-        <h2>Your Question</h2>
+      <div className='poll__settings'>
+        <h2 className='poll__heading'>Your Question</h2>
         <form onSubmit={addOptions}>
           <input
             id='txtQuestionOptions'
