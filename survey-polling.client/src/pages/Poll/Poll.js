@@ -1,7 +1,8 @@
 import React from 'react';
 
 import './Poll.scss';
-import icon from '../../assets/images/morum_logo.png';
+import logo from '../../assets/images/morum_logo.png';
+import { Link } from 'react-router-dom';
 
 export default function Poll(props) {
   const { id } = props.match.params;
@@ -10,70 +11,83 @@ export default function Poll(props) {
   const addOptions = event => {};
 
   return (
-    <div id='container'>
-      <Navbar bg='light' expand='lg'>
-        <img id='imgIcon' src={icon} />
-        <Navbar.Brand id='brand'>Morum OSS | Manage Poll</Navbar.Brand>
-        <Navbar.Collapse id='basic-navbar-nav'>
-          <Nav className='mr-auto'></Nav>
-          <Form inline>
-            <Button id='btnStart' color='primary' size='lg'>
-              Start
-            </Button>
-          </Form>
-        </Navbar.Collapse>
-      </Navbar>
-      <div class='row'>
-        <div class='questionColumn' style={{}}>
-          <h2>Questions</h2>
-          <br></br>
-          <Form onSubmit={addQuestion}>
-            <br></br>
-            <div class='input-group mb-3'>
-              <Form.Control
-                id='txtQuestion'
-                type='text'
-                placeholder='Enter a question'
-              />
-              <div class='input-group-append'>
-                <Button id='btnDelete' variant='danger' type='button'>
-                  Delete
-                </Button>
-              </div>
-              <br></br>
-            </div>
-            <Button
-              id='btnAddQuestion'
-              variant='primary'
-              size='lg'
-              type='submit'
-            >
-              Add
-            </Button>
-          </Form>
+    <div id='container poll'>
+      <nav className='nav'>
+        <img className='nav__logo_icon' src={logo} alt='Morum OSS Logo' />
+        <div className='nav__items'>
+          <Link to='/dashboard' className='nav__item'>
+            Dashboard
+          </Link>
+          <input
+            type='text'
+            id='pollTitle'
+            name='pollTitle poll__input'
+            placeholder='Enter poll title'
+          />
+          <button className='btn btn--colour-blue'>Start</button>
         </div>
-        <div class='optionsColumn'>
-          <h2>Your Question</h2>
-          <br></br>
-          <Form onSubmit={addOptions}>
-            <Form.Control
-              id='txtQuestionOptions'
+      </nav>
+      <div className='poll__questions'>
+        <h2 className='poll__questions_title'>Questions</h2>
+        <form onSubmit={addQuestion}>
+          <div className=''>
+            <input
+              id='txtQuestion'
+              name='txtQuestion'
               type='text'
-              placeholder='Enter your question'
+              placeholder='Enter a question'
+              className='poll__input'
             />
-            <br></br>
-            <Button id='btnAddOption' variant='primary' size='lg' type='submit'>
-              Add
-            </Button>
-            <br></br>
-            <h2>Options</h2>
-            <Form.Control id='txtOptions' type='text' placeholder='Option 1' />
-            <br></br>
-            <Button id='btnOptions' variant='primary' size='lg' type='submit'>
-              Add
-            </Button>
-          </Form>
-        </div>
+            <div className=''>
+              <button
+                id='btnDelete'
+                name='btnDelete'
+                type='button'
+                className='btn'
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+          <button
+            id='btnAddQuestion'
+            name='btnAddQuestion'
+            type='submit'
+            className='btn'
+          >
+            Add
+          </button>
+        </form>
+      </div>
+      <div className='poll__question_settings'>
+        <h2>Your Question</h2>
+        <form onSubmit={addOptions}>
+          <input
+            id='txtQuestionOptions'
+            type='text'
+            placeholder='Enter your question'
+            className='poll__input'
+          />
+          <button
+            id='btnAddOption'
+            name='btnAddOption'
+            type='submit'
+            className='btn'
+          >
+            Add
+          </button>
+          <h2>Options</h2>
+          <input
+            type='text'
+            id='option1'
+            name='option1'
+            placeholder='Option 1'
+            className='poll__input'
+          />
+          <button type='submit' className='btn' id='btnOption' name='btnOption'>
+            Add
+          </button>
+        </form>
       </div>
     </div>
   );

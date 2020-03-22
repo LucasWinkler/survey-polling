@@ -12,7 +12,7 @@
     text-decoration: none;
     margin: 1em;
 
-    &--red {
+    &--colour-red {
       box-shadow: inset 0px 1px 0px 0px #ff93aa;
       background-color: #ff6384;
       text-shadow: 0px 1px 0px #dd3d5f;
@@ -20,7 +20,7 @@
       color: #ffffff;
     }
 
-    &--blue {
+    &--colour-blue {
       box-shadow: inset 0px 1px 0px 0px #9cd7ff;
       background-color: #36a2eb;
       text-shadow: 0px 1px 0px #288acc;
@@ -28,7 +28,7 @@
       color: #ffffff;
     }
 
-    &--yellow {
+    &--colour-yellow {
       box-shadow: inset 0px 1px 0px 0px #ffdf8e;
       background-color: #ffce56;
       text-shadow: 0px 1px 0px #e7b639;

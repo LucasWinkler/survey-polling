@@ -12,7 +12,7 @@ export default function Dashboard() {
         blanditiis, eius ab corrupti cumque fugit?
       </p>
       {/* This button is for testing the manage poll page */}
-      <Link className='btn btn--blue' to='/dashboard/poll/1'>
+      <Link className='btn btn--colour-blue' to='/dashboard/poll/1'>
         Create Poll
       </Link>
     </div>

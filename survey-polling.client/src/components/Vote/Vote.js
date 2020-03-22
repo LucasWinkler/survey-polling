@@ -35,19 +35,19 @@ export default function Vote(props) {
       <Doughnut ref={chartReference} data={fetchData} />
       <div className='poll__btn_wrapper'>
         <button
-          className='poll__btn poll__btn--red'
+          className='poll__btn poll__btn--colour-red'
           onClick={() => updateChart(0)}
         >
           Add red
         </button>
         <button
-          className='poll__btn poll__btn--blue'
+          className='poll__btn poll__btn--colour-blue'
           onClick={() => updateChart(1)}
         >
           Add blue
         </button>
         <button
-          className='poll__btn poll__btn--yellow'
+          className='poll__btn poll__btn--colour-yellow'
           onClick={() => updateChart(2)}
         >
           Add yellow

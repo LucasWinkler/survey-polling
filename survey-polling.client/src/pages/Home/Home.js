@@ -11,10 +11,10 @@ export default function Home() {
       <img src={logo} alt='Morum OSS Logo' className='home__logo' />
       <h2 className='home__title'>SIGN IN AS</h2>
       <div className='home__btn_wrapper'>
-        <Link to='/dashboard' className='btn btn--orange'>
+        <Link to='/dashboard' className='btn btn--colour-orange'>
           Teacher
         </Link>
-        <Link to='/lobby' className='btn btn--blue'>
+        <Link to='/lobby' className='btn btn--colour-blue'>
           Student
         </Link>
       </div>
