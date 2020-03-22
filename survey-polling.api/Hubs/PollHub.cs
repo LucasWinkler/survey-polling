@@ -10,18 +10,21 @@ namespace survey_polling.api.Hubs
     /// </summary>
     public class PollHub : Hub
     {
-        /// <summary>
-        /// Sends a message to all clients which notifies them that there was a new vote.
-        /// Used to visualize the new data on the front-end.
-        /// </summary>
+        public override Task OnConnectedAsync()
+        {
+            return base.OnConnectedAsync();
+        }
+
+        public override Task OnDisconnectedAsync(Exception exception)
+        {
+            return base.OnDisconnectedAsync(exception);
+        }
+
         public async Task SendVote(int dataIndex)
         {
             await Clients.All.SendAsync(PollActions.USER_VOTED, "");
         }
 
-        /// <summary>
-        /// Sends a message to all clients which notifies them that there is an active poll.
-        /// </summary>
         public async Task ActivatePoll(string msg)
         {
             await Clients.All.SendAsync(PollActions.POLL_ACTIVE, msg);

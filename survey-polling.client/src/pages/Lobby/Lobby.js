@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
+import {
+  HubConnectionBuilder,
+  HubConnectionState,
+  LogLevel
+} from '@microsoft/signalr';
+import Config from '../../config';
 
 import './Lobby.scss';
 
@@ -9,24 +14,32 @@ export default function Lobby() {
 
   useEffect(() => {
     const createHubConnection = async () => {
-      const hub = new HubConnectionBuilder()
-        .withUrl('http://localhost:5000/polling')
+      const connection = new HubConnectionBuilder()
+        .withUrl(Config.hubUrl)
+        .withAutomaticReconnect()
         .configureLogging(LogLevel.Information)
         .build();
 
-      try {
-        await hub.start();
-        console.log('Connection successful!');
+      const startHubConnection = async () => {
+        try {
+          await connection.start();
+          console.assert(connection.state === HubConnectionState.Connected);
+          console.log('Connection successful');
 
-        hub.on('pollActive', poll => {
-          console.log(poll);
-          setPoll(poll);
-        });
-      } catch (err) {
-        console.log('Error while establishing connection: ' + { err });
-      }
+          connection.on('pollActive', poll => {
+            console.log(poll);
+            setPoll(poll);
+          });
 
-      setHubConnection(hub);
+          setHubConnection(connection);
+        } catch (err) {
+          console.assert(connection.state === HubConnectionState.Disconnected);
+          console.log('Error while establishing connection: ' + err);
+          setTimeout(() => startHubConnection(), 5000);
+        }
+      };
+
+      await startHubConnection();
     };
 
     createHubConnection();
