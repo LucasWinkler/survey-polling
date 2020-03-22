@@ -1,7 +1,7 @@
 ﻿namespace survey_polling.api.Hubs
 {
     /// <summary> 
-    /// WebSocket actions for the PollHub.
+    /// Web Socket actions for the PollHub.
     /// </summary>
     public static class PollActions
     {
@@ -21,17 +21,12 @@
         public static readonly string USER_VOTED = "userVoted";
 
         /// <summary>
-        /// Teacher made a poll active
+        /// Host started a poll.
         /// </summary>
-        public static readonly string POLL_ACTIVE = "pollActive";
+        public static readonly string POLL_STARTED = "pollStarted";
 
         /// <summary>
-        /// Teacher started a poll
-        /// </summary>
-        public static readonly string POLL_STARTED = "pollStarted";        
-
-        /// <summary>
-        /// Teacher ended a poll
+        /// Host ended a poll.
         /// </summary>
         public static readonly string POLL_ENDED = "pollEnded";
     }

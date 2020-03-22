@@ -1,69 +1,79 @@
-import React, { useState, useEffect } from 'react';
-import { HubConnectionBuilder, LogLevel } from '@aspnet/signalr';
+import React, { useState } from 'react';
+import {
+  HubConnectionBuilder,
+  HubConnectionState,
+  LogLevel
+} from '@microsoft/signalr';
+import Config from '../../config';
 
 import './Lobby.scss';
 
-export default function Lobby() {
+export default function Lobby(props) {
+  const { id } = props.match.params;
   const [hubConnection, setHubConnection] = useState({});
-  const [poll, setPoll] = useState('');
+  const [pin, setPin] = useState('');
+  const [poll, setPoll] = useState({
+    id: Number,
+    hostId: Number,
+    title: String,
+    questions: [{ id: Number, pollId: Number, content: String }]
+  });
 
-  useEffect(() => {
-    const createHubConnection = async () => {
-      const hub = new HubConnectionBuilder()
-        .withUrl('http://localhost:5000/poll')
-        .configureLogging(LogLevel.Information)
-        .build();
+  const createHubConnection = async () => {
+    const connection = new HubConnectionBuilder()
+      .withUrl(Config.hubUrl)
+      .withAutomaticReconnect()
+      .configureLogging(LogLevel.Information)
+      .build();
 
+    const startHubConnection = async () => {
       try {
-        await hub.start();
-        console.log('Connection successful!');
+        await connection.start();
+        console.assert(connection.state === HubConnectionState.Connected);
+        console.log('Connection successful');
 
-        hub.on('pollActive', poll => {
-          console.log(poll);
-          setPoll(poll);
+        connection.on('userJoined', message => {
+          console.log(message);
+          setPoll(message);
         });
-      } catch (err) {
-        console.log('Error while establishing connection: ' + { err });
-      }
 
-      setHubConnection(hub);
+        setHubConnection(connection);
+      } catch (err) {
+        console.assert(connection.state === HubConnectionState.Disconnected);
+        console.log('Error while establishing connection: ' + err);
+        setTimeout(() => startHubConnection(), 5000);
+      }
     };
 
-    createHubConnection();
-  }, []);
-
-  const setFakePoll = () => {
-    try {
-      hubConnection
-        .invoke('ActivatePoll', 'Fake poll started')
-        .catch(err => console.error(err));
-    } catch (err) {
-      console.log(err);
-    }
+    await startHubConnection();
   };
 
-  const joinPoll = () => {
-    console.log('fake joined poll');
+  const joinPoll = event => {
+    event.preventDefault();
+
+    console.log('Submitting pin: ' + pin);
+
+    // try {
+    //   hubConnection.invoke('JoinLobby', pin).catch(err => console.error(err));
+    // } catch (err) {
+    //   console.log(err);
+    // }
   };
 
   return (
     <div className='lobby'>
       <div className='container lobby__wrapper'>
-        {poll.length <= 0 ? (
-          <>
-            <h1 className='lobby__title'>Waiting for a poll...</h1>
-            <button className='btn btn--orange' onClick={setFakePoll}>
-              Invoke Fake Poll Event
-            </button>
-          </>
-        ) : (
-          <>
-            <h1 className='lobby__title'>Poll: Fake poll</h1>
-            <button className='btn btn--orange' onClick={joinPoll}>
-              Join
-            </button>
-          </>
-        )}
+        <h1 className='lobby__title'>Please enter the pin:</h1>
+        <form onSubmit={joinPoll}>
+          <input
+            type='text'
+            value={pin}
+            onChange={e => setPin(e.target.value)}
+            name='lobbyPin'
+            id='lobbyPin'
+          />
+          <input type='submit' value='Submit' className='btn btn--blue' />
+        </form>
       </div>
     </div>
   );
