@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import './PollOver.scss';
 
-export default function PollOver() {
+export default function PollOver(props) {
+  useEffect(() => {
+    document.title = props.title;
+  }, []);
+
   return (
     <div>
       <h1>The poll is over</h1>

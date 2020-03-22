@@ -1,8 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import './Join.scss';
 
-export default function Join() {
+export default function Join(props) {
+  const [pin, setPin] = useState('');
+
+  useEffect(() => {
+    document.title = props.title;
+  }, []);
+
   const joinPoll = event => {
     event.preventDefault();
 
