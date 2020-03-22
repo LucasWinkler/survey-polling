@@ -86,7 +86,7 @@ namespace survey_polling.api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHub<PollHub>("/poll");
+                endpoints.MapHub<PollHub>("/polling");
             });
 
             app.UseSpa(spa =>

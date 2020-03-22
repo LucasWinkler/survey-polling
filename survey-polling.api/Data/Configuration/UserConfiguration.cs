@@ -12,10 +12,6 @@ namespace survey_polling.api.Data.Configuration
 
             builder.HasKey(u => u.Id);
 
-            builder.Property(u => u.Name)
-                .IsRequired()
-                .HasMaxLength(40);
-
             builder.Property(u => u.IsHost)
                 .HasDefaultValue(false);
         }

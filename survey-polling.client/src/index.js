@@ -2,13 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
 
+// Import base styles before component styles from routes
 import './styles/main.scss';
 
 import Routes from './pages/routes';
-import Vote from './pages/Student/pages/Vote/Vote';
-import Chat from './components/Chat/Chat';
-import Student from './pages/Student/Student';
 
-
-ReactDOM.render(<Vote />, document.getElementById('root'));
+ReactDOM.render(<Routes />, document.getElementById('root'));
 serviceWorker.unregister();

@@ -7,15 +7,9 @@ namespace survey_polling.api.Models
     /// </summary>
     public class Vote
     {
-        [JsonProperty("Id")]
         public int Id { get; set; }
-
         public int PollId { get; set; }
-
-        [JsonProperty("QuestionId")]
         public int QuestionId { get; set; }
-
-        [JsonProperty("OptionId")]
         public int OptionId { get; set; }
 
         public Poll Poll { get; set; }
