@@ -7,7 +7,7 @@ export default function Join(props) {
 
   useEffect(() => {
     document.title = props.title;
-  }, []);
+  }, [props.title]);
 
   const joinPoll = event => {
     event.preventDefault();

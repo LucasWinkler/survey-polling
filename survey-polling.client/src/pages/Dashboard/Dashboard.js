@@ -6,7 +6,7 @@ import './Dashboard.scss';
 export default function Dashboard(props) {
   useEffect(() => {
     document.title = props.title;
-  }, []);
+  }, [props.title]);
 
   return (
     <div>

@@ -8,7 +8,7 @@ import './Home.scss';
 export default function Home(props) {
   useEffect(() => {
     document.title = props.title;
-  }, []);
+  }, [props.title]);
 
   return (
     <div className='container home'>

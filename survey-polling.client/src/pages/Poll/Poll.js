@@ -5,11 +5,11 @@ import logo from '../../assets/images/morum_logo.png';
 import { Link } from 'react-router-dom';
 
 export default function Poll(props) {
-  const { id } = props.match.params;
+  const { pollId } = props.match.params;
 
   useEffect(() => {
     document.title = props.title;
-  }, []);
+  }, [props.title]);
 
   const addQuestion = event => {};
   const addOptions = event => {};
