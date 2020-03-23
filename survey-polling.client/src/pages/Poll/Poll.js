@@ -68,7 +68,7 @@ export default function Poll(props) {
             id='btnAddQuestion'
             name='btnAddQuestion'
             type='submit'
-            className='btn'
+            className='btn btn--colour-blue'
           >
             Add
           </button>
@@ -87,7 +87,7 @@ export default function Poll(props) {
             id='btnAddOption'
             name='btnAddOption'
             type='submit'
-            className='btn'
+            className='btn btn--colour-blue'
           >
             Add
           </button>
@@ -99,7 +99,7 @@ export default function Poll(props) {
             placeholder='Option 1'
             className='poll__input'
           />
-          <button type='submit' className='btn' id='btnOption' name='btnOption'>
+          <button type='submit' className='btn btn--colour-blue' id='btnOption' name='btnOption'>
             Add
           </button>
         </form>
