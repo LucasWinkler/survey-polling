@@ -19,12 +19,13 @@ export default function Poll(props) {
       <nav className='nav'>
         <div className='nav__items'>
 
+        <img className="img__logo" src={logo}></img>
         <div className="nav__items_left">
           <h2 className="title">Morum OSS | Manage Poll</h2>
         </div>
         
         <div className="nav__items_right">
-          <Link to='/dashboard' className='nav__item'>
+          <Link to='/dashboard' className='nav__dashboard'>
           Dashboard
           </Link>
           

@@ -8,20 +8,31 @@
 
 .img__logo{
     float: left;
+    height: 70px;
+    padding-left: 12px;
 }
 
 .title{
     color:black;
+    margin-left: 12px;
 }
 
 .nav__items_right{
     float: right;
+    margin-top: 24px;
 }
 
 .nav__items_left{
     float: left;
 }
 
+.title{
+    margin-top: 25px;
+}
+.nav__dashboard{
+    color: black;
+    margin-right: 12px;
+}
 .nav__item{
     float: right;
     color: #f2f2f2;
