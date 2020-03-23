@@ -42,7 +42,7 @@ export default function Poll(props) {
         </div>
       </nav>
       <div className="columns">
-            <div className='poll__questions'>
+        <div className='poll__questions'>
         <h2 className='poll__heading'>Questions</h2>
         <form onSubmit={addQuestion}>
           <div className=''>
@@ -91,6 +91,7 @@ export default function Poll(props) {
           >
             Add
           </button>
+          <br></br>
           <h2>Options</h2>
           <input
             type='text'
