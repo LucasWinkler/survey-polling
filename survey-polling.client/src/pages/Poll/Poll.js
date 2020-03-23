@@ -17,11 +17,17 @@ export default function Poll(props) {
   return (
     <div id='container poll'>
       <nav className='nav'>
-        <img className='nav__logo_icon' src={logo} alt='Morum OSS Logo' />
         <div className='nav__items'>
+
+        <div className="nav__items_left">
+          <h2 className="title">Morum OSS | Manage Poll</h2>
+        </div>
+        
+        <div className="nav__items_right">
           <Link to='/dashboard' className='nav__item'>
-            Dashboard
+          Dashboard
           </Link>
+          
           <input
             type='text'
             id='pollTitle'
@@ -31,8 +37,11 @@ export default function Poll(props) {
           <button className='btn'>Exit</button>
           <button className='btn btn--colour-blue'>Save</button>
         </div>
+        
+        </div>
       </nav>
-      <div className='poll__questions'>
+      <div className="columns">
+            <div className='poll__questions'>
         <h2 className='poll__heading'>Questions</h2>
         <form onSubmit={addQuestion}>
           <div className=''>
@@ -93,6 +102,7 @@ export default function Poll(props) {
             Add
           </button>
         </form>
+      </div>      
       </div>
     </div>
   );
