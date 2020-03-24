@@ -17,11 +17,18 @@ export default function Poll(props) {
   return (
     <div id='container poll'>
       <nav className='nav'>
-        <img className='nav__logo_icon' src={logo} alt='Morum OSS Logo' />
         <div className='nav__items'>
-          <Link to='/dashboard' className='nav__item'>
-            Dashboard
+
+        <img className="img__logo" src={logo}></img>
+        <div className="nav__items_left">
+          <h2 className="title">Morum OSS | Manage Poll</h2>
+        </div>
+        
+        <div className="nav__items_right">
+          <Link to='/dashboard' className='nav__dashboard'>
+          Dashboard
           </Link>
+          
           <input
             type='text'
             id='pollTitle'
@@ -31,8 +38,11 @@ export default function Poll(props) {
           <button className='btn'>Exit</button>
           <button className='btn btn--colour-blue'>Save</button>
         </div>
+        
+        </div>
       </nav>
-      <div className='poll__questions'>
+      <div className="columns">
+        <div className='poll__questions'>
         <h2 className='poll__heading'>Questions</h2>
         <form onSubmit={addQuestion}>
           <div className=''>
@@ -58,7 +68,7 @@ export default function Poll(props) {
             id='btnAddQuestion'
             name='btnAddQuestion'
             type='submit'
-            className='btn'
+            className='btn btn--colour-blue'
           >
             Add
           </button>
@@ -77,10 +87,11 @@ export default function Poll(props) {
             id='btnAddOption'
             name='btnAddOption'
             type='submit'
-            className='btn'
+            className='btn btn--colour-blue'
           >
             Add
           </button>
+          <br></br>
           <h2>Options</h2>
           <input
             type='text'
@@ -89,10 +100,11 @@ export default function Poll(props) {
             placeholder='Option 1'
             className='poll__input'
           />
-          <button type='submit' className='btn' id='btnOption' name='btnOption'>
+          <button type='submit' className='btn btn--colour-blue' id='btnOption' name='btnOption'>
             Add
           </button>
         </form>
+      </div>      
       </div>
     </div>
   );
