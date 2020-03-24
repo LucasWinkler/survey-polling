@@ -1,23 +1,56 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import config from '../../config';
 
 import logo from '../../assets/images/morum_logo.png';
 
 import './Home.scss';
 
 export default function Home(props) {
+  const history = useHistory();
   useEffect(() => {
     document.title = props.title;
   }, [props.title]);
+
+  const goToDashboard = event => {
+    event.preventDefault();
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        isHost: true
+      })
+    };
+
+    fetch(config.apiUrl + 'user', requestOptions)
+      .then(async response => {
+        const data = await response.json();
+
+        if (!response.ok) {
+          const error = (data && data.message) || response.status;
+          return Promise.reject(error);
+        }
+
+        localStorage.setItem('userId', data.id);
+        history.push('/dashboard/');
+      })
+      .catch(error => {
+        console.error('There was an error!', error);
+      });
+  };
 
   return (
     <div className='container home'>
       <img src={logo} alt='Morum OSS Logo' className='home__logo' />
       <h2 className='home__title'>SIGN IN AS</h2>
       <div className='home__btn_wrapper'>
-        <Link to='/dashboard' className='btn btn--colour-orange'>
-          Teacher
-        </Link>
+        <input
+          type='button'
+          value='Teacher'
+          className='btn btn--colour-orange'
+          onClick={goToDashboard}
+        />
         {/* Temp id for testing */}
         <Link to='/lobby/1' className='btn btn--colour-blue'>
           Student

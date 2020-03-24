@@ -18,12 +18,10 @@ namespace survey_polling.api.Controllers
     public class PollController : ControllerBase
     {
         private readonly PollContext _context;
-        private readonly PollHub _pollHub;
 
-        public PollController(PollContext context, PollHub pollHub)
+        public PollController(PollContext context)
         {
             _context = context;
-            _pollHub = pollHub;
         }
 
         // GET: api/Poll

@@ -33,7 +33,11 @@ export default function Join(props) {
             name='lobbyPin'
             id='lobbyPin'
           />
-          <input type='submit' value='Submit' className='btn btn--blue' />
+          <input
+            type='submit'
+            value='Submit'
+            className='btn btn--colour-blue'
+          />
         </form>
       </div>
     </div>
