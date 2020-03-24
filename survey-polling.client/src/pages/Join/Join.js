@@ -7,7 +7,7 @@ export default function Join(props) {
 
   useEffect(() => {
     document.title = props.title;
-  }, []);
+  }, [props.title]);
 
   const joinPoll = event => {
     event.preventDefault();
@@ -33,7 +33,11 @@ export default function Join(props) {
             name='lobbyPin'
             id='lobbyPin'
           />
-          <input type='submit' value='Submit' className='btn btn--blue' />
+          <input
+            type='submit'
+            value='Submit'
+            className='btn btn--colour-blue'
+          />
         </form>
       </div>
     </div>

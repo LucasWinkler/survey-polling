@@ -9,7 +9,7 @@ import Config from '../../config';
 import './Lobby.scss';
 
 export default function Lobby(props) {
-  const { id } = props.match.params;
+  const { lobbyId } = props.match.params;
   const [hubConnection, setHubConnection] = useState({});
   const [pin, setPin] = useState('');
   const [poll, setPoll] = useState({
@@ -21,7 +21,7 @@ export default function Lobby(props) {
 
   useEffect(() => {
     document.title = props.title;
-  }, []);
+  }, [props.title]);
 
   const createHubConnection = async () => {
     const connection = new HubConnectionBuilder()

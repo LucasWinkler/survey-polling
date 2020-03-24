@@ -5,7 +5,7 @@ import './PollOver.scss';
 export default function PollOver(props) {
   useEffect(() => {
     document.title = props.title;
-  }, []);
+  }, [props.title]);
 
   return (
     <div>
