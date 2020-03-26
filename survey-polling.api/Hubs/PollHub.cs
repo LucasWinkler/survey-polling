@@ -68,7 +68,7 @@ namespace survey_polling.api.Hubs
             using var scope = _serviceProvider.CreateScope();
             var pollContext = scope.ServiceProvider.GetRequiredService<PollContext>();
 
-            await Clients.Group(pin).SendAsync(PollActions.USER_VOTED, questionId, await pollContext.GetQuestionVoteCountAsync(questionId));
+            await Clients.Group(pin).SendAsync(PollActions.USER_VOTED, questionId, await pollContext.GetQuestionVoteCountAsync(pin, questionId));
         }
     }
 }
