@@ -81,7 +81,7 @@ namespace survey_polling.api.Controllers
         [HttpPost]
         public async Task<ActionResult<Lobby>> PostLobby(Lobby lobby)
         {
-            lobby.Pin = PinGenerator.RandomPin().ToString();
+            lobby.Pin = LobbyPinGenerator.GetPin().ToString();
 
             await _context.Lobbies.AddAsync(lobby);
             await _context.SaveChangesAsync();

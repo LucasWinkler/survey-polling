@@ -8,7 +8,9 @@
     transform: translate(-50%, -50%);
   }
 
-  &__title {
+  &__title,
+  &__pin,
+  &__waiting {
     color: #222222;
   }
 }
