@@ -9,10 +9,8 @@ export default function Join(props) {
     document.title = props.title;
   }, [props.title]);
 
-  const joinPoll = event => {
+  const joinLobby = event => {
     event.preventDefault();
-
-    console.log('Submitting pin: ' + pin);
 
     // try {
     //   hubConnection.invoke('JoinLobby', pin).catch(err => console.error(err));
@@ -22,10 +20,10 @@ export default function Join(props) {
   };
 
   return (
-    <div className='lobby'>
-      <div className='container lobby__wrapper'>
-        <h1 className='lobby__title'>Please enter the pin:</h1>
-        <form onSubmit={joinPoll}>
+    <div className='join'>
+      <div className='container join__wrapper'>
+        <h1 className='join__title'>Please enter the pin:</h1>
+        <form onSubmit={joinLobby}>
           <input
             type='text'
             value={pin}

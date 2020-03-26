@@ -1,57 +1,81 @@
-import React, { useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Doughnut } from 'react-chartjs-2';
 
 import './Vote.scss';
 
-const exampleData = () => ({
-  datasets: [
-    {
-      data: [3, 5, 7],
-      backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
-      hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
-    }
-  ]
-});
-
 export default function Vote(props) {
   const chartReference = useRef({});
+  const [question, setQuestion] = useState({
+    id: 0,
+    pollId: 0,
+    content: '',
+    options: [{ id: 0, content: '', votes: 0 }]
+  });
 
-  const { id } = props.match.params;
+  useEffect(() => {
+    setQuestion(
+      props.question ?? {
+        id: 1,
+        pollId: 1,
+        content: 'Question title',
+        options: [
+          { id: 1, content: 'Option 1', votes: 4 },
+          { id: 2, content: 'Option 2', votes: 7 },
+          { id: 3, content: 'Option 3', votes: 2 },
+          { id: 4, content: 'Option 4', votes: 2 }
+        ]
+      }
+    );
+  }, []);
 
-  console.log(id);
-
-  const updateChart = barNumber => {
+  const chooseOption = barNumber => {
     const currentChart = chartReference.current.chartInstance;
 
     currentChart.data.datasets[0].data[barNumber] += 1;
     currentChart.update();
   };
 
-  const fetchData = () => exampleData();
+  const chartOptions = {
+    legend: {
+      display: false
+    }
+  };
+
+  const chartData = () => {
+    const labelArray = [];
+    const dataArray = [];
+
+    for (let i = 0; i < question.options.length; i++) {
+      labelArray[i] = question.options[i].content;
+      dataArray[i] = question.options[i].votes;
+    }
+
+    return {
+      labels: labelArray,
+      datasets: [
+        {
+          data: dataArray,
+          backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#55BE41'],
+          hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#55BE41']
+        }
+      ]
+    };
+  };
 
   return (
-    <div className='container Vote'>
-      <h1>Question title</h1>
-      <Doughnut ref={chartReference} data={fetchData} />
-      <div className='poll__btn_wrapper'>
-        <button
-          className='poll__btn poll__btn--colour-red'
-          onClick={() => updateChart(0)}
-        >
-          Add red
-        </button>
-        <button
-          className='poll__btn poll__btn--colour-blue'
-          onClick={() => updateChart(1)}
-        >
-          Add blue
-        </button>
-        <button
-          className='poll__btn poll__btn--colour-yellow'
-          onClick={() => updateChart(2)}
-        >
-          Add yellow
-        </button>
+    <div className='container vote'>
+      <h1>{question.content}</h1>
+      <Doughnut ref={chartReference} data={chartData} options={chartOptions} />
+      <div className='vote__btn_wrapper'>
+        {question.options.map((option, index) => (
+          <button
+            className='vote__btn vote__btn--colour-dynamic'
+            onClick={() => chooseOption(index)}
+            key={index}
+          >
+            {option.content}
+          </button>
+        ))}
       </div>
     </div>
   );

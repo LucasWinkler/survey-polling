@@ -6,6 +6,9 @@ import {
   Redirect
 } from 'react-router-dom';
 
+// Vote is for testing purposes
+import Vote from '../components/Vote/Vote';
+
 import Home from './Home/Home';
 import Join from './Join/Join';
 import Lobby from './Lobby/Lobby';
@@ -16,6 +19,8 @@ import PollOver from './PollOver/PollOver';
 export default () => (
   <Router>
     <Switch>
+      {/* /Vote is for Testing purposes */}
+      <Route exact path='/Vote' render={props => <Vote {...props} />} />
       <Route
         exact
         path='/'

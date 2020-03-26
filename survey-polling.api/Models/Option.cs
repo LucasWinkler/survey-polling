@@ -9,7 +9,6 @@
         public int PollId { get; set; }
         public int QuestionId { get; set; }
         public string Content { get; set; }
-        public bool IsAnswer { get; set; }
 
         public Poll Poll { get; set; }
         public Question Question { get; set; }
