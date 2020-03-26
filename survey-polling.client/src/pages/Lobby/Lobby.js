@@ -12,6 +12,7 @@ export default function Lobby(props) {
   const { lobbyId } = props.match.params;
   const [hubConnection, setHubConnection] = useState({});
   const [pin, setPin] = useState('');
+  const [userCount, setUserCount] = useState(0);
   const [poll, setPoll] = useState({
     id: Number,
     hostId: Number,
@@ -22,6 +23,10 @@ export default function Lobby(props) {
   useEffect(() => {
     document.title = props.title;
   }, [props.title]);
+
+  useEffect(() => {
+    createHubConnection();
+  }, []);
 
   const createHubConnection = async () => {
     const connection = new HubConnectionBuilder()
@@ -36,9 +41,8 @@ export default function Lobby(props) {
         console.assert(connection.state === HubConnectionState.Connected);
         console.log('Connection successful');
 
-        connection.on('userJoined', message => {
-          console.log(message);
-          // setPoll(message);
+        connection.on('userJoined', userCount => {
+          console.log(userCount);
         });
 
         setHubConnection(connection);
@@ -52,32 +56,12 @@ export default function Lobby(props) {
     await startHubConnection();
   };
 
-  const joinPoll = event => {
-    event.preventDefault();
-
-    console.log('Submitting pin: ' + pin);
-
-    // try {
-    //   hubConnection.invoke('JoinLobby', pin).catch(err => console.error(err));
-    // } catch (err) {
-    //   console.log(err);
-    // }
-  };
-
   return (
     <div className='lobby'>
       <div className='container lobby__wrapper'>
-        <h1 className='lobby__title'>Please enter the pin:</h1>
-        <form onSubmit={joinPoll}>
-          <input
-            type='text'
-            value={pin}
-            onChange={e => setPin(e.target.value)}
-            name='lobbyPin'
-            id='lobbyPin'
-          />
-          <input type='submit' value='Submit' className='btn btn--blue' />
-        </form>
+        <h1 className='lobby__title'>Poll title here</h1>
+        <h2 className='lobby__pin'>The lobby pin is: 000000</h2>
+        <h2 className='lobby__waiting'>Waiting on your host to start...</h2>
       </div>
     </div>
   );

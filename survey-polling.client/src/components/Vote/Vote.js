@@ -15,10 +15,15 @@ const exampleData = () => ({
 
 export default function Vote(props) {
   const chartReference = useRef({});
+  const [question, setQuestion] = useState({
+    id: Number,
+    pollId: Number,
+    content: String
+  });
 
-  const { id } = props.match.params;
-
-  console.log(id);
+  useEffect(() => {
+    setQuestion(props.question);
+  }, []);
 
   const updateChart = barNumber => {
     const currentChart = chartReference.current.chartInstance;

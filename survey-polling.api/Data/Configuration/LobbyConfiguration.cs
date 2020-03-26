@@ -10,18 +10,21 @@ namespace survey_polling.api.Data.Configuration
         {
             builder.ToTable("Lobby");
 
-            builder.HasKey(v => v.Id);
+            builder.HasKey(l => l.Id);
 
-            builder.Property(v => v.PollId)
+            builder.Property(l => l.PollId)
                 .IsRequired();
 
-            builder.Property(v => v.Pin)
+            builder.Property(l => l.Pin)
                .IsRequired();
 
-            builder.HasOne(v => v.Poll)
+            builder.HasOne(l => l.Poll)
                 .WithMany(p => p.Lobbies)
-                .HasForeignKey(v => v.PollId)
+                .HasForeignKey(l => l.PollId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(l => l.ActiveQuestion)
+                .WithOne();
         }
     }
 }
