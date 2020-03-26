@@ -38,7 +38,7 @@ export default function Lobby(props) {
 
         connection.on('userJoined', message => {
           console.log(message);
-          setPoll(message);
+          // setPoll(message);
         });
 
         setHubConnection(connection);

@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.DependencyInjection;
+using survey_polling.api.Data;
+using System;
 using System.Threading.Tasks;
 
 namespace survey_polling.api.Hubs
@@ -8,6 +11,13 @@ namespace survey_polling.api.Hubs
     /// </summary>
     public class PollHub : Hub
     {
+        private readonly IServiceProvider _serviceProvider;
+
+        public PollHub(IServiceProvider serviceProvider)
+        {
+            _serviceProvider = serviceProvider;
+        }
+
         /// <summary>
         /// Adds a user to a lobby.
         /// </summary>
@@ -15,7 +25,11 @@ namespace survey_polling.api.Hubs
         public async Task JoinLobby(string pin)
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, pin);
-            await Clients.Groups(pin).SendAsync(PollActions.USER_JOINED);
+
+            using var scope = _serviceProvider.CreateScope();
+            var pollContext = scope.ServiceProvider.GetRequiredService<PollContext>();
+
+            await Clients.Groups(pin).SendAsync(PollActions.USER_JOINED, await pollContext.GetLobbyUserCountAsync(pin));
         }
 
         /// <summary>
@@ -24,8 +38,12 @@ namespace survey_polling.api.Hubs
         /// <param name="pin">The lobby pin</param>
         public async Task LeaveLobby(string pin)
         {
-            await Clients.Groups(pin).SendAsync(PollActions.USER_LEFT);
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, pin);
+
+            using var scope = _serviceProvider.CreateScope();
+            var pollContext = scope.ServiceProvider.GetRequiredService<PollContext>();
+
+            await Clients.Groups(pin).SendAsync(PollActions.USER_LEFT, await pollContext.GetLobbyUserCountAsync(pin));
         }
 
         /// <summary>
@@ -43,7 +61,7 @@ namespace survey_polling.api.Hubs
         /// <param name="pin">The lobby pin</param>
         public async Task SendVote(string pin)
         {
-            await Clients.Group(pin).SendAsync(PollActions.USER_VOTED, "SendVote is under construction");
+            await Clients.Group(pin).SendAsync(PollActions.USER_VOTED);
         }
     }
 }
