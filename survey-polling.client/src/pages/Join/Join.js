@@ -30,11 +30,13 @@ export default function Join(props) {
             onChange={e => setPin(e.target.value)}
             name='lobbyPin'
             id='lobbyPin'
+            maxLength='6'
           />
           <input
             type='submit'
             value='Submit'
             className='btn btn--colour-blue'
+            onClick={joinLobby}
           />
         </form>
       </div>

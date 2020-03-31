@@ -19,7 +19,7 @@ import PollOver from './PollOver/PollOver';
 export default () => (
   <Router>
     <Switch>
-      {/* /Vote is for Testing purposes */}
+      {/* /Vote is for Testing purposes it will just be a component not a page */}
       <Route exact path='/Vote' render={props => <Vote {...props} />} />
       <Route
         exact

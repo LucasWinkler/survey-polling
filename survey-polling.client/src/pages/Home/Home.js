@@ -15,11 +15,37 @@ export default function Home(props) {
 
   const goToDashboard = event => {
     event.preventDefault();
+
+    const requestOptions = {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' }
+    };
+
+    fetch(config.apiUrl + 'user/1', requestOptions)
+      .then(async response => {
+        const data = await response.json();
+
+        if (!response.ok) {
+          const error = (data && data.message) || response.status;
+          return Promise.reject(error);
+        }
+
+        localStorage.setItem('userId', data.id);
+        history.push('/dashboard/');
+      })
+      .catch(error => {
+        console.error('There was an error!', error);
+      });
+  };
+
+  const goToJoin = event => {
+    event.preventDefault();
+
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        isHost: true
+        isHost: false
       })
     };
 
@@ -33,7 +59,7 @@ export default function Home(props) {
         }
 
         localStorage.setItem('userId', data.id);
-        history.push('/dashboard/');
+        history.push('/join/');
       })
       .catch(error => {
         console.error('There was an error!', error);
@@ -51,10 +77,12 @@ export default function Home(props) {
           className='btn btn--colour-orange'
           onClick={goToDashboard}
         />
-        {/* Temp id for testing */}
-        <Link to='/lobby/1' className='btn btn--colour-blue'>
-          Student
-        </Link>
+        <input
+          type='button'
+          value='Student'
+          className='btn btn--colour-blue'
+          onClick={goToJoin}
+        />
       </div>
       <p className='home__temp'>
         Note: This is temporary as the login process will happen before this
