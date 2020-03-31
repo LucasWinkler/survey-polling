@@ -30,7 +30,7 @@ namespace survey_polling.api.Hubs
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, pin);
 
-            using var scope = _serviceProvider.CreateScope();
+            var scope = _serviceProvider.CreateScope();
             var pollContext = scope.ServiceProvider.GetRequiredService<PollContext>();
 
             await Clients.Groups(pin).SendAsync(PollActions.USER_JOINED, await pollContext.GetLobbyUserCountAsync(pin));
@@ -63,12 +63,12 @@ namespace survey_polling.api.Hubs
         /// Sends a count of votes for a specific question to all users of a specific lobby.
         /// </summary>
         /// <param name="pin">The lobby pin.</param>
-        public async Task UpdateVoteCount(string pin, int questionId)
+        public async Task SendVoteCount(string pin, int questionId)
         {
             using var scope = _serviceProvider.CreateScope();
             var pollContext = scope.ServiceProvider.GetRequiredService<PollContext>();
 
-            await Clients.Group(pin).SendAsync(PollActions.USER_VOTED, questionId, await pollContext.GetQuestionVoteCountAsync(questionId));
+            await Clients.Group(pin).SendAsync(PollActions.USER_VOTED, questionId, await pollContext.GetQuestionVoteCountAsync(pin, questionId));
         }
     }
 }

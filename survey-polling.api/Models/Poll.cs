@@ -12,7 +12,7 @@ namespace survey_polling.api.Models
         public string Title { get; set; }
 
         public User Host { get; set; }
-        public ICollection<Vote> Votes { get; set; }
         public ICollection<Lobby> Lobbies { get; set; }
+        public ICollection<Question> Questions { get; set; }
     }
 }

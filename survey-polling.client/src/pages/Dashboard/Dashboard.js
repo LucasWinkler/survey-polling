@@ -11,6 +11,10 @@ export default function Dashboard(props) {
     document.title = props.title;
   }, [props.title]);
 
+  useEffect(() => {
+    getPolls();
+  }, []);
+
   const createPoll = event => {
     event.preventDefault();
 
@@ -33,6 +37,28 @@ export default function Dashboard(props) {
         }
 
         history.push('/dashboard/poll/' + data.id);
+      })
+      .catch(error => {
+        console.error('There was an error!', error);
+      });
+  };
+
+  const getPolls = event => {
+    const requestOptions = {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' }
+    };
+
+    fetch(config.apiUrl + 'poll', requestOptions)
+      .then(async response => {
+        const data = await response.json();
+
+        if (!response.ok) {
+          const error = (data && data.message) || response.status;
+          return Promise.reject(error);
+        }
+
+        console.log(data);
       })
       .catch(error => {
         console.error('There was an error!', error);

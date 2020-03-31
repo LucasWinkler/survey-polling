@@ -14,6 +14,23 @@ namespace survey_polling.api.Data.Configuration
 
             builder.Property(u => u.IsHost)
                 .HasDefaultValue(false);
+
+            Seed(builder);
+        }
+
+        private void Seed(EntityTypeBuilder<User> builder)
+        {
+            builder.HasData(
+                new User
+                {
+                    Id = 1,
+                    IsHost = true
+                },
+                new User
+                {
+                    Id = 2,
+                    IsHost = false
+                });
         }
     }
 }

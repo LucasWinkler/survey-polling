@@ -45,6 +45,8 @@ export default function Lobby(props) {
           console.log(userCount);
         });
 
+        connection.invoke('JoinLobby', '241573').catch(err => console.log(err));
+
         setHubConnection(connection);
       } catch (err) {
         console.assert(connection.state === HubConnectionState.Disconnected);
