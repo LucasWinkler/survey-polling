@@ -50,10 +50,6 @@ export default function Dashboard(props) {
     })();
   }, []);
 
-  useEffect(() => {
-    console.log(polls);
-  }, [polls]);
-
   const createPoll = (event) => {
     event.preventDefault();
 
@@ -82,6 +78,12 @@ export default function Dashboard(props) {
       });
   };
 
+  const startPoll = () => {};
+
+  const editPoll = () => {};
+
+  const deletePoll = () => {};
+
   const PollsTable = () => {
     if (!polls) {
       return null;
@@ -98,9 +100,24 @@ export default function Dashboard(props) {
               <td>N/A</td>
               <td>N/A</td>
               <td>
-                <Link to={'/dashboard/poll/' + poll.id}>Edit</Link>
-                <a href='#'> Results </a>
-                <a href='#'>Delete</a>
+                <input
+                  type='button'
+                  value='Start'
+                  className='btn btn--colour-blue'
+                  onClick={startPoll}
+                />
+                <input
+                  type='button'
+                  value='Edit'
+                  className='btn btn--colour-orange'
+                  onClick={editPoll}
+                />
+                <input
+                  type='button'
+                  value='Delete'
+                  className='btn btn--colour-red'
+                  onClick={deletePoll}
+                />
               </td>
             </tr>
           ))}
@@ -119,21 +136,19 @@ export default function Dashboard(props) {
         onClick={createPoll}
       />
 
-      <div className='dashboard__polls'>
-        <table border='1'>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Title</th>
-              <th>Questions</th>
-              <th>Date Created</th>
-              <th>Date Modified</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>{PollsTable()}</tbody>
-        </table>
-      </div>
+      <table className='dashboard__polls_table'>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Title</th>
+            <th>Questions</th>
+            <th>Date Created</th>
+            <th>Date Modified</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>{PollsTable()}</tbody>
+      </table>
     </div>
   );
 }
