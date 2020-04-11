@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import logo from '../../assets/images/morum_logo.png';
 import config from '../../config';
-
 import './Dashboard.scss';
 
 export default function Dashboard(props) {
@@ -67,13 +67,33 @@ export default function Dashboard(props) {
 
   return (
     <div>
-      <h1>Teacher Dashboard</h1>
-      <input
+
+    <nav className='nav'>
+        <div className='nav__items'>
+          <img className='img__logo' src={logo}></img>
+          <div className='nav__items_left'>
+            <h2 className='title'>Morum OSS | Teacher Dashboard</h2>
+          </div>
+        </div>
+      </nav>
+      <br></br>
+      <div className="row">
+      <div className="column">
+      <section className='create__poll_sec'>
+      <br></br>
+      <div className="poll-container">
+        <h2 className="create_poll_title">Create a new poll</h2>
+        <br></br>
+        <input
         type='button'
-        value='Create Poll'
+        value='New'
         className='btn btn--colour-blue'
-        onClick={createPoll}
-      />
+        onClick={createPoll} />
+      </div>
+    </section>
+      </div>
+    </div>
+
     </div>
   );
 }
