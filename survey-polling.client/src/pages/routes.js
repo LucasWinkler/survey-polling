@@ -13,6 +13,7 @@ import Users from './Shared/Users/Users';
 import Dashboard from './Teacher/Teacher';
 import Lobby from './Student/Student';
 import Voting from './Student/pages/Vote/Vote';
+import DocumentedPollManager from './Teacher/pages/Saved Polls/DocumentedPollManager';
 
 export default () => (
   <Router>
@@ -24,6 +25,7 @@ export default () => (
       <Route exact path='/dashboard' component={Dashboard} />
       <Route exact path='/lobby' component={Lobby} />
       <Route exact path='/vote' component={Voting} />
+      <Route exact path='/manager' component={DocumentedPollManager}/>
       <Route path='*' component={NotFound} />
     </Switch>
   </Router>

@@ -17,7 +17,7 @@ const exampleData = () => ({
 
 const fakevote = () => ({
   title: 'vote about fake stuff',
-  question: 'What is the meaning of this and that'
+  question: 'MorumOSS Voting Prototype'
 });
 
 /* 

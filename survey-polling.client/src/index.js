@@ -8,7 +8,8 @@ import Routes from './pages/routes';
 import Vote from './pages/Student/pages/Vote/Vote';
 import Chat from './components/Chat/Chat';
 import Student from './pages/Student/Student';
+import DocumentedPollManager from './pages/Teacher/pages/Saved Polls/DocumentedPollManager'
 
 
-ReactDOM.render(<Vote />, document.getElementById('root'));
+ReactDOM.render(<Routes />, document.getElementById('root'));
 serviceWorker.unregister();
