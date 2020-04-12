@@ -21,4 +21,22 @@
       overflow: visible;
     }
   }
+
+  /* Create two equal columns that floats next to each other */
+  .create__poll_sec {
+    background-color: #f1f1f1;
+    padding-bottom: 12px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    box-shadow: 4px 4px 4px #d4d4d4;
+    width: 240px;
+  }
+
+  .poll-container {
+    margin-left: 12px;
+  }
+
+  .create_poll_title {
+    margin-left: 12px;
+  }
 }

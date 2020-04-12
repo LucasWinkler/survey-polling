@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory, Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import logo from '../../assets/images/morum_logo.png';
 import config from '../../config';
 
 import './Dashboard.scss';
@@ -128,14 +129,28 @@ export default function Dashboard(props) {
 
   return (
     <div className='container dashboard'>
-      <h1>Morum OSS | Dashboard</h1>
-      <input
-        type='button'
-        value='Create Poll'
-        className='btn btn--colour-blue'
-        onClick={createPoll}
-      />
-
+      <nav className='nav'>
+        <div className='nav__items'>
+          <img className='img__logo' src={logo}></img>
+          <div className='nav__items_left'>
+            <h2 className='title'>Morum OSS | Teacher Dashboard</h2>
+          </div>
+        </div>
+      </nav>
+      <br></br>
+      <section className='create__poll_sec'>
+        <br></br>
+        <div className='poll-container'>
+          <h2 className='create_poll_title'>Create a new poll</h2>
+          <br></br>
+          <input
+            type='button'
+            value='New'
+            className='btn btn--colour-blue'
+            onClick={createPoll}
+          />
+        </div>
+      </section>
       <table className='dashboard__polls_table'>
         <thead>
           <tr>
