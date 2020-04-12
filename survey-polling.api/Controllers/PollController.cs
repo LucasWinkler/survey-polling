@@ -34,6 +34,16 @@ namespace survey_polling.api.Controllers
                 .ToListAsync();
         }
 
+        [Route("[action]/{hostId}")]
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Poll>>> GetPollsByHostId(int hostId)
+        {
+            return await _context.Polls
+                .Include(p => p.Questions)
+                .Where(p => p.HostId == hostId)
+                .ToListAsync();
+        }
+
         // GET: api/Poll/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Poll>> GetPoll(int id)

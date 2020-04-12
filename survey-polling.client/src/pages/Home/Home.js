@@ -13,16 +13,16 @@ export default function Home(props) {
     document.title = props.title;
   }, [props.title]);
 
-  const goToDashboard = event => {
+  const goToDashboard = (event) => {
     event.preventDefault();
 
     const requestOptions = {
       method: 'GET',
-      headers: { 'Content-Type': 'application/json' }
+      headers: { 'Content-Type': 'application/json' },
     };
 
     fetch(config.apiUrl + 'user/1', requestOptions)
-      .then(async response => {
+      .then(async (response) => {
         const data = await response.json();
 
         if (!response.ok) {
@@ -33,24 +33,24 @@ export default function Home(props) {
         localStorage.setItem('userId', data.id);
         history.push('/dashboard/');
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('There was an error!', error);
       });
   };
 
-  const goToJoin = event => {
+  const goToJoin = (event) => {
     event.preventDefault();
 
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        isHost: false
-      })
+        isHost: false,
+      }),
     };
 
     fetch(config.apiUrl + 'user', requestOptions)
-      .then(async response => {
+      .then(async (response) => {
         const data = await response.json();
 
         if (!response.ok) {
@@ -61,7 +61,7 @@ export default function Home(props) {
         localStorage.setItem('userId', data.id);
         history.push('/join/');
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('There was an error!', error);
       });
   };
