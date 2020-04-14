@@ -21,21 +21,25 @@ export default function Join(props) {
 
   return (
     <div className='join'>
-      <div className='container join__wrapper'>
+      <div className='container_join__wrapper'>
         <h1 className='join__title'>Please enter the pin:</h1>
         <form onSubmit={joinLobby}>
           <input
+            className="txtPin"
             type='text'
             value={pin}
             onChange={e => setPin(e.target.value)}
             name='lobbyPin'
             id='lobbyPin'
             maxLength='6'
+            placeholder="123456789"
           />
+          <br></br>
           <input
             type='submit'
             value='Submit'
             className='btn btn--colour-blue'
+            id="btnSubmit"
             onClick={joinLobby}
           />
         </form>
