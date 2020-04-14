@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR;
-using survey_polling.api.Models;
+using Microsoft.Extensions.DependencyInjection;
+using survey_polling.api.Data;
 using System;
 using System.Threading.Tasks;
 
@@ -10,21 +11,64 @@ namespace survey_polling.api.Hubs
     /// </summary>
     public class PollHub : Hub
     {
+        private readonly IServiceProvider _serviceProvider;
+
         /// <summary>
-        /// Sends a message to all clients which notifies them that there was a new vote.
-        /// Used to visualize the new data on the front-end.
+        /// Constructs a PollHub with a required IServiceProvider.
         /// </summary>
-        public async Task SendVote(Vote vote)
+        /// <param name="serviceProvider"></param>
+        public PollHub(IServiceProvider serviceProvider)
         {
-            await Clients.All.SendAsync(PollActions.USER_VOTED, vote);
+            _serviceProvider = serviceProvider;
         }
 
         /// <summary>
-        /// Test
+        /// Adds a user to a lobby.
         /// </summary>
-        public async Task SendPoll(string msg)
+        /// <param name="pin">The lobby pin.</param>
+        public async Task JoinLobby(string pin)
         {
-            await Clients.All.SendAsync(PollActions.POLL_STARTED, msg);
+            await Groups.AddToGroupAsync(Context.ConnectionId, pin);
+
+            var scope = _serviceProvider.CreateScope();
+            var pollContext = scope.ServiceProvider.GetRequiredService<PollContext>();
+
+            await Clients.Groups(pin).SendAsync(PollActions.USER_JOINED, await pollContext.GetLobbyUserCountAsync(pin));
+        }
+
+        /// <summary>
+        /// Removes a user to a lobby.
+        /// </summary>
+        /// <param name="pin">The lobby pin.</param>
+        public async Task LeaveLobby(string pin)
+        {
+            await Groups.RemoveFromGroupAsync(Context.ConnectionId, pin);
+
+            using var scope = _serviceProvider.CreateScope();
+            var pollContext = scope.ServiceProvider.GetRequiredService<PollContext>();
+
+            await Clients.Groups(pin).SendAsync(PollActions.USER_LEFT, await pollContext.GetLobbyUserCountAsync(pin));
+        }
+
+        /// <summary>
+        /// Tells all users of a specific lobby that the poll has started.
+        /// </summary> 
+        /// <param name="pin">The lobby pin</param>
+        public async Task StartPoll(string pin)
+        {
+            await Clients.Groups(pin).SendAsync(PollActions.POLL_STARTED);
+        }
+
+        /// <summary>
+        /// Sends a count of votes for a specific question to all users of a specific lobby.
+        /// </summary>
+        /// <param name="pin">The lobby pin.</param>
+        public async Task SendVoteCount(string pin, int questionId)
+        {
+            using var scope = _serviceProvider.CreateScope();
+            var pollContext = scope.ServiceProvider.GetRequiredService<PollContext>();
+
+            await Clients.Group(pin).SendAsync(PollActions.USER_VOTED, questionId, await pollContext.GetQuestionVoteCountAsync(pin, questionId));
         }
     }
 }

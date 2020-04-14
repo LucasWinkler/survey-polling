@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using survey_polling.api.Data;
+using survey_polling.api.Hubs;
 using survey_polling.api.Models;
 
 namespace survey_polling.api.Controllers
@@ -27,14 +28,20 @@ namespace survey_polling.api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Poll>>> GetPolls()
         {
-            return await _context.Polls.ToListAsync();
+            return await _context.Polls
+                .Include(p => p.Questions)
+                    .ThenInclude(q => q.Options)
+                .ToListAsync();
         }
 
         // GET: api/Poll/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Poll>> GetPoll(int id)
         {
-            var poll = await _context.Polls.FindAsync(id);
+            var poll = await _context.Polls
+                .Include(p => p.Questions)
+                    .ThenInclude(q => q.Options)
+                .FirstOrDefaultAsync(p => p.Id == id);
 
             if (poll == null)
             {

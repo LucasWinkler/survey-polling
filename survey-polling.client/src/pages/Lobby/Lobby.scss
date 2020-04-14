@@ -1,0 +1,16 @@
+.lobby {
+  height: 100vh;
+
+  &__wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  &__title,
+  &__pin,
+  &__waiting {
+    color: #222222;
+  }
+}
