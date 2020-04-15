@@ -18,8 +18,40 @@ export default function Poll(props) {
     document.title = props.title;
   }, [props.title]);
 
-  const addQuestion = event => {};
-  const addOptions = event => {};
+  const [questionFields, setQuestionFields] = useState(
+    [{ value: null }]
+  );
+
+  const [optionFields, setOptionFields] = useState(
+    [{ value: null }]
+  );
+  
+  
+  const addQuestion = event => {
+    const values = [...questionFields];
+    values.push({ value: null });
+    setQuestionFields(values);
+  };
+
+  const addOptions = event => {
+    const values = [...optionFields];
+    values.push({ value: null });
+    setOptionFields(values);
+  };
+
+  const deleteQuestion = (event,i) =>{
+    const values = [...questionFields];
+    values.splice(i, 1);
+    setQuestionFields(values);
+  };
+
+
+  function handleChange(i, event) {
+    const values = [...questionFields];
+    values[i].value = event.target.value;
+    setQuestionFields(values);
+  }
+
 
   return (
     <div id='container poll'>
@@ -29,12 +61,10 @@ export default function Poll(props) {
           <div className='nav__items_left'>
             <h2 className='title'>Morum OSS | Manage Poll</h2>
           </div>
-
           <div className='nav__items_right'>
             <Link to='/dashboard' className='nav__dashboard'>
               Dashboard
             </Link>
-
             <input
               type='text'
               id='pollTitle'
@@ -50,33 +80,29 @@ export default function Poll(props) {
         <div className='poll__questions'>
           <h2 className='poll__heading'>Questions</h2>
           <form onSubmit={addQuestion}>
-            <div className=''>
-              <input
-                id='txtQuestion'
-                name='txtQuestion'
-                type='text'
-                placeholder='Enter a question'
-                className='poll__input'
-              />
-              <div className=''>
-                <button
-                  id='btnDelete'
-                  name='btnDelete'
-                  type='button'
-                  className='btn'
-                >
-                  Delete
+          {questionFields.map((field, idx) => {
+            return (
+              <div key={`${field}-${idx}`}>
+                <input
+                  type="text"
+                  placeholder="Enter a question"
+                  value={field.value || ""}
+                  onChange={e => handleChange(idx, e)}
+                />
+                <button type="button" onClick={() => deleteQuestion(idx)}>
+                  X
                 </button>
               </div>
-            </div>
-            <button
-              id='btnAddQuestion'
-              name='btnAddQuestion'
-              type='submit'
-              className='btn btn--colour-blue'
-            >
-              Add
-            </button>
+            );
+          })}
+          <button
+          name='btnAddQuestion'
+          type='button'
+          className='btn btn--colour-blue'
+          onClick={() => addQuestion()}
+        >
+          Add
+        </button>
           </form>
         </div>
         <div className='poll__settings'>
@@ -98,18 +124,12 @@ export default function Poll(props) {
             </button>
             <br></br>
             <h2>Options</h2>
-            <input
-              type='text'
-              id='option1'
-              name='option1'
-              placeholder='Option 1'
-              className='poll__input'
-            />
             <button
-              type='submit'
+              type='button'
               className='btn btn--colour-blue'
               id='btnOption'
               name='btnOption'
+              onClick={() => addOptions()}
             >
               Add
             </button>
