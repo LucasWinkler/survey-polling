@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import logo from '../../assets/images/morum_logo.png';
 import config from '../../config';
-
+import MorumNavBar from '../../components/NavBar/NavBar';
 import './Dashboard.scss';
 
 export default function Dashboard(props) {
@@ -128,7 +128,8 @@ export default function Dashboard(props) {
   };
 
   return (
-    <div>
+    <div className='container manager'>
+    <MorumNavBar />
     <nav className='nav'>
       <div className='nav__items'>
         <img className='img__logo' src={logo}></img>
@@ -143,10 +144,9 @@ export default function Dashboard(props) {
     <section className='create__poll_sec'>
     <br></br>
     <div className='poll-container'>
-      <h2 className='create_poll_title'>Create New Poll</h2>
+      <h2 className='create_poll_title'>Create a new poll</h2>
       <br></br>
       <input
-        id="btnNew"
         type='button'
         value='New'
         className='btn btn--colour-blue'
