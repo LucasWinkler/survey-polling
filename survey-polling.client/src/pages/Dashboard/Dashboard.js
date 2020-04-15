@@ -143,7 +143,7 @@ export default function Dashboard(props) {
     <section className='create__poll_sec'>
     <br></br>
     <div className='poll-container'>
-      <h2 className='create_poll_title'>Create a new poll</h2>
+      <h2 className='create_poll_title'>Create New Poll</h2>
       <br></br>
       <input
         id="btnNew"
