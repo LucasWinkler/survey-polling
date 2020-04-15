@@ -1,0 +1,47 @@
+﻿.manager {
+    &__polls_table {
+        width: 1180px;
+        border-collapse: collapse;
+        border-spacing: 0;
+        empty-cells: show;
+        border: 1px solid #cbcbcb;
+
+        thead {
+            background-color: #e0e0e0;
+            color: #0a0a0a;
+            text-align: left;
+            vertical-align: bottom;
+        }
+
+        th,
+        td {
+            padding: 0.5em 1em;
+            border-left: 1px solid #cbcbcb;
+            border-bottom: 1px solid #cbcbcb;
+            margin: 0;
+            overflow: visible;
+        }
+
+        input {
+            margin-right: 20px;
+            margin-left: 40px;
+            width: 110px;
+        }
+    }
+
+    &__dashboard {
+        margin-right: 500px;
+    }
+
+    .poll-container {
+        margin-left: 12px;
+    }
+
+    .create_poll_title {
+        margin-left: 12px;
+    }
+
+    .sidebar {
+        background-color: aqua;
+    }
+}

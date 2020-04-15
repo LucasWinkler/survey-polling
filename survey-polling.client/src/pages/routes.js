@@ -15,6 +15,7 @@ import Lobby from './Lobby/Lobby';
 import Dashboard from './Dashboard/Dashboard';
 import Poll from './Poll/Poll';
 import PollOver from './PollOver/PollOver';
+import Manager from './Manager/Manager';
 
 export default () => (
   <Router>
@@ -50,7 +51,12 @@ export default () => (
         exact
         path='/poll-over'
         render={props => <PollOver {...props} title='Morum OSS | Poll Over' />}
-      />
+        />
+      <Route
+        exact
+        path='/manager'
+        render={props => <Manager {...props} title='Morum OSS | Poll Manager' />}
+        />
       <Redirect from='*' to='/' />
     </Switch>
   </Router>
