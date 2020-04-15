@@ -1,3 +1,26 @@
+.table__sec{
+  border-collapse: collapse;
+  border-spacing: 0;
+  empty-cells: show;
+  background-color: #f1f1f1;
+  padding-top: 12px;
+  padding-bottom: 32em;
+  box-shadow: 4px 4px 4px #d4d4d4;
+  border-radius: 12px;
+}
+
+.dashboard__polls_table{
+  margin-left: 220px;
+}
+
+#btnNew{
+  margin-left: 12px;
+}
+
+td{
+  background-color: white;
+}
+
 .dashboard {
   &__polls_table {
     border-collapse: collapse;

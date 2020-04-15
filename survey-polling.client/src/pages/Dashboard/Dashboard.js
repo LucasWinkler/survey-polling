@@ -146,6 +146,7 @@ export default function Dashboard(props) {
       <h2 className='create_poll_title'>Create a new poll</h2>
       <br></br>
       <input
+        id="btnNew"
         type='button'
         value='New'
         className='btn btn--colour-blue'
