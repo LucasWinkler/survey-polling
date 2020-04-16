@@ -18,6 +18,8 @@ export default function Poll(props) {
     document.title = props.title;
   }, [props.title]);
 
+
+  //Testing the dynamic input fields
   const [questionFields, setQuestionFields] = useState(
     [{ value: null }]
   );
@@ -25,7 +27,6 @@ export default function Poll(props) {
   const [optionFields, setOptionFields] = useState(
     [{ value: null }]
   );
-  
   
   const addQuestion = event => {
     const values = [...questionFields];
@@ -54,6 +55,7 @@ export default function Poll(props) {
 
 
   return (
+  
     <div id='container poll'>
       <nav className='nav'>
         <div className='nav__items'>
@@ -80,6 +82,7 @@ export default function Poll(props) {
         <div className='poll__questions'>
           <h2 className='poll__heading'>Questions</h2>
           <form onSubmit={addQuestion}>
+          //Just a test
           {questionFields.map((field, idx) => {
             return (
               <div key={`${field}-${idx}`}>
@@ -90,7 +93,7 @@ export default function Poll(props) {
                   onChange={e => handleChange(idx, e)}
                 />
                 <button type="button" onClick={() => deleteQuestion(idx)}>
-                  X
+                  Delete
                 </button>
               </div>
             );
