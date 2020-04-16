@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import { Link } from 'react-router-dom';
 
 import './Poll.scss';
@@ -17,6 +17,8 @@ export default function Poll(props) {
   useEffect(() => {
     document.title = props.title;
   }, [props.title]);
+
+
 
 
   //Testing the dynamic input fields
@@ -46,16 +48,27 @@ export default function Poll(props) {
     setQuestionFields(values);
   };
 
+  const deleteOptions = (event,i)=>{
+    const values = [...optionFields];
+    values.splice(i,1);
+    setOptionFields(values);
+  }
 
-  function handleChange(i, event) {
+
+  function handleQuestionChange(i, event) {
     const values = [...questionFields];
     values[i].value = event.target.value;
     setQuestionFields(values);
   }
 
+  function handleOptionsChange(i, event) {
+    const values = [...optionFields];
+    values[i].value = event.target.value;
+    setOptionFields(values);
+  }
 
   return (
-  
+
     <div id='container poll'>
       <nav className='nav'>
         <div className='nav__items'>
@@ -81,24 +94,34 @@ export default function Poll(props) {
       <div className='columns'>
         <div className='poll__questions'>
           <h2 className='poll__heading'>Questions</h2>
+          <br></br>
           <form onSubmit={addQuestion}>
-          //Just a test
-          {questionFields.map((field, idx) => {
+          {questionFields.map((questionField, i) => {
             return (
-              <div key={`${field}-${idx}`}>
+              <div key={`${questionField}-${i}`}>
                 <input
+                  id="txtInputQuestion"
+                  className="txtInputQuestion"
                   type="text"
                   placeholder="Enter a question"
-                  value={field.value || ""}
-                  onChange={e => handleChange(idx, e)}
+                  value={questionField.value || ""}
+                  onChange={event => handleQuestionChange(i, event)}
                 />
-                <button type="button" onClick={() => deleteQuestion(idx)}>
+                <button 
+                id="btnDelete"
+                className="btn btn--colour-red"
+                name="btnDeleteQuestion"
+                type="button" 
+                onClick={() => deleteQuestion(i)}>
                   Delete
                 </button>
+                <br></br>
+                <br></br>
               </div>
             );
           })}
           <button
+          id="btnAddQuestion"
           name='btnAddQuestion'
           type='button'
           className='btn btn--colour-blue'
@@ -110,6 +133,7 @@ export default function Poll(props) {
         </div>
         <div className='poll__settings'>
           <h2 className='poll__heading'>Your Question</h2>
+          <br></br>
           <form onSubmit={addOptions}>
             <input
               id='txtQuestionOptions'
@@ -117,16 +141,35 @@ export default function Poll(props) {
               placeholder='Enter your question'
               className='poll__input'
             />
-            <button
-              id='btnAddOption'
-              name='btnAddOption'
-              type='submit'
-              className='btn btn--colour-blue'
-            >
-              Add
-            </button>
             <br></br>
-            <h2>Options</h2>
+            <br></br>
+            <h2>Answers</h2>
+                        <br></br>
+            {optionFields.map((optionField, j) => {
+              return (
+                <div key={`${optionField}-${j}`}>
+                  <input
+                    id="txtInputQuestion"
+                    className="txtInputQuestion"
+                    type="text"
+                    placeholder={'Option '+ j}
+                    value={optionField.value || ""}
+                    onChange={event => handleOptionsChange(j, event)}
+                  />
+                  <button 
+                  id="btnDelete"
+                  className="btn btn--colour-red"
+                  name="btnDeleteOption"
+                  type="button" 
+                  onClick={() => deleteOptions(j)}>
+                    Delete
+                  </button>
+                  <br></br>
+                  <br></br>
+                </div>
+              );
+            })}
+            
             <button
               type='button'
               className='btn btn--colour-blue'
