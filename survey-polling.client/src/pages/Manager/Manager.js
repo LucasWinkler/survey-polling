@@ -3,7 +3,6 @@ import { useHistory } from 'react-router-dom';
 import logo from '../../assets/images/morum_logo.png';
 import config from '../../config';
 import 'semantic-ui-css/semantic.min.css';
-
 import './Manager.scss';
 import MorumNavBar from '../../components/NavBar/NavBar';
 
