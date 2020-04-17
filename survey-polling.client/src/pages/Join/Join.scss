@@ -1,3 +1,10 @@
+.container_join__wrapper{
+  text-align: center;
+  margin-top: 250px;
+}
+.home__logo {
+  width: 250px;
+}
 .poll {
   height: 100vh;
 
@@ -11,4 +18,16 @@
   &__title {
     color: #222222;
   }
+}
+.txtPin{
+  padding: 5px;
+  margin: 8px;
+  border-radius: 10px;
+  border-color: grey;
+  width: 450px;
+  text-align: center;
+  font-size: large;
+}
+#btnSubmit{
+  
 }

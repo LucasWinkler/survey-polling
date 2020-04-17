@@ -18,8 +18,58 @@ export default function Poll(props) {
     document.title = props.title;
   }, [props.title]);
 
-  const addQuestion = event => {};
-  const addOptions = event => {};
+  //Use State for the input
+  const [questionFields, setQuestionFields] = useState(
+    [{ question: null }]
+  );
+
+  const [optionFields, setOptionFields] = useState(
+    [{ option: null }]
+  );
+  
+  // Question Handling /////////////////////////////////////////////
+  const addQuestion = function() {
+    const qFields = [...questionFields];
+    qFields.push({ question: null });
+    setQuestionFields(qFields);
+  };
+
+  const deleteQuestion=function(i) {
+    const qFields = [...questionFields];
+    qFields.splice(i, 1);
+    setQuestionFields(qFields);
+  };
+
+  //Option Handling /////////////////////////////////////////////
+  const addOptions = function() {
+    const oFields = [...optionFields];
+    oFields.push({ option: null });
+    setOptionFields(oFields);
+    console.log(oFields);
+  };
+  const deleteOptions = function(i){
+    const oFields = [...optionFields];
+    oFields.splice(i,1);
+    setOptionFields(oFields);
+  };
+
+  //On change handling /////////////////////////////////////////////
+  const handleQuestionChange = function(i, event) {
+    const qFields = [...questionFields];
+    qFields[i].value = event.target.value;
+    setQuestionFields(qFields);
+  };
+
+  const handleOptionsChange = function(j, event) {
+    const oFields = [...optionFields];
+    oFields[j].value = event.target.value;
+    setOptionFields(oFields);
+  };
+
+  // Saveing a poll/////////////////////////////////////////////
+  const savePoll = function(){
+
+  };
 
   return (
     <div id='container poll'>
@@ -29,58 +79,76 @@ export default function Poll(props) {
           <div className='nav__items_left'>
             <h2 className='title'>Morum OSS | Manage Poll</h2>
           </div>
-
           <div className='nav__items_right'>
             <Link to='/dashboard' className='nav__dashboard'>
               Dashboard
             </Link>
-
             <input
               type='text'
               id='pollTitle'
               name='pollTitle poll__input'
               placeholder='Enter poll title'
             />
-            <button className='btn'>Exit</button>
-            <button className='btn btn--colour-blue'>Save</button>
+
+            <button
+            id="btnExit" 
+            className='btn'>
+            Exit
+            </button>
+            <button 
+            id="btnSave"
+            className='btn btn--colour-blue'>
+            Save
+            </button>
+          
           </div>
         </div>
       </nav>
       <div className='columns'>
         <div className='poll__questions'>
           <h2 className='poll__heading'>Questions</h2>
+          <br></br>
           <form onSubmit={addQuestion}>
-            <div className=''>
-              <input
-                id='txtQuestion'
-                name='txtQuestion'
-                type='text'
-                placeholder='Enter a question'
-                className='poll__input'
-              />
-              <div className=''>
-                <button
-                  id='btnDelete'
-                  name='btnDelete'
-                  type='button'
-                  className='btn'
-                >
+          {questionFields.map((questionField, i) => {
+            return (
+              <div key={`${questionField}-${i}`}>
+                <input
+                  id={'txtInputField',i}
+                  data-idx={i}
+                  className="txtInputQuestion"
+                  type="text"
+                  placeholder="Enter a question"
+                  value={questionField.value || ""}
+                  onChange={event => handleQuestionChange(i, event)}
+                />
+                <button 
+                id="btnDelete"
+                className="btn btn--colour-red"
+                name="btnDeleteQuestion"
+                type="button" 
+                onClick={() => deleteQuestion(i)}>
                   Delete
                 </button>
+                <br></br>
+                <br></br>
               </div>
-            </div>
-            <button
-              id='btnAddQuestion'
-              name='btnAddQuestion'
-              type='submit'
-              className='btn btn--colour-blue'
-            >
-              Add
-            </button>
+            );
+          })}
+          <button
+          id="btnAddQuestion"
+          name='btnAddQuestion'
+          type='button'
+          className='btn btn--colour-blue'
+          onClick={() => addQuestion()}
+        >
+          Add
+        </button>
           </form>
         </div>
+
         <div className='poll__settings'>
           <h2 className='poll__heading'>Your Question</h2>
+          <br></br>
           <form onSubmit={addOptions}>
             <input
               id='txtQuestionOptions'
@@ -88,28 +156,42 @@ export default function Poll(props) {
               placeholder='Enter your question'
               className='poll__input'
             />
-            <button
-              id='btnAddOption'
-              name='btnAddOption'
-              type='submit'
-              className='btn btn--colour-blue'
-            >
-              Add
-            </button>
             <br></br>
-            <h2>Options</h2>
-            <input
-              type='text'
-              id='option1'
-              name='option1'
-              placeholder='Option 1'
-              className='poll__input'
-            />
+            <br></br>
+            <h2>Answers</h2>
+                        <br></br>
+            {optionFields.map((optionField, j) => {
+              return (
+                <div key={`${optionField}-${j}`}>
+                  <input
+                    data-idx={j}
+                    id="txtInputQuestion"
+                    className="txtInputQuestion"
+                    type="text"
+                    placeholder={'Option '+ (j+1)}
+                    value={optionField.value || ""}
+                    onChange={event => handleOptionsChange(j, event)}
+                  />
+                  <button 
+                  id="btnDelete"
+                  className="btn btn--colour-red"
+                  name="btnDeleteOption"
+                  type="button" 
+                  onClick={() => deleteOptions(j)}>
+                    Delete
+                  </button>
+                  <br></br>
+                  <br></br>
+                </div>
+              );
+            })}
+            
             <button
-              type='submit'
+              type='button'
               className='btn btn--colour-blue'
               id='btnOption'
               name='btnOption'
+              onClick={() => addOptions()}
             >
               Add
             </button>
