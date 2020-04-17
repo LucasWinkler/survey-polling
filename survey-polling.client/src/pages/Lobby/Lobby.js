@@ -6,7 +6,7 @@ import {
 } from '@microsoft/signalr';
 import { useLocation, useHistory, useParams } from 'react-router-dom';
 import config from '../../config';
-
+import logo from '../../assets/images/morum_logo.png';
 import './Lobby.scss';
 
 export default function Lobby(props) {
@@ -118,14 +118,32 @@ export default function Lobby(props) {
     }
   }, [hubConnection]);
 
+
+  const startPoll = function(){
+
+  };
+
   return (
     <div className='lobby'>
       {didMountRef.current === true ? (
         <div className='container lobby__wrapper'>
+        <section className="lobby__titlepin">
           <h1 className='lobby__title'>{lobby.poll.title}</h1>
-          <h2 className='lobby__pin'>The lobby pin is: {lobby.pin}</h2>
+          <h2>The lobby pin is: </h2>
+          <br></br>
+          <h2 className='lobby__pin'>{lobby.pin}</h2>
+        </section>
+      
+        <br></br>
+        <hr className="lobby__line"></hr>
+        <br></br>
           <h2 className='lobby__waiting'>Waiting on your host to start...</h2>
           <h2 className='lobby__count'>Users: {userCount}</h2>
+          <button
+          id="lobby__btnStartPoll"
+          className="btn btn--colour-blue"
+          onClick={() => startPoll()}
+          >Start</button>
         </div>
       ) : (
         ''
