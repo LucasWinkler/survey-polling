@@ -10,10 +10,7 @@ export default function PollOver(props) {
   return (
     <div>
       <h1>The poll is over</h1>
-      <p>
-        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Asperiores
-        blanditiis, eius ab corrupti cumque fugit?
-      </p>
+      <p>Thanks for participating in the poll!</p>
     </div>
   );
 }
