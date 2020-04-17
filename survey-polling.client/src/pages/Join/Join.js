@@ -1,22 +1,73 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import config from '../../config';
 
 import './Join.scss';
 
 export default function Join(props) {
+  const history = useHistory();
   const [pin, setPin] = useState('');
 
   useEffect(() => {
     document.title = props.title;
   }, [props.title]);
 
-  const joinLobby = event => {
+  const createUser = async () => {
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        isHost: false,
+      }),
+    };
+
+    fetch(config.apiUrl + 'user', requestOptions)
+      .then(async (response) => {
+        const data = await response.json();
+
+        if (!response.ok) {
+          const error = (data && data.message) || response.status;
+          return Promise.reject(error);
+        }
+
+        localStorage.setItem('userId', data.id);
+      })
+      .catch((error) => {
+        console.error('There was an error!', error);
+      });
+  };
+
+  const joinLobby = async (event) => {
     event.preventDefault();
 
-    // try {
-    //   hubConnection.invoke('JoinLobby', pin).catch(err => console.error(err));
-    // } catch (err) {
-    //   console.log(err);
-    // }
+    const requestOptions = {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    };
+
+    fetch(config.apiUrl + 'lobby/GetLobbyByPin/' + pin, requestOptions)
+      .then(async (response) => {
+        const data = await response.json();
+
+        if (!response.ok) {
+          const error = (data && data.message) || response.status;
+          return Promise.reject(error);
+        }
+
+        try {
+          if (data.id == null) {
+            return;
+          }
+
+          createUser();
+          history.push('/lobby/' + data.id, { lobby: data });
+        } catch (err) {
+          console.log(err);
+        }
+      })
+      .catch((error) => {
+        console.error('There was an error!', error);
+      });
   };
 
   return (
@@ -27,7 +78,7 @@ export default function Join(props) {
           <input
             type='text'
             value={pin}
-            onChange={e => setPin(e.target.value)}
+            onChange={(e) => setPin(e.target.value)}
             name='lobbyPin'
             id='lobbyPin'
             maxLength='6'

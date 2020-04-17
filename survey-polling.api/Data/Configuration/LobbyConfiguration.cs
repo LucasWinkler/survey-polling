@@ -25,6 +25,19 @@ namespace survey_polling.api.Data.Configuration
 
             builder.HasOne(l => l.ActiveQuestion)
                 .WithOne();
+
+            Seed(builder);
+        }
+
+        private void Seed(EntityTypeBuilder<Lobby> builder)
+        {
+            builder.HasData(
+                new Lobby
+                {
+                    Id = 1,
+                    PollId = 1,
+                    Pin = "241573"
+                });
         }
     }
 }
