@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import './Poll.scss';
@@ -69,7 +69,7 @@ export default function Poll(props) {
 
   // Saveing a poll/////////////////////////////////////////////
   const savePoll = function(){
-    
+
   };
 
   return (
@@ -90,8 +90,18 @@ export default function Poll(props) {
               name='pollTitle poll__input'
               placeholder='Enter poll title'
             />
-            <button className='btn'>Exit</button>
-            <button className='btn btn--colour-blue'>Save</button>
+
+            <button
+            id="btnExit" 
+            className='btn'>
+            Exit
+            </button>
+            <button 
+            id="btnSave"
+            className='btn btn--colour-blue'>
+            Save
+            </button>
+          
           </div>
         </div>
       </nav>
@@ -117,7 +127,7 @@ export default function Poll(props) {
                 className="btn btn--colour-red"
                 name="btnDeleteQuestion"
                 type="button" 
-                onClick={event => deleteQuestion(i)}>
+                onClick={() => deleteQuestion(i)}>
                   Delete
                 </button>
                 <br></br>
@@ -159,7 +169,7 @@ export default function Poll(props) {
                     id="txtInputQuestion"
                     className="txtInputQuestion"
                     type="text"
-                    placeholder={'Option '+ j}
+                    placeholder={'Option '+ (j+1)}
                     value={optionField.value || ""}
                     onChange={event => handleOptionsChange(j, event)}
                   />
@@ -168,7 +178,7 @@ export default function Poll(props) {
                   className="btn btn--colour-red"
                   name="btnDeleteOption"
                   type="button" 
-                  onClick={event => deleteOptions(j)}>
+                  onClick={() => deleteOptions(j)}>
                     Delete
                   </button>
                   <br></br>

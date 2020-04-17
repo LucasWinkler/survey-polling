@@ -7,11 +7,10 @@
 }
 
 #btnAddQuestion{
-
+    text-align: center;
 }
 
 #btnDelete{
-
 
 }
 #txtQuestionOptions{
@@ -19,6 +18,23 @@
     width: 704px;
 }
 
+#btnOption{
+
+}
+
+#pollTitle{
+    height: 34px;
+    width: 500px;
+    margin-right: 12px;
+}
+
+#btnSave{
+    margin-right: 12px;
+}
+
+#btnExit{
+    margin-right: 12px;
+}
 .nav{
     background-color: #f1f1f1;
     height: 100px;
