@@ -18,57 +18,61 @@ export default function Poll(props) {
     document.title = props.title;
   }, [props.title]);
 
-
-
-
-  //Testing the dynamic input fields
+  //Use State for the input
   const [questionFields, setQuestionFields] = useState(
-    [{ value: null }]
+    [{ question: null }]
   );
 
   const [optionFields, setOptionFields] = useState(
-    [{ value: null }]
+    [{ option: null }]
   );
   
-  const addQuestion = event => {
-    const values = [...questionFields];
-    values.push({ value: null });
-    setQuestionFields(values);
+  // Question Handling /////////////////////////////////////////////
+  const addQuestion = function() {
+    const qFields = [...questionFields];
+    qFields.push({ question: null });
+    setQuestionFields(qFields);
+    console.log(qFields);
   };
 
-  const addOptions = event => {
-    const values = [...optionFields];
-    values.push({ value: null });
-    setOptionFields(values);
+  const deleteQuestion=function(i) {
+    const qFields = [...questionFields];
+    qFields.splice(i, 1);
+    setQuestionFields(qFields);
   };
 
-  const deleteQuestion = (event,i) =>{
-    const values = [...questionFields];
-    values.splice(i, 1);
-    setQuestionFields(values);
+  //Option Handling /////////////////////////////////////////////
+  const addOptions = function() {
+    const oFields = [...optionFields];
+    oFields.push({ option: null });
+    setOptionFields(oFields);
+    console.log(oFields);
+  };
+  const deleteOptions = function(i){
+    const oFields = [...optionFields];
+    oFields.splice(i,1);
+    setOptionFields(oFields);
   };
 
-  const deleteOptions = (event,i)=>{
-    const values = [...optionFields];
-    values.splice(i,1);
-    setOptionFields(values);
-  }
+  //On change handling /////////////////////////////////////////////
+  const handleQuestionChange = function(i, event) {
+    const qFields = [...questionFields];
+    qFields[i].value = event.target.value;
+    setQuestionFields(qFields);
+  };
 
+  const handleOptionsChange = function(j, event) {
+    const oFields = [...optionFields];
+    oFields[j].value = event.target.value;
+    setOptionFields(oFields);
+  };
 
-  function handleQuestionChange(i, event) {
-    const values = [...questionFields];
-    values[i].value = event.target.value;
-    setQuestionFields(values);
-  }
-
-  function handleOptionsChange(i, event) {
-    const values = [...optionFields];
-    values[i].value = event.target.value;
-    setOptionFields(values);
-  }
+  // Saveing a poll/////////////////////////////////////////////
+  const savePoll = function(){
+    
+  };
 
   return (
-
     <div id='container poll'>
       <nav className='nav'>
         <div className='nav__items'>
@@ -100,7 +104,8 @@ export default function Poll(props) {
             return (
               <div key={`${questionField}-${i}`}>
                 <input
-                  id="txtInputQuestion"
+                  id={'txtInputField',i}
+                  data-idx={i}
                   className="txtInputQuestion"
                   type="text"
                   placeholder="Enter a question"
@@ -112,7 +117,7 @@ export default function Poll(props) {
                 className="btn btn--colour-red"
                 name="btnDeleteQuestion"
                 type="button" 
-                onClick={() => deleteQuestion(i)}>
+                onClick={event => deleteQuestion(i)}>
                   Delete
                 </button>
                 <br></br>
@@ -131,6 +136,7 @@ export default function Poll(props) {
         </button>
           </form>
         </div>
+
         <div className='poll__settings'>
           <h2 className='poll__heading'>Your Question</h2>
           <br></br>
@@ -149,6 +155,7 @@ export default function Poll(props) {
               return (
                 <div key={`${optionField}-${j}`}>
                   <input
+                    data-idx={j}
                     id="txtInputQuestion"
                     className="txtInputQuestion"
                     type="text"
@@ -161,7 +168,7 @@ export default function Poll(props) {
                   className="btn btn--colour-red"
                   name="btnDeleteOption"
                   type="button" 
-                  onClick={() => deleteOptions(j)}>
+                  onClick={event => deleteOptions(j)}>
                     Delete
                   </button>
                   <br></br>
