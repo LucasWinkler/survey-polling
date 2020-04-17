@@ -22,12 +22,6 @@ namespace survey_polling.api.Data.Configuration
                 .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired();
 
-            //builder.HasOne(o => o.Question)
-            //    .WithMany(q => q.Options)
-            //    .HasForeignKey(o => o.QuestionId)
-            //    .OnDelete(DeleteBehavior.Restrict)
-            //    .IsRequired();
-
             Seed(builder);
         }
 

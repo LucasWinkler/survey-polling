@@ -3,7 +3,7 @@ import {
   BrowserRouter as Router,
   Route,
   Switch,
-  Redirect
+  Redirect,
 } from 'react-router-dom';
 
 // Vote is for testing purposes
@@ -20,36 +20,40 @@ export default () => (
   <Router>
     <Switch>
       {/* /Vote is for Testing purposes it will just be a component not a page */}
-      <Route exact path='/Vote' render={props => <Vote {...props} />} />
+      <Route exact path='/vote' render={(props) => <Vote {...props} />} />
       <Route
         exact
         path='/'
-        render={props => <Home {...props} title='Morum OSS | Home' />}
+        render={(props) => <Home {...props} title='Morum OSS | Home' />}
       />
       <Route
         exact
         path='/join'
-        render={props => <Join {...props} title='Morum OSS | Join Poll' />}
+        render={(props) => <Join {...props} title='Morum OSS | Join Poll' />}
       />
       <Route
         exact
         path='/lobby/:id'
-        render={props => <Lobby {...props} title='Morum OSS | Lobby' />}
+        render={(props) => <Lobby {...props} title='Morum OSS | Lobby' />}
       />
       <Route
         exact
         path='/dashboard'
-        render={props => <Dashboard {...props} title='Morum OSS | Dashboard' />}
+        render={(props) => (
+          <Dashboard {...props} title='Morum OSS | Dashboard' />
+        )}
       />
       <Route
         exact
         path='/dashboard/poll/:id'
-        render={props => <Poll {...props} title='Morum OSS | Manage Poll' />}
+        render={(props) => <Poll {...props} title='Morum OSS | Manage Poll' />}
       />
       <Route
         exact
         path='/poll-over'
-        render={props => <PollOver {...props} title='Morum OSS | Poll Over' />}
+        render={(props) => (
+          <PollOver {...props} title='Morum OSS | Poll Over' />
+        )}
       />
       <Redirect from='*' to='/' />
     </Switch>

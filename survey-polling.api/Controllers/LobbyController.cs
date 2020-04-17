@@ -43,6 +43,17 @@ namespace survey_polling.api.Controllers
             return lobby;
         }
 
+        // GET: api/Lobby/GetLobbyByPin/214751
+        [Route("[action]/{lobbyPin}")]
+        [HttpGet]
+        public async Task<ActionResult<Lobby>> GetLobbyByPin(string lobbyPin)
+        {
+            return await _context.Lobbies
+                .Include(l => l.Poll)
+                    .ThenInclude(p => p.Questions)
+                .SingleOrDefaultAsync(l => l.Pin == lobbyPin);
+        }
+
         // PUT: api/Lobby/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
@@ -81,7 +92,12 @@ namespace survey_polling.api.Controllers
         [HttpPost]
         public async Task<ActionResult<Lobby>> PostLobby(Lobby lobby)
         {
-            lobby.Pin = LobbyPinGenerator.GetPin().ToString();
+            // Ensure no lobbies have the same pin. (Lobbies get deleted at the end of the poll to recycle pins)
+            do
+            {
+                lobby.Pin = LobbyPinGenerator.GetPin().ToString();
+            } while (await _context.Lobbies.AnyAsync(l => l.Pin == lobby.Pin));
+
 
             await _context.Lobbies.AddAsync(lobby);
             await _context.SaveChangesAsync();
