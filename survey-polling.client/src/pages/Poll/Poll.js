@@ -32,7 +32,6 @@ export default function Poll(props) {
     const qFields = [...questionFields];
     qFields.push({ question: null });
     setQuestionFields(qFields);
-    console.log(qFields);
   };
 
   const deleteQuestion=function(i) {
@@ -46,7 +45,6 @@ export default function Poll(props) {
     const oFields = [...optionFields];
     oFields.push({ option: null });
     setOptionFields(oFields);
-    console.log(oFields);
   };
   const deleteOptions = function(i){
     const oFields = [...optionFields];
