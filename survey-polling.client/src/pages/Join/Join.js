@@ -12,7 +12,7 @@ export default function Join(props) {
     document.title = props.title;
   }, [props.title]);
 
-  const createUser = async () => {
+  const createUser = async (callback) => {
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -31,6 +31,7 @@ export default function Join(props) {
         }
 
         localStorage.setItem('userId', data.id);
+        callback();
       })
       .catch((error) => {
         console.error('There was an error!', error);
@@ -59,8 +60,9 @@ export default function Join(props) {
             return;
           }
 
-          createUser();
-          history.push('/lobby/' + data.id, { lobby: data });
+          createUser(() => {
+            history.push('/lobby/' + data.id, { lobby: data });
+          });
         } catch (err) {
           console.log(err);
         }

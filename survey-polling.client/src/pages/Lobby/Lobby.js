@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   HubConnectionBuilder,
   HubConnectionState,
@@ -13,6 +13,7 @@ export default function Lobby(props) {
   const { id } = useParams();
   const location = useLocation();
   const history = useHistory();
+  const didMountRef = useRef(false);
   const [hubConnection, setHubConnection] = useState({});
   const [userCount, setUserCount] = useState(0);
   const [lobby, setLobby] = useState({
@@ -31,7 +32,51 @@ export default function Lobby(props) {
   }, [props.title]);
 
   useEffect(() => {
-    const updateUserConnectionId = async (connection, connectionId) => {
+    if (location.state == undefined) {
+      history.push('/join');
+      return;
+    }
+
+    if (id != location.state.lobby.id) {
+      history.push('/join');
+      return;
+    }
+
+    setLobby(location.state.lobby);
+  }, []);
+
+  useEffect(() => {
+    const createHubConnection = async () => {
+      const connection = new HubConnectionBuilder()
+        .withUrl(config.hubUrl)
+        .withAutomaticReconnect()
+        .configureLogging(LogLevel.Information)
+        .build();
+
+      const startHubConnection = async () => {
+        try {
+          await connection.start();
+          console.assert(connection.state === HubConnectionState.Connected);
+          console.log('Connection successful');
+
+          setHubConnection(connection);
+        } catch (err) {
+          console.assert(connection.state === HubConnectionState.Disconnected);
+          console.log('Error while establishing connection: ' + err);
+          setTimeout(() => startHubConnection(), 5000);
+        }
+      };
+
+      await startHubConnection();
+    };
+
+    if (didMountRef.current) {
+      createHubConnection();
+    }
+  }, [lobby]);
+
+  useEffect(() => {
+    const updateUserConnectionId = async (connectionId) => {
       const requestOptions = {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -50,72 +95,41 @@ export default function Lobby(props) {
             const error = response.status;
             return Promise.reject(error);
           }
-          console.log('here ' + location.state.lobby.pin);
-          connection
-            .invoke('JoinLobby', location.state.lobby.pin)
+
+          hubConnection
+            .invoke('JoinLobby', lobby.pin)
             .catch((err) => console.log(err));
-          console.log('here2');
         })
         .catch((error) => {
           console.error('There was an error!', error);
         });
     };
 
-    const createHubConnection = async () => {
-      const connection = new HubConnectionBuilder()
-        .withUrl(config.hubUrl)
-        .withAutomaticReconnect()
-        .configureLogging(LogLevel.Information)
-        .build();
+    if (didMountRef.current) {
+      hubConnection.on('userConnected', (connectionId) => {
+        updateUserConnectionId(connectionId);
+      });
 
-      const startHubConnection = async () => {
-        try {
-          await connection.start();
-          console.assert(connection.state === HubConnectionState.Connected);
-          console.log('Connection successful');
-
-          connection.on('userConnected', (connectionId) => {
-            updateUserConnectionId(connection, connectionId);
-          });
-
-          connection.on('userJoined', (count) => {
-            console.log('UserCount: ' + count);
-            setUserCount(count);
-          });
-
-          setHubConnection(connection);
-        } catch (err) {
-          console.assert(connection.state === HubConnectionState.Disconnected);
-          console.log('Error while establishing connection: ' + err);
-          setTimeout(() => startHubConnection(), 5000);
-        }
-      };
-
-      await startHubConnection();
-    };
-
-    setLobby(location.state.lobby);
-
-    if (id != location.state.lobby.id) {
-      history.push('/join');
-      return;
+      hubConnection.on('userJoined', (count) => {
+        setUserCount(count);
+      });
+    } else {
+      didMountRef.current = true;
     }
-
-    createHubConnection();
-  }, []);
-
-  useEffect(() => {
-    console.log(userCount);
-  }, [userCount]);
+  }, [hubConnection]);
 
   return (
     <div className='lobby'>
-      <div className='container lobby__wrapper'>
-        <h1 className='lobby__title'>{lobby.poll.title}</h1>
-        <h2 className='lobby__pin'>The lobby pin is: {lobby.pin}</h2>
-        <h2 className='lobby__waiting'>Waiting on your host to start...</h2>
-        <h2 className='lobby__count'>Users: {userCount}</h2>
-      </div>
+      {didMountRef.current === true ? (
+        <div className='container lobby__wrapper'>
+          <h1 className='lobby__title'>{lobby.poll.title}</h1>
+          <h2 className='lobby__pin'>The lobby pin is: {lobby.pin}</h2>
+          <h2 className='lobby__waiting'>Waiting on your host to start...</h2>
+          <h2 className='lobby__count'>Users: {userCount}</h2>
+        </div>
+      ) : (
+        ''
+      )}
     </div>
   );
 }
