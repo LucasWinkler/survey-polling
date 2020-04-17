@@ -45,6 +45,7 @@ export default function Poll(props) {
     const oFields = [...optionFields];
     oFields.push({ option: null });
     setOptionFields(oFields);
+    console.log(oFields);
   };
   const deleteOptions = function(i){
     const oFields = [...optionFields];
