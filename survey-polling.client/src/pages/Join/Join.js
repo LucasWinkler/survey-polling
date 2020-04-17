@@ -7,6 +7,7 @@ import logo from '../../assets/images/morum_logo.png';
 export default function Join(props) {
   const history = useHistory();
   const [pin, setPin] = useState('');
+  const [error, setError] = useState('');
 
   useEffect(() => {
     document.title = props.title;
@@ -41,6 +42,11 @@ export default function Join(props) {
   const joinLobby = async (event) => {
     event.preventDefault();
 
+    if (pin.length < 6) {
+      setError('The pin must be 6 digits.');
+      return;
+    }
+
     const requestOptions = {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
@@ -74,27 +80,26 @@ export default function Join(props) {
 
   return (
     <div className='join'>
-
-      <div className='container_join__wrapper'>
-      <img src={logo} alt='Morum OSS Logo' className='home__logo' />
+      <div className='container join__wrapper'>
+        <img src={logo} alt='Morum OSS Logo' className='join__logo' />
         <h1 className='join__title'>Please enter the pin:</h1>
         <form onSubmit={joinLobby}>
           <input
-            className="txtPin"
+            className='join__pin'
             type='text'
             value={pin}
             onChange={(e) => setPin(e.target.value)}
             name='lobbyPin'
             id='lobbyPin'
             maxLength='6'
-            placeholder="123456789"
+            placeholder='123456'
           />
-          <br></br>
+          {error ? <p className='join__error'>{error}</p> : ''}
           <input
             type='submit'
-            value='Submit'
-            className='btn btn--colour-blue'
-            id="btnSubmit"
+            value='Join'
+            className='btn btn--colour-blue join__submit'
+            id='btnSubmit'
             onClick={joinLobby}
           />
         </form>
