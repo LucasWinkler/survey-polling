@@ -8,9 +8,13 @@ export default function PollOver(props) {
   }, [props.title]);
 
   return (
-    <div>
+    <div className='pollover'>
+    <div className="container pollover">
+    <section className="pollover__title">
       <h1>The poll is over</h1>
       <p>Thanks for participating in the poll!</p>
+    </section>
+    </div>
     </div>
   );
 }
