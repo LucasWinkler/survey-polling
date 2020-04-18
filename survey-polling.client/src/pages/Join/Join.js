@@ -32,6 +32,7 @@ export default function Join(props) {
         }
 
         localStorage.setItem('userId', data.id);
+        localStorage.setItem('userIsHost', data.isHost);
         callback();
       })
       .catch((error) => {

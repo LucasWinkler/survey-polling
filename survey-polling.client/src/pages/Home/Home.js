@@ -31,6 +31,7 @@ export default function Home(props) {
         }
 
         localStorage.setItem('userId', data.id);
+        localStorage.setItem('userIsHost', data.isHost);
         history.push('/dashboard/');
       })
       .catch((error) => {
