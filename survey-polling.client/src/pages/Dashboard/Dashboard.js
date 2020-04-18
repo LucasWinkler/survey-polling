@@ -128,16 +128,17 @@ export default function Dashboard(props) {
   };
 
   return (
+    <div>
+    <nav className='nav'>
+    <div className='nav__items'>
+      <img className='img__logo' src={logo}></img>
+      <div className='nav__items_left'>
+        <h2 className='title'>Morum OSS | Teacher Dashboard</h2>
+      </div>
+    </div>
+  </nav>
     <div className='container manager'>
     <MorumNavBar />
-    <nav className='nav'>
-      <div className='nav__items'>
-        <img className='img__logo' src={logo}></img>
-        <div className='nav__items_left'>
-          <h2 className='title'>Morum OSS | Teacher Dashboard</h2>
-        </div>
-      </div>
-    </nav>
     <br></br>
     <div className='container dashboard'>
     <div className="body__contrainer">
@@ -173,6 +174,6 @@ export default function Dashboard(props) {
     <br></br>
   </div>
     </div>
-   
+    </div>
   );
 }
