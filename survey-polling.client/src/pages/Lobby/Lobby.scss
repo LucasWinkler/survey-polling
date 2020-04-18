@@ -8,9 +8,34 @@
     transform: translate(-50%, -50%);
   }
 
-  &__title,
-  &__pin,
+  &__title{
+    color: red;
+  }
+
+  &__titlepin{
+  }
+
+  &__join__logo{
+    height: 100px;
+    margin-left: 900px;
+  }
+
+  &__line{
+    width: 1000px;
+    font-size: 200px;
+  }
+
+  &__pin{
+    font-size: 50px;
+  }
   &__waiting {
     color: #222222;
   }
 }
+
+#lobby__btnStartPoll{
+  float: right;
+}
+
+
+

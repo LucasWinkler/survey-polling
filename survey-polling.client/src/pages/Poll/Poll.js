@@ -26,18 +26,30 @@ export default function Poll(props) {
   const [optionFields, setOptionFields] = useState(
     [{ option: null }]
   );
+
+  const [qError, setqError] = useState('');
+  const [opError, setopError] = useState('');
+
   
   // Question Handling /////////////////////////////////////////////
   const addQuestion = function() {
     const qFields = [...questionFields];
     qFields.push({ question: null });
     setQuestionFields(qFields);
+    setqError("");
   };
 
   const deleteQuestion=function(i) {
     const qFields = [...questionFields];
-    qFields.splice(i, 1);
-    setQuestionFields(qFields);
+
+    if(qFields.length === 1){
+      setqError("You cannot delete this textbox");
+    }
+    else{
+      setqError("");
+      qFields.splice(i, 1);
+      setQuestionFields(qFields);
+    }
   };
 
   //Option Handling /////////////////////////////////////////////
@@ -45,12 +57,22 @@ export default function Poll(props) {
     const oFields = [...optionFields];
     oFields.push({ option: null });
     setOptionFields(oFields);
+    setopError("");
     console.log(oFields);
   };
+
   const deleteOptions = function(i){
     const oFields = [...optionFields];
-    oFields.splice(i,1);
-    setOptionFields(oFields);
+
+    if(oFields.length === 1){
+      setopError("You cannot delete this option textbox");
+    }
+    else{
+      setopError("");
+      oFields.splice(i,1);
+      setOptionFields(oFields);
+    }
+
   };
 
   //On change handling /////////////////////////////////////////////
@@ -108,6 +130,7 @@ export default function Poll(props) {
         <div className='poll__questions'>
           <h2 className='poll__heading'>Questions</h2>
           <br></br>
+          <p id="qError">{qError}</p>
           <form onSubmit={addQuestion}>
           {questionFields.map((questionField, i) => {
             return (
@@ -149,6 +172,7 @@ export default function Poll(props) {
         <div className='poll__settings'>
           <h2 className='poll__heading'>Your Question</h2>
           <br></br>
+          <br></br>
           <form onSubmit={addOptions}>
             <input
               id='txtQuestionOptions'
@@ -160,6 +184,7 @@ export default function Poll(props) {
             <br></br>
             <h2>Answers</h2>
                         <br></br>
+            <p id="opError">{opError}</p>
             {optionFields.map((optionField, j) => {
               return (
                 <div key={`${optionField}-${j}`}>
