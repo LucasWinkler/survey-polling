@@ -58,7 +58,10 @@ export default function Poll(props) {
     oFields.push({ option: null });
 
     if(oFields.length === 5){
-      setopError("You are only allowed to add 4 options");
+      //setopError("You are only allowed to add 4 options");
+
+      //an alert for now
+      alert("You are only allowed to add 4 options");
     }
     else{
       setOptionFields(oFields);
