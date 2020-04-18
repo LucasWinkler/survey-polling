@@ -1,6 +1,15 @@
 .vote {
   text-align: center;
 
+  &__poll_title{
+    margin-top: 100px;
+
+  }
+
+  &__diagram{
+    margin-top: 50px;
+  }
+
   &__btn {
     cursor: pointer;
     border-radius: 6px;
