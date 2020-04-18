@@ -172,7 +172,6 @@ export default function Poll(props) {
         <div className='poll__settings'>
           <h2 className='poll__heading'>Your Question</h2>
           <br></br>
-          <br></br>
           <form onSubmit={addOptions}>
             <input
               id='txtQuestionOptions'
