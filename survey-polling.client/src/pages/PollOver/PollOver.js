@@ -11,8 +11,9 @@ export default function PollOver(props) {
     <div className='pollover'>
     <div className="container pollover">
     <section className="pollover__title">
-      <h1>The poll is over</h1>
-      <p>Thanks for participating in the poll!</p>
+      <h1 className="pollover__over">The poll is over</h1>
+      <br></br>
+      <p className="pollover__thanks">Thanks for participating in the poll!</p>
     </section>
     </div>
     </div>
