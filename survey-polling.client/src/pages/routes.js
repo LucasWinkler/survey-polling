@@ -15,6 +15,7 @@ import Lobby from './Lobby/Lobby';
 import Dashboard from './Dashboard/Dashboard';
 import Poll from './Poll/Poll';
 import PollOver from './PollOver/PollOver';
+import PastPolls from './PastPoll/PastPoll';
 
 export default () => (
   <Router>
@@ -53,6 +54,13 @@ export default () => (
         path='/poll-over'
         render={(props) => (
           <PollOver {...props} title='Morum OSS | Poll Over' />
+        )}
+      />
+      <Route
+        exact
+        path='/dashboard/pastpolls'
+        render={(props) => (
+          <PastPolls {...props} title='Morum OSS | Past Polls' />
         )}
       />
       <Redirect from='*' to='/' />
