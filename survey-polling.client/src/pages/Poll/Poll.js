@@ -56,9 +56,18 @@ export default function Poll(props) {
   const addOptions = function() {
     const oFields = [...optionFields];
     oFields.push({ option: null });
-    setOptionFields(oFields);
-    setopError("");
-    console.log(oFields);
+
+    if(oFields.length === 5){
+      //setopError("You are only allowed to add 4 options");
+
+      //an alert for now
+      alert("You are only allowed to add 4 options");
+    }
+    else{
+      setOptionFields(oFields);
+      setopError("");
+      console.log(oFields);
+    }
   };
 
   const deleteOptions = function(i){
@@ -171,7 +180,6 @@ export default function Poll(props) {
 
         <div className='poll__settings'>
           <h2 className='poll__heading'>Your Question</h2>
-          <br></br>
           <br></br>
           <form onSubmit={addOptions}>
             <input
