@@ -10,7 +10,7 @@ export default function PastPoll(props){
 
     return(
         <div className="pastpoll">
-            <div></div>
+        Past Polls page
         </div>
     );
 }
