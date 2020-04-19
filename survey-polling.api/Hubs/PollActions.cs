@@ -11,6 +11,16 @@
         public static readonly string USER_JOINED = "userJoined";
 
         /// <summary>
+        /// User tried to join a lobby but is already in it.
+        /// </summary>
+        public static readonly string USER_ALREADY_JOINED = "userAlreadyJoined";
+        
+        /// <summary>
+        /// User not found in lobby.
+        /// </summary>
+        public static readonly string USER_NOT_FOUND = "userNotFound";
+
+        /// <summary>
         /// User left an active poll
         /// </summary>
         public static readonly string USER_LEFT = "userLeft";

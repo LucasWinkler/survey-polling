@@ -11,76 +11,163 @@ export default function Poll(props) {
     id: Number,
     hostId: Number,
     title: String,
-    questions: [{ id: Number, pollId: Number, content: String }]
+    questions: [{ id: Number, pollId: Number, content: String }],
   });
 
   useEffect(() => {
     document.title = props.title;
   }, [props.title]);
 
-  const addQuestion = event => {};
-  const addOptions = event => {};
+  //Use State for the input
+  const [questionFields, setQuestionFields] = useState([{ question: null }]);
+
+  const [optionFields, setOptionFields] = useState([{ option: null }]);
+
+  const [qError, setqError] = useState('');
+  const [opError, setopError] = useState('');
+
+  // Question Handling /////////////////////////////////////////////
+  const addQuestion = function () {
+    const qFields = [...questionFields];
+    qFields.push({ question: null });
+    setQuestionFields(qFields);
+    setqError('');
+  };
+
+  const deleteQuestion = function (i) {
+    const qFields = [...questionFields];
+
+    if (qFields.length === 1) {
+      setqError('You cannot delete this textbox');
+    } else {
+      setqError('');
+      qFields.splice(i, 1);
+      setQuestionFields(qFields);
+    }
+  };
+
+  //Option Handling /////////////////////////////////////////////
+  const addOptions = function () {
+    const oFields = [...optionFields];
+    oFields.push({ option: null });
+
+    if (oFields.length === 5) {
+      //setopError("You are only allowed to add 4 options");
+
+      //an alert for now
+      alert('You are only allowed to add 4 options');
+    } else {
+      setOptionFields(oFields);
+      setopError('');
+      console.log(oFields);
+    }
+  };
+
+  const deleteOptions = function (i) {
+    const oFields = [...optionFields];
+
+    if (oFields.length === 1) {
+      setopError('You cannot delete this option textbox');
+    } else {
+      setopError('');
+      oFields.splice(i, 1);
+      setOptionFields(oFields);
+    }
+  };
+
+  //On change handling /////////////////////////////////////////////
+  const handleQuestionChange = function (i, event) {
+    const qFields = [...questionFields];
+    qFields[i].value = event.target.value;
+    setQuestionFields(qFields);
+  };
+
+  const handleOptionsChange = function (j, event) {
+    const oFields = [...optionFields];
+    oFields[j].value = event.target.value;
+    setOptionFields(oFields);
+  };
+
+  // Saveing a poll/////////////////////////////////////////////
+  const savePoll = function () {};
 
   return (
-    <div id='container poll'>
+    <div className='poll'>
       <nav className='nav'>
         <div className='nav__items'>
           <img className='img__logo' src={logo}></img>
           <div className='nav__items_left'>
-            <h2 className='title'>Morum OSS | Manage Poll</h2>
+            <h2 className='title'>
+              <Link to='/Dashboard' className='nav__dashboard'>
+                Morum OSS | Manage Poll
+              </Link>
+            </h2>
           </div>
-
           <div className='nav__items_right'>
-            <Link to='/dashboard' className='nav__dashboard'>
-              Dashboard
-            </Link>
-
+            <h2 className='poll__title'>Title</h2>
             <input
               type='text'
               id='pollTitle'
               name='pollTitle poll__input'
               placeholder='Enter poll title'
             />
-            <button className='btn'>Exit</button>
-            <button className='btn btn--colour-blue'>Save</button>
+
+            <button id='btnExit' className='btn'>
+              Exit
+            </button>
+            <button id='btnSave' className='btn btn--colour-blue'>
+              Save
+            </button>
           </div>
         </div>
       </nav>
       <div className='columns'>
         <div className='poll__questions'>
           <h2 className='poll__heading'>Questions</h2>
+          <br></br>
+          <p id='qError'>{qError}</p>
           <form onSubmit={addQuestion}>
-            <div className=''>
-              <input
-                id='txtQuestion'
-                name='txtQuestion'
-                type='text'
-                placeholder='Enter a question'
-                className='poll__input'
-              />
-              <div className=''>
-                <button
-                  id='btnDelete'
-                  name='btnDelete'
-                  type='button'
-                  className='btn'
-                >
-                  Delete
-                </button>
-              </div>
-            </div>
+            {questionFields.map((questionField, i) => {
+              return (
+                <div key={`${questionField}-${i}`}>
+                  <input
+                    id={('txtInputField', i)}
+                    data-idx={i}
+                    className='txtInputQuestion'
+                    type='text'
+                    placeholder='Enter a question'
+                    value={questionField.value || ''}
+                    onChange={(event) => handleQuestionChange(i, event)}
+                  />
+                  <button
+                    id='btnDelete'
+                    className='btn btn--colour-red'
+                    name='btnDeleteQuestion'
+                    type='button'
+                    onClick={() => deleteQuestion(i)}
+                  >
+                    Delete
+                  </button>
+                  <br></br>
+                  <br></br>
+                </div>
+              );
+            })}
             <button
               id='btnAddQuestion'
               name='btnAddQuestion'
-              type='submit'
+              type='button'
               className='btn btn--colour-blue'
+              onClick={() => addQuestion()}
             >
               Add
             </button>
           </form>
         </div>
+
         <div className='poll__settings'>
           <h2 className='poll__heading'>Your Question</h2>
+          <br></br>
           <form onSubmit={addOptions}>
             <input
               id='txtQuestionOptions'
@@ -88,28 +175,44 @@ export default function Poll(props) {
               placeholder='Enter your question'
               className='poll__input'
             />
-            <button
-              id='btnAddOption'
-              name='btnAddOption'
-              type='submit'
-              className='btn btn--colour-blue'
-            >
-              Add
-            </button>
             <br></br>
-            <h2>Options</h2>
-            <input
-              type='text'
-              id='option1'
-              name='option1'
-              placeholder='Option 1'
-              className='poll__input'
-            />
+            <br></br>
+            <h2>Answers</h2>
+            <br></br>
+            <p id='opError'>{opError}</p>
+            {optionFields.map((optionField, j) => {
+              return (
+                <div key={`${optionField}-${j}`}>
+                  <input
+                    data-idx={j}
+                    id='txtInputQuestion'
+                    className='txtInputQuestion'
+                    type='text'
+                    placeholder={'Option ' + (j + 1)}
+                    value={optionField.value || ''}
+                    onChange={(event) => handleOptionsChange(j, event)}
+                  />
+                  <button
+                    id='btnDelete'
+                    className='btn btn--colour-red'
+                    name='btnDeleteOption'
+                    type='button'
+                    onClick={() => deleteOptions(j)}
+                  >
+                    Delete
+                  </button>
+                  <br></br>
+                  <br></br>
+                </div>
+              );
+            })}
+
             <button
-              type='submit'
+              type='button'
               className='btn btn--colour-blue'
               id='btnOption'
               name='btnOption'
+              onClick={() => addOptions()}
             >
               Add
             </button>

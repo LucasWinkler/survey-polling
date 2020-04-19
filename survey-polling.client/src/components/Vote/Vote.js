@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import './Vote.scss';
-import MorumNavBar from '../NavBar/NavBar';
 import logo from '../../assets/images/morum_logo.png';
 
 export default function Vote(props) {
@@ -69,8 +68,10 @@ export default function Vote(props) {
 
   return (
     <div className='container vote'>
-      <h1>{question.content}</h1>
+      <h1 className="vote__poll_title">{question.content}</h1>
+      <div className="vote__diagram">
       <Doughnut ref={chartReference} data={chartData} options={chartOptions} />
+      </div>
       <div className='vote__btn_wrapper'>
         {question.options.map((option, index) => (
           <button

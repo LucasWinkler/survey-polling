@@ -1,72 +1,107 @@
 .poll {
+  color: #222222;
 }
-.nav{
-    background-color: #f1f1f1;
-    height: 100px;
-    padding-top: 20px;
-}
-
-.img__logo{
-    float: left;
-    height: 70px;
-    padding-left: 12px;
+.txtInputQuestion {
+  height: 34px;
+  width: 704px;
 }
 
-.title{
-    color:black;
-    margin-left: 12px;
+#btnAddQuestion {
+  text-align: center;
 }
 
-.nav__items_right{
-    float: right;
-    margin-top: 24px;
+#btnDelete {
+}
+#txtQuestionOptions {
+  height: 34px;
+  width: 100vh;
 }
 
-.nav__items_left{
-    float: left;
+#btnOption {
 }
 
-.title{
-    margin-top: 25px;
-}
-.nav__dashboard{
-    color: black;
-    margin-right: 12px;
-}
-.nav__item{
-    float: right;
-    color: #f2f2f2;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    font-size: 17px;
+#pollTitle {
+  height: 34px;
+  width: 500px;
+  margin-right: 12px;
 }
 
-.poll__questions{
-    float: left;
-    width: 50%;
-    padding: 10px;
-    height: 869px;
-    background-color: #ececec;
+#btnSave {
+  margin-right: 12px;
 }
 
-.poll__settings{
-    float: left;
-    width: 50%;
-    padding: 13px;
-    height: 869px;
-    background-color:white;
+#btnExit {
+  margin-right: 12px;
 }
 
-.poll__settings{
-    padding-top: 12px;
+#qError {
+  color: red;
 }
 
+#opError {
+  color: red;
+}
+.nav {
+  background-color: #f1f1f1;
+  height: 100px;
+  padding-top: 20px;
+}
 
+.img__logo {
+  float: left;
+  height: 70px;
+  padding-left: 12px;
+}
 
+.title {
+  color: black;
+  margin-left: 12px;
+}
 
+.nav__items_right {
+  float: right;
+  margin-top: 24px;
+}
 
+.nav__items_left {
+  float: left;
+}
 
+.title {
+  margin-top: 25px;
+}
+.nav__dashboard {
+  color: #222222;
+}
+.poll__title {
+  display: inline-block;
+  margin-right: 12px;
+}
+.nav__item {
+  float: right;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
 
+.poll__questions {
+  float: left;
+  width: 50%;
+  padding: 10px;
+  height: 100vh;
+  background-color: #ececec;
+}
 
+.poll__settings {
+  float: left;
+  width: 50%;
+  padding: 13px;
+  height: 869px;
+  background-color: white;
+}
 
+.poll__settings {
+  padding-top: 12px;
+}

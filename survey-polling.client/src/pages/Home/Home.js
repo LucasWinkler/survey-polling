@@ -31,6 +31,7 @@ export default function Home(props) {
         }
 
         localStorage.setItem('userId', data.id);
+        localStorage.setItem('userIsHost', data.isHost);
         history.push('/dashboard/');
       })
       .catch((error) => {
@@ -41,29 +42,7 @@ export default function Home(props) {
   const goToJoin = (event) => {
     event.preventDefault();
 
-    const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        isHost: false,
-      }),
-    };
-
-    fetch(config.apiUrl + 'user', requestOptions)
-      .then(async (response) => {
-        const data = await response.json();
-
-        if (!response.ok) {
-          const error = (data && data.message) || response.status;
-          return Promise.reject(error);
-        }
-
-        localStorage.setItem('userId', data.id);
-        history.push('/join/');
-      })
-      .catch((error) => {
-        console.error('There was an error!', error);
-      });
+    history.push('/join/');
   };
 
   return (

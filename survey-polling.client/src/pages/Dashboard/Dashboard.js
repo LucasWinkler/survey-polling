@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import logo from '../../assets/images/morum_logo.png';
 import config from '../../config';
-
 import './Dashboard.scss';
 
 export default function Dashboard(props) {
@@ -128,42 +127,52 @@ export default function Dashboard(props) {
   };
 
   return (
-      <div className='container dashboard'>
-      <nav className='nav'>
-        <div className='nav__items'>
-          <img className='img__logo' src={logo}></img>
-          <div className='nav__items_left'>
-            <h2 className='title'>Morum OSS | Teacher Dashboard</h2>
-          </div>
-        </div>
-      </nav>
+    <div>
+    <nav className='nav'>
+    <div className='nav__items'>
+      <img className='img__logo' src={logo}></img>
+      <div className='nav__items_left'>
+        <h2 className='title'>Morum OSS | Teacher Dashboard</h2>
+      </div>
+    </div>
+  </nav>
+    <div className='container manager'>
+    <br></br>
+    <div className='container dashboard'>
+    <div className="body__contrainer">
+    <section className='create__poll_sec'>
+    <br></br>
+    <div className='poll-container'>
+      <h2 className='create_poll_title'>Create a new poll</h2>
+>>>>>>> develop
       <br></br>
-      <section className='create__poll_sec'>
-        <br></br>
-        <div className='poll-container'>
-          <h2 className='create_poll_title'>Create a new poll</h2>
-          <br></br>
-          <input
-            type='button'
-            value='New'
-            className='btn btn--colour-blue'
-            onClick={createPoll}
-          />
-        </div>
-      </section>
-      <table className='dashboard__polls_table'>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Title</th>
-            <th>Questions</th>
-            <th>Date Created</th>
-            <th>Date Modified</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>{PollsTable()}</tbody>
-      </table>
+      <input
+        type='button'
+        value='New'
+        className='btn btn--colour-blue'
+        onClick={createPoll}
+      />
+    </div>
+  </section>
+  <section className="table__sec">
+  <table className='dashboard__polls_table'>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Title</th>
+        <th>Questions</th>
+        <th>Date Created</th>
+        <th>Date Modified</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>{PollsTable()}</tbody>
+  </table>
+  </section>
+    </div>
+    <br></br>
+  </div>
+    </div>
     </div>
   );
 }
