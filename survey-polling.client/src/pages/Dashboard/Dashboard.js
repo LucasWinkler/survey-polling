@@ -128,7 +128,7 @@ export default function Dashboard(props) {
   };
 
   return (
-    <div className='container dashboard'>
+      <div className='container dashboard'>
       <nav className='nav'>
         <div className='nav__items'>
           <img className='img__logo' src={logo}></img>

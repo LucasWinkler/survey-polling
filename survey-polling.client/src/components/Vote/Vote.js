@@ -39,7 +39,11 @@ export default function Vote(props) {
     legend: {
       display: false
     }
-  };
+    };
+
+    const getPin = {
+
+    }
 
   const chartData = () => {
     const labelArray = [];
@@ -76,7 +80,11 @@ export default function Vote(props) {
             {option.content}
           </button>
         ))}
-      </div>
+          </div>
+          <div className="lobbyPin">
+             Test
+          </div>
+
     </div>
   );
 }
