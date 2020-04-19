@@ -19,11 +19,11 @@ export default function Vote(props) {
         id: 1,
         pollId: 1,
         content: 'Question title',
-        options: [
+            options: [
           { id: 1, content: 'Option 1', votes: 4 },
           { id: 2, content: 'Option 2', votes: 7 },
           { id: 3, content: 'Option 3', votes: 2 },
-          { id: 4, content: 'Option 4', votes: 2 }
+          { id: 4, content: 'Option 4', votes: 2 },
         ]
       }
     );

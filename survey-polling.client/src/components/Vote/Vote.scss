@@ -49,7 +49,6 @@
     .lobbyPin {
         border-radius: 10px;
         font-weight: bold;
-        display: table-cell;
         overflow: hidden;
         background-color: #66ff99;
         vertical-align: middle;
@@ -59,15 +58,28 @@
         padding-bottom: .5vw;
         text-align: left;
         vertical-align: text-bottom;
-        position: absolute;
         bottom: 0;
         width: 100%;
-        height: 5%;
+        height: 3vw;
 
         img {
             padding-right: 1vw;
             max-height: 100%;
             max-width: 100%;
+        }
+    }
+
+    .vote__btn_wrapper {
+        height: 100%;
+        width: 100%;
+        margin-top: 2vw;
+        button {
+            width: 45%;
+            max-width: 50%;
+            max-height: 40%;
+            height: 5vw;
+            font-size: 1.5vw;
+            margin-top: -1vw;
         }
     }
 }
