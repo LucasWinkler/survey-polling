@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Doughnut } from 'react-chartjs-2';
-
 import './Vote.scss';
+import MorumNavBar from '../NavBar/NavBar';
+import logo from '../../assets/images/morum_logo.png';
 
 export default function Vote(props) {
   const chartReference = useRef({});
@@ -82,7 +83,8 @@ export default function Vote(props) {
         ))}
           </div>
           <div className="lobbyPin">
-             Test
+              <img src={logo} name="voteLogo" />
+              Your Lobby PIN:
           </div>
 
     </div>
