@@ -68,7 +68,9 @@ export default function Join(props) {
           }
 
           createUser(() => {
-            history.push('/lobby/' + data.id, { lobby: data });
+            history.push('/lobby/' + data.id, {
+              lobby: data,
+            });
           });
         } catch (err) {
           console.log(err);

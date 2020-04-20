@@ -20,11 +20,6 @@ export default () => (
       <Route
         exact
         path='/'
-        render={(props) => <Vote {...props} title='Morum OSS | Home' />}
-      />
-      <Route
-        exact
-        path='/'
         render={(props) => <Home {...props} title='Morum OSS | Home' />}
       />
       <Route

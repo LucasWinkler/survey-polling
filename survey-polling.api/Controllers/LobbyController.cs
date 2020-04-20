@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using survey_polling.api.Data;
@@ -33,7 +32,7 @@ namespace survey_polling.api.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Lobby>> GetLobby(int id)
         {
-            var lobby = await _context.Lobbies.FindAsync(id);
+            var lobby = await _context.Lobbies.Include(l => l.Poll).FirstOrDefaultAsync(l => l.Id == id);
 
             if (lobby == null)
             {
@@ -50,7 +49,6 @@ namespace survey_polling.api.Controllers
         {
             return await _context.Lobbies
                 .Include(l => l.Poll)
-                    .ThenInclude(p => p.Questions)
                 .SingleOrDefaultAsync(l => l.Pin == lobbyPin);
         }
 
@@ -92,6 +90,11 @@ namespace survey_polling.api.Controllers
         [HttpPost]
         public async Task<ActionResult<Lobby>> PostLobby(Lobby lobby)
         {
+            if (await _context.Lobbies.AnyAsync(l => l.PollId == lobby.PollId))
+            {
+                throw new ArgumentException($"There is already a lobby running for poll: {lobby.PollId}");
+            }
+
             // Ensure no lobbies have the same pin. (Lobbies get deleted at the end of the poll to recycle pins)
             do
             {

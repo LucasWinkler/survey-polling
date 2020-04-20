@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using survey_polling.api.Data;
 
 namespace survey_polling.api.Data.Migrations
 {
     [DbContext(typeof(PollContext))]
-    partial class PollingContextModelSnapshot : ModelSnapshot
+    [Migration("20200420212728_AddUserToVoteEntity")]
+    partial class AddUserToVoteEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,6 +50,15 @@ namespace survey_polling.api.Data.Migrations
                     b.HasIndex("PollId");
 
                     b.ToTable("Lobby");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            HasStarted = false,
+                            Pin = "241573",
+                            PollId = 1
+                        });
                 });
 
             modelBuilder.Entity("survey_polling.api.Models.Option", b =>

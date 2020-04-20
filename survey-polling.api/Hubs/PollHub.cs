@@ -40,7 +40,7 @@ namespace survey_polling.api.Hubs
         /// </summary>
         public override async Task OnDisconnectedAsync(Exception exception)
         {
-            var scope = _serviceProvider.CreateScope();
+            using var scope = _serviceProvider.CreateScope();
             var pollContext = scope.ServiceProvider.GetRequiredService<PollContext>();
 
             try
@@ -78,7 +78,7 @@ namespace survey_polling.api.Hubs
         /// <param name="pin">The lobby pin.</param>
         public async Task JoinLobby(string pin)
         {
-            var scope = _serviceProvider.CreateScope();
+            using var scope = _serviceProvider.CreateScope();
             var pollContext = scope.ServiceProvider.GetRequiredService<PollContext>();
 
             try
@@ -124,7 +124,7 @@ namespace survey_polling.api.Hubs
         /// <param name="pin">The lobby pin.</param>
         public async Task LeaveLobby(string pin)
         {
-            var scope = _serviceProvider.CreateScope();
+            using var scope = _serviceProvider.CreateScope();
             var pollContext = scope.ServiceProvider.GetRequiredService<PollContext>();
 
             try
@@ -153,7 +153,7 @@ namespace survey_polling.api.Hubs
         /// <param name="pin">The lobby pin</param>
         public async Task StartPoll(string pin)
         {
-            var scope = _serviceProvider.CreateScope();
+            using var scope = _serviceProvider.CreateScope();
             var pollContext = scope.ServiceProvider.GetRequiredService<PollContext>();
 
             try
@@ -183,6 +183,14 @@ namespace survey_polling.api.Hubs
             var pollContext = scope.ServiceProvider.GetRequiredService<PollContext>();
 
             await Clients.Group(pin).SendAsync(PollActions.USER_VOTED, await pollContext.GetQuestionVoteCountAsync(pin, questionId));
+        }
+
+        public async Task SendNextQuestion(string pin)
+        {
+            using var scope = _serviceProvider.CreateScope();
+            var pollContext = scope.ServiceProvider.GetRequiredService<PollContext>();
+
+            await Clients.Group(pin).SendAsync(PollActions.POLL_NEXT_QUESTION, await pollContext.GetNextQuestionAsync(pin));
         }
     }
 }
