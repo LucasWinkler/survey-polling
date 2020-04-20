@@ -31,13 +31,13 @@ namespace survey_polling.api.Data.Configuration
 
         private void Seed(EntityTypeBuilder<Lobby> builder)
         {
-            builder.HasData(
-                new Lobby
-                {
-                    Id = 1,
-                    PollId = 1,
-                    Pin = "241573"
-                });
+            //builder.HasData(
+            //    new Lobby
+            //    {
+            //        Id = 1,
+            //        PollId = 1,
+            //        Pin = "241573"
+            //    });
         }
     }
 }

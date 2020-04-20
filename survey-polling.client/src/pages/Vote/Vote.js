@@ -1,9 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useLocation, useHistory, useParams } from 'react-router-dom';
 import { Doughnut } from 'react-chartjs-2';
 
 import './Vote.scss';
 
 export default function Vote(props) {
+  const { id } = useParams();
+  const location = useLocation();
+  const history = useHistory();
   const chartReference = useRef({});
   const [question, setQuestion] = useState({
     id: 0,
@@ -12,7 +16,7 @@ export default function Vote(props) {
     options: [{ id: 0, content: '', votes: 0 }],
   });
 
-  const fakeData = () => {
+  const fetchData = () => {
     setQuestion(
       props.question ?? {
         id: 1,
@@ -35,17 +39,17 @@ export default function Vote(props) {
     currentChart.update();
   };
 
-  // const setupConnectionEvents = (connection) => {
-  //   connection.on('userVoted', (votes) => {
-  //     updateChart(question, votes);
-  //   });
-  // };
+  const setupConnectionEvents = (connection) => {
+    connection.on('userVoted', (votes) => {
+      updateChart(question, votes);
+    });
+  };
 
   useEffect(() => {
-    //const connection = props.hubConnection;
+    const connection = location.state.hubConnection;
 
-    fakeData();
-    //setupConnectionEvents(connection);
+    fetchData();
+    setupConnectionEvents(connection);
   }, []);
 
   const chooseOption = (barNumber) => {

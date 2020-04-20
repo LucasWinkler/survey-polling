@@ -11,16 +11,6 @@
         public static readonly string USER_JOINED = "userJoined";
 
         /// <summary>
-        /// User tried to join a lobby but is already in it.
-        /// </summary>
-        public static readonly string USER_ALREADY_JOINED = "userAlreadyJoined";
-        
-        /// <summary>
-        /// User not found in lobby.
-        /// </summary>
-        public static readonly string USER_NOT_FOUND = "userNotFound";
-
-        /// <summary>
         /// User left an active poll
         /// </summary>
         public static readonly string USER_LEFT = "userLeft";
@@ -31,6 +21,16 @@
         public static readonly string USER_VOTED = "userVoted";
 
         /// <summary>
+        /// User tried to join a lobby but is already in it.
+        /// </summary>
+        public static readonly string USER_ALREADY_JOINED = "userAlreadyJoined";
+        
+        /// <summary>
+        /// User not found in lobby.
+        /// </summary>
+        public static readonly string USER_NOT_FOUND = "userNotFound";
+
+        /// <summary>
         /// Host started a poll.
         /// </summary>
         public static readonly string POLL_STARTED = "pollStarted";
@@ -39,5 +39,10 @@
         /// Host ended a poll.
         /// </summary>
         public static readonly string POLL_ENDED = "pollEnded";
+
+        /// <summary>
+        /// Host clicked the next question button.
+        /// </summary>
+        public static readonly string POLL_NEXT_QUESTION = "pollNextQuestion";
     }
 }

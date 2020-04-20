@@ -17,12 +17,11 @@ export default function Lobby(props) {
   const [userCount, setUserCount] = useState(0);
   const [lobby, setLobby] = useState({
     id: 0,
-    pin: '', // '241573'
+    pin: '',
+    hasStarted: false,
+    activeQuestionId: 0,
     poll: {
-      id: 0,
-      hostId: 0,
       title: '',
-      questions: [{ id: 0, pollId: 0, content: '' }],
     },
   });
   const [isHost, setIsHost] = useState(false);
@@ -30,6 +29,28 @@ export default function Lobby(props) {
   useEffect(() => {
     document.title = props.title;
   }, [props.title]);
+
+  const fetchLobby = async () => {
+    const requestOptions = {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    };
+
+    await fetch(config.apiUrl + 'lobby/' + id, requestOptions)
+      .then(async (response) => {
+        const data = await response.json(null);
+
+        if (!response.ok) {
+          const error = (data && data.message) || response.status;
+          return Promise.reject(error);
+        }
+
+        setLobby(data);
+      })
+      .catch((error) => {
+        console.error('There was an error!', error);
+      });
+  };
 
   useEffect(() => {
     if (location.state === undefined) {
@@ -44,7 +65,7 @@ export default function Lobby(props) {
 
     const getUserIsHost = localStorage.getItem('userIsHost');
     setIsHost(getUserIsHost === 'true' ? true : false);
-    setLobby(location.state.lobby);
+    fetchLobby();
   }, []);
 
   useEffect(() => {
@@ -74,6 +95,12 @@ export default function Lobby(props) {
 
     if (didMountRef.current) {
       createHubConnection();
+      if (lobby.hasStarted) {
+        history.push(`/lobby/${id}/vote`, {
+          lobby: lobby,
+          hubConnection: hubConnection,
+        });
+      }
     }
   }, [lobby]);
 
@@ -85,6 +112,7 @@ export default function Lobby(props) {
         body: JSON.stringify({
           id: localStorage.getItem('userId'),
           connectionId: connectionId,
+          isHost: isHost,
         }),
       };
 
@@ -119,12 +147,31 @@ export default function Lobby(props) {
       hubConnection.on('userLeft', (count) => {
         setUserCount(count);
       });
+
+      hubConnection.on('pollStarted', () => {
+        history.push(`/lobby/${id}/vote`, {
+          lobby: lobby,
+          hubConnection: hubConnection,
+        });
+      });
     } else {
       didMountRef.current = true;
     }
   }, [hubConnection]);
 
-  const startPoll = function () {};
+  const startPoll = () => {
+    if (!isHost) {
+      return;
+    }
+
+    if (lobby == null) {
+      return;
+    }
+
+    hubConnection
+      .invoke('StartPoll', lobby.pin)
+      .catch((err) => console.log(err));
+  };
 
   return (
     <div className='lobby'>

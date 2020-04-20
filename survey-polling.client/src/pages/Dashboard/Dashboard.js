@@ -13,44 +13,45 @@ export default function Dashboard(props) {
     document.title = props.title;
   }, [props.title]);
 
-  useEffect(() => {
-    (async () => {
-      const requestOptions = {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
-      };
+  const fetchPolls = async () => {
+    const requestOptions = {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    };
 
-      await fetch(
-        config.apiUrl +
-          'poll/GetPollsByHostId/' +
-          localStorage.getItem('userId'),
-        requestOptions
-      )
-        .then(async (response) => {
-          const data = await response.json(null);
+    await fetch(
+      config.apiUrl + 'poll/GetPollsByHostId/' + localStorage.getItem('userId'),
+      requestOptions
+    )
+      .then(async (response) => {
+        const data = await response.json(null);
 
-          if (!response.ok) {
-            const error = (data && data.message) || response.status;
-            return Promise.reject(error);
-          }
+        if (!response.ok) {
+          const error = (data && data.message) || response.status;
+          return Promise.reject(error);
+        }
 
-          let pollArray = [];
-          data.forEach((poll, i) => {
-            pollArray[i] = {
-              id: poll.id,
-              title: poll.title,
-              questionCount: poll.questions.length,
-            };
-          });
-
-          setPolls(pollArray);
-        })
-        .catch((error) => {
-          console.error('There was an error!', error);
+        let pollArray = [];
+        data.forEach((poll, i) => {
+          pollArray[i] = {
+            id: poll.id,
+            title: poll.title,
+            questionCount: poll.questions.length,
+          };
         });
-    })();
+
+        setPolls(pollArray);
+      })
+      .catch((error) => {
+        console.error('There was an error!', error);
+      });
+  };
+
+  useEffect(() => {
+    fetchPolls();
   }, []);
 
+  // ! This should happen in the ManagePoll page but it is here for testing.
   const createPoll = (event) => {
     event.preventDefault();
 
@@ -79,11 +80,54 @@ export default function Dashboard(props) {
       });
   };
 
-  const startPoll = () => {};
+  const startPoll = (pollId) => {
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        pollId: pollId,
+      }),
+    };
 
-  const editPoll = () => {};
+    fetch(config.apiUrl + 'lobby', requestOptions)
+      .then(async (response) => {
+        const data = await response.json();
 
-  const deletePoll = () => {};
+        if (!response.ok) {
+          const error = (data && data.message) || response.status;
+          return Promise.reject(error);
+        }
+
+        history.push('/lobby/' + data.id, { lobby: { id: data.id } });
+      })
+      .catch((error) => {
+        console.error('There was an error!', error);
+      });
+  };
+
+  const editPoll = (pollId) => {};
+
+  const deletePoll = (pollId, index) => {
+    const requestOptions = {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    fetch(config.apiUrl + 'poll/' + pollId, requestOptions)
+      .then(async (response) => {
+        if (!response.ok) {
+          const error = response.status;
+          return Promise.reject(error);
+        }
+
+        polls.splice(index, 1);
+      })
+      .catch((error) => {
+        console.error('There was an error!', error);
+      });
+  };
 
   const PollsTable = () => {
     if (!polls) {
@@ -94,8 +138,8 @@ export default function Dashboard(props) {
       return (
         <>
           {polls.map((poll, i) => (
-            <tr key={++i}>
-              <td>{i}</td>
+            <tr key={i}>
+              <td>{i + 1}</td>
               <td>{poll.title}</td>
               <td>{poll.questionCount}</td>
               <td>N/A</td>
@@ -105,19 +149,19 @@ export default function Dashboard(props) {
                   type='button'
                   value='Start'
                   className='btn btn--colour-blue'
-                  onClick={startPoll}
+                  onClick={() => startPoll(poll.id)}
                 />
                 <input
                   type='button'
                   value='Edit'
                   className='btn btn--colour-orange'
-                  onClick={editPoll}
+                  onClick={() => editPoll(poll.id)}
                 />
                 <input
                   type='button'
                   value='Delete'
                   className='btn btn--colour-red'
-                  onClick={deletePoll}
+                  onClick={() => deletePoll(poll.id, i)}
                 />
               </td>
             </tr>
