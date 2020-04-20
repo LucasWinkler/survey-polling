@@ -32,7 +32,7 @@ export default function Lobby(props) {
   }, [props.title]);
 
   useEffect(() => {
-    if (location.state == undefined) {
+    if (location.state === undefined) {
       history.push('/join');
       return;
     }

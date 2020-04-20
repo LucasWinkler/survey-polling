@@ -9,10 +9,10 @@ export default function Vote(props) {
     id: 0,
     pollId: 0,
     content: '',
-    options: [{ id: 0, content: '', votes: 0 }]
+    options: [{ id: 0, content: '', votes: 0 }],
   });
 
-  useEffect(() => {
+  const fakeData = () => {
     setQuestion(
       props.question ?? {
         id: 1,
@@ -22,13 +22,33 @@ export default function Vote(props) {
           { id: 1, content: 'Option 1', votes: 4 },
           { id: 2, content: 'Option 2', votes: 7 },
           { id: 3, content: 'Option 3', votes: 2 },
-          { id: 4, content: 'Option 4', votes: 2 }
-        ]
+          { id: 4, content: 'Option 4', votes: 2 },
+        ],
       }
     );
+  };
+
+  const updateChart = (votes) => {
+    const currentChart = chartReference.current.chartInstance;
+
+    currentChart.data.datasets[0].data = votes;
+    currentChart.update();
+  };
+
+  const setupConnectionEvents = (connection) => {
+    connection.on('userVoted', (votes) => {
+      updateChart(question, votes);
+    });
+  };
+
+  useEffect(() => {
+    const connection = props.hubConnection;
+
+    fakeData();
+    setupConnectionEvents(connection);
   }, []);
 
-  const chooseOption = barNumber => {
+  const chooseOption = (barNumber) => {
     const currentChart = chartReference.current.chartInstance;
 
     currentChart.data.datasets[0].data[barNumber] += 1;
@@ -37,8 +57,8 @@ export default function Vote(props) {
 
   const chartOptions = {
     legend: {
-      display: false
-    }
+      display: false,
+    },
   };
 
   const chartData = () => {
@@ -56,17 +76,21 @@ export default function Vote(props) {
         {
           data: dataArray,
           backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#55BE41'],
-          hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#55BE41']
-        }
-      ]
+          hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#55BE41'],
+        },
+      ],
     };
   };
 
   return (
     <div className='container vote'>
-      <h1 className="vote__poll_title">{question.content}</h1>
-      <div className="vote__diagram">
-      <Doughnut ref={chartReference} data={chartData} options={chartOptions} />
+      <h1 className='vote__poll_title'>{question.content}</h1>
+      <div className='vote__diagram'>
+        <Doughnut
+          ref={chartReference}
+          data={chartData}
+          options={chartOptions}
+        />
       </div>
       <div className='vote__btn_wrapper'>
         {question.options.map((option, index) => (

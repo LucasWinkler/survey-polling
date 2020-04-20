@@ -50,6 +50,7 @@ namespace survey_polling.api.Hubs
                     pollContext.Attach(lobby);
                     lobby.Users.Add(user);
                     pollContext.Entry(lobby).State = EntityState.Modified;
+
                     await pollContext.SaveChangesAsync();
                     await Groups.AddToGroupAsync(Context.ConnectionId, pin);
                     await Clients.Groups(pin).SendAsync(PollActions.USER_JOINED, await pollContext.GetLobbyUserCountAsync(pin));
@@ -64,6 +65,7 @@ namespace survey_polling.api.Hubs
                     pollContext.Attach(lobby);
                     lobby.Users.Add(user);
                     pollContext.Entry(lobby).State = EntityState.Modified;
+
                     await pollContext.SaveChangesAsync();
                     await Groups.AddToGroupAsync(Context.ConnectionId, pin);
                     await Clients.Groups(pin).SendAsync(PollActions.USER_JOINED, await pollContext.GetLobbyUserCountAsync(pin));
@@ -122,7 +124,7 @@ namespace survey_polling.api.Hubs
             using var scope = _serviceProvider.CreateScope();
             var pollContext = scope.ServiceProvider.GetRequiredService<PollContext>();
 
-            await Clients.Group(pin).SendAsync(PollActions.USER_VOTED, questionId, await pollContext.GetQuestionVoteCountAsync(pin, questionId));
+            await Clients.Group(pin).SendAsync(PollActions.USER_VOTED, await pollContext.GetQuestionVoteCountAsync(pin, questionId));
         }
     }
 }
