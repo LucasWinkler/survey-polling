@@ -1,9 +1,97 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import './Vote.scss';
+import {
+    HubConnectionBuilder,
+    HubConnectionState,
+    LogLevel,
+} from '@microsoft/signalr';
+import { useLocation, useHistory, useParams } from 'react-router-dom';
+import config from '../../config';
 import logo from '../../assets/images/morum_logo.png';
 
 export default function Vote(props) {
+
+    //preliminary websocket instantiations
+    const location = useLocation();
+    const history = useHistory();
+    const didMountRef = useRef(false);
+    const [hubConnection, setHubConnection] = useState({});
+
+    //prepping votes to use with websocket
+    const [vote, setVote] = useState(0);
+    const [answer, setAnswer] = useState(0);
+
+    //test submitter
+    useEffect(() => {
+        const updateVotes = async (optionId) => {
+            const requestOptions = {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    optionId: optionId,
+                }),
+            };
+
+            fetch(
+                config.apiUrl + 'user/' + localStorage.getItem('userId'),
+                requestOptions
+            )
+                .then(async (response) => {
+                    if (!response.ok) {
+                        const error = response.status;
+                        return Promise.reject(error);
+                    }
+
+                    hubConnection
+                        .invoke('SendVote', optionId)
+                        .catch((err) => console.log(err));
+                })
+                .catch((error) => {
+                    console.error('There was an error!', error);
+                });
+        };
+
+        if (didMountRef.current) {
+            hubConnection.on('voteSent', (optionId) => {
+                updateVotes(optionId);
+            });
+        } else {
+            didMountRef.current = true;
+        }
+    }, [hubConnection]);
+
+    //connection builder
+    useEffect(() => {
+        const createHubConnection = async () => {
+            const connection = new HubConnectionBuilder()
+                .withUrl(config.hubUrl)
+                .withAutomaticReconnect()
+                .configureLogging(LogLevel.Information)
+                .build();
+
+            const startHubConnection = async () => {
+                try {
+                    await connection.start();
+                    console.assert(connection.state === HubConnectionState.Connected);
+                    console.log('Connection successful');
+
+                    setHubConnection(connection);
+                } catch (err) {
+                    console.assert(connection.state === HubConnectionState.Disconnected);
+                    console.log('Error while establishing connection: ' + err);
+                    setTimeout(() => startHubConnection(), 5000);
+                }
+            };
+
+            await startHubConnection();
+        };
+
+        if (didMountRef.current) {
+            createHubConnection();
+        }
+    }, [vote]);
+
   const chartReference = useRef({});
   const [question, setQuestion] = useState({
     id: 0,
@@ -11,6 +99,7 @@ export default function Vote(props) {
     content: '',
     options: [{ id: 0, content: '', votes: 0 }]
   });
+
 
   useEffect(() => {
     setQuestion(
@@ -44,6 +133,8 @@ export default function Vote(props) {
     const getPin = {
 
     }
+
+
 
   const chartData = () => {
     const labelArray = [];
