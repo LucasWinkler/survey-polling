@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-import './Poll.scss';
+import './ManagePoll.scss';
 import logo from '../../assets/images/morum_logo.png';
 
-export default function Poll(props) {
+export default function ManagePoll(props) {
   const { pollId } = props.match.params;
 
   const [poll, setPoll] = useState({
@@ -95,7 +95,7 @@ export default function Poll(props) {
     <div className='poll'>
       <nav className='nav'>
         <div className='nav__items'>
-          <img className='img__logo' src={logo}></img>
+          <img className='img__logo' src={logo} alt='morum logo'></img>
           <div className='nav__items_left'>
             <h2 className='title'>
               <Link to='/Dashboard' className='nav__dashboard'>

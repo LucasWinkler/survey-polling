@@ -6,26 +6,40 @@ import {
   Redirect,
 } from 'react-router-dom';
 
-// Vote is for testing purposes
-import Vote from '../components/Vote/Vote';
-
 import Home from './Home/Home';
+import Dashboard from './Dashboard/Dashboard';
+import ManagePoll from './ManagePoll/ManagePoll';
 import Join from './Join/Join';
 import Lobby from './Lobby/Lobby';
-import Dashboard from './Dashboard/Dashboard';
-import Poll from './Poll/Poll';
+import Vote from './Vote/Vote';
 import PollOver from './PollOver/PollOver';
-import PastPolls from './PastPoll/PastPoll';
 
 export default () => (
   <Router>
     <Switch>
-      {/* /Vote is for Testing purposes it will just be a component not a page */}
-      <Route exact path='/vote' render={(props) => <Vote {...props} />} />
+      <Route
+        exact
+        path='/'
+        render={(props) => <Vote {...props} title='Morum OSS | Home' />}
+      />
       <Route
         exact
         path='/'
         render={(props) => <Home {...props} title='Morum OSS | Home' />}
+      />
+      <Route
+        exact
+        path='/dashboard'
+        render={(props) => (
+          <Dashboard {...props} title='Morum OSS | Dashboard' />
+        )}
+      />
+      <Route
+        exact
+        path='/dashboard/poll/:id'
+        render={(props) => (
+          <ManagePoll {...props} title='Morum OSS | Manage Poll' />
+        )}
       />
       <Route
         exact
@@ -39,28 +53,14 @@ export default () => (
       />
       <Route
         exact
-        path='/dashboard'
-        render={(props) => (
-          <Dashboard {...props} title='Morum OSS | Dashboard' />
-        )}
+        path='/lobby/:id/vote'
+        render={(props) => <Vote {...props} title='Morum OSS | Voting' />}
       />
       <Route
         exact
-        path='/dashboard/poll/:id'
-        render={(props) => <Poll {...props} title='Morum OSS | Manage Poll' />}
-      />
-      <Route
-        exact
-        path='/poll-over'
+        path='lobby/:id/poll-over'
         render={(props) => (
           <PollOver {...props} title='Morum OSS | Poll Over' />
-        )}
-      />
-      <Route
-        exact
-        path='/dashboard/pastpolls'
-        render={(props) => (
-          <PastPolls {...props} title='Morum OSS | Past Polls' />
         )}
       />
       <Redirect from='*' to='/' />
