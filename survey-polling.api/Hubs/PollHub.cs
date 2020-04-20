@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using survey_polling.api.Data;
+using survey_polling.api.Models;
 using System;
 using System.Diagnostics;
 using System.Linq;
@@ -25,10 +26,50 @@ namespace survey_polling.api.Hubs
             _serviceProvider = serviceProvider;
         }
 
-        public override Task OnConnectedAsync()
+        /// <summary>
+        /// Sends the connection id to the client that connected
+        /// </summary>
+        public override async Task OnConnectedAsync()
         {
-            Clients.Caller.SendAsync("userConnected", Context.ConnectionId);
-            return base.OnConnectedAsync();
+            await Clients.Caller.SendAsync("userConnected", Context.ConnectionId);
+            await base.OnConnectedAsync();
+        }
+
+        /// <summary>
+        /// Removes the user from the lobby and updated the user count on all clients.
+        /// </summary>
+        public override async Task OnDisconnectedAsync(Exception exception)
+        {
+            var scope = _serviceProvider.CreateScope();
+            var pollContext = scope.ServiceProvider.GetRequiredService<PollContext>();
+
+            try
+            {
+                var user = await pollContext.Users.FirstOrDefaultAsync(u => u.ConnectionId == Context.ConnectionId);
+                var lobbies = pollContext.Lobbies.Include(l => l.Users);
+
+                Lobby lobby = null;
+                await lobbies.ForEachAsync(l => {
+                    if (l.Users.Contains(user))
+                    {
+                        lobby = l;
+                        return;
+                    }
+                });
+
+                pollContext.Attach(lobby);
+                lobby.Users.Remove(user);
+                pollContext.Entry(lobby).State = EntityState.Modified;
+
+                await pollContext.SaveChangesAsync();
+                await Clients.Group(lobby.Pin).SendAsync(PollActions.USER_LEFT, await pollContext.GetLobbyUserCountAsync(lobby.Pin));
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+            }
+
+            await base.OnDisconnectedAsync(exception);
         }
 
         /// <summary>
@@ -61,7 +102,7 @@ namespace survey_polling.api.Hubs
                 }
                 else
                 {
-                   
+
                     pollContext.Attach(lobby);
                     lobby.Users.Add(user);
                     pollContext.Entry(lobby).State = EntityState.Modified;
@@ -112,7 +153,24 @@ namespace survey_polling.api.Hubs
         /// <param name="pin">The lobby pin</param>
         public async Task StartPoll(string pin)
         {
-            await Clients.Groups(pin).SendAsync(PollActions.POLL_STARTED);
+            var scope = _serviceProvider.CreateScope();
+            var pollContext = scope.ServiceProvider.GetRequiredService<PollContext>();
+
+            try
+            {
+                var lobby = await pollContext.Lobbies.FirstOrDefaultAsync(l => l.Pin == pin);
+
+                pollContext.Attach(lobby);
+                lobby.HasStarted = true;
+                pollContext.Entry(lobby).State = EntityState.Modified;
+
+                await pollContext.SaveChangesAsync();
+                await Clients.Groups(pin).SendAsync(PollActions.POLL_STARTED);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+            }
         }
 
         /// <summary>

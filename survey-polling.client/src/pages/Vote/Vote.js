@@ -35,17 +35,17 @@ export default function Vote(props) {
     currentChart.update();
   };
 
-  const setupConnectionEvents = (connection) => {
-    connection.on('userVoted', (votes) => {
-      updateChart(question, votes);
-    });
-  };
+  // const setupConnectionEvents = (connection) => {
+  //   connection.on('userVoted', (votes) => {
+  //     updateChart(question, votes);
+  //   });
+  // };
 
   useEffect(() => {
-    const connection = props.hubConnection;
+    //const connection = props.hubConnection;
 
     fakeData();
-    setupConnectionEvents(connection);
+    //setupConnectionEvents(connection);
   }, []);
 
   const chooseOption = (barNumber) => {

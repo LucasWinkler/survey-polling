@@ -115,6 +115,10 @@ export default function Lobby(props) {
       hubConnection.on('userJoined', (count) => {
         setUserCount(count);
       });
+
+      hubConnection.on('userLeft', (count) => {
+        setUserCount(count);
+      });
     } else {
       didMountRef.current = true;
     }
