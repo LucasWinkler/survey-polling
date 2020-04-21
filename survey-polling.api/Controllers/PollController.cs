@@ -45,7 +45,7 @@ namespace survey_polling.api.Controllers
                 .ToListAsync();
         }
 
-        // GET: api/Poll/GetPollsbyHostId/2/1
+        // GET: api/Poll/GetPollsByHostId/2/1
         [Route("[action]/{hostId}/{pollId}")]
         [HttpGet]
         public async Task<ActionResult<Poll>> GetPollByHostId(int hostId, int pollId)

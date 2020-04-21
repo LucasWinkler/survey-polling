@@ -12,7 +12,7 @@ export default function ManagePoll(props) {
     id: 0,
     hostId: 0,
     title: '',
-    questions: [{ id: 0, pollId: 0, content: '' }],
+    questions: [{ id: 0, pollId: 0, content: '', options: [{}] }],
   });
 
   const [questionFields, setQuestionFields] = useState([{ question: null }]);
@@ -108,10 +108,10 @@ export default function ManagePoll(props) {
   };
 
   // On change handling
-  const handleQuestionChange = function (i, event) {
-    const qFields = [...questionFields];
-    qFields[i].value = event.target.value;
-    setQuestionFields(qFields);
+  const handleQuestionChange = function (event) {
+    const newPoll = poll;
+    newPoll.title = event.target.value;
+    setPoll(newPoll);
   };
 
   const handleOptionsChange = function (j, event) {
@@ -148,6 +148,7 @@ export default function ManagePoll(props) {
               id='pollTitle'
               name='pollTitle poll__input'
               placeholder='Enter poll title'
+              value={poll.title}
             />
 
             <button id='btnExit' className='btn'>
@@ -216,6 +217,7 @@ export default function ManagePoll(props) {
               type='text'
               placeholder='Enter your question'
               className='poll__input'
+              onChange={(event) => handleQuestionChange(event)}
             />
             <br></br>
             <br></br>
