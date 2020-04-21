@@ -38,7 +38,7 @@ export default function Lobby(props) {
 
     await fetch(config.apiUrl + 'lobby/' + id, requestOptions)
       .then(async (response) => {
-        const data = await response.json(null);
+        const data = await response.json();
 
         if (!response.ok) {
           const error = (data && data.message) || response.status;
