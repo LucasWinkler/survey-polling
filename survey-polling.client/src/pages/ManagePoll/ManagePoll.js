@@ -1,32 +1,67 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import config from '../../config';
 
 import './ManagePoll.scss';
 import logo from '../../assets/images/morum_logo.png';
 
 export default function ManagePoll(props) {
-  const { pollId } = props.match.params;
-
+  const { id } = useParams();
   const [poll, setPoll] = useState({
-    id: Number,
-    hostId: Number,
-    title: String,
-    questions: [{ id: Number, pollId: Number, content: String }],
+    id: 0,
+    hostId: 0,
+    title: '',
+    questions: [{ id: 0, pollId: 0, content: '', options: [{}] }],
   });
+
+  const [questionFields, setQuestionFields] = useState([{ question: null }]);
+  const [optionFields, setOptionFields] = useState([{ option: null }]);
+  const [qError, setqError] = useState('');
+  const [opError, setopError] = useState('');
 
   useEffect(() => {
     document.title = props.title;
   }, [props.title]);
 
-  //Use State for the input
-  const [questionFields, setQuestionFields] = useState([{ question: null }]);
+  const fetchExistingPoll = async () => {
+    const requestOptions = {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    };
 
-  const [optionFields, setOptionFields] = useState([{ option: null }]);
+    await fetch(
+      `${config.apiUrl}poll/GetPollsByHostId/${localStorage.getItem(
+        'userId'
+      )}/${id}`,
+      requestOptions
+    )
+      .then(async (response) => {
+        const data = await response.json();
 
-  const [qError, setqError] = useState('');
-  const [opError, setopError] = useState('');
+        if (!response.ok) {
+          const error = (data && data.message) || response.status;
+          return Promise.reject(error);
+        }
 
-  // Question Handling /////////////////////////////////////////////
+        setPoll(data);
+      })
+      .catch((error) => {
+        console.error('There was an error!', error);
+      });
+  };
+
+  useEffect(() => {
+    if (id != undefined) {
+      fetchExistingPoll();
+    }
+  }, []);
+
+  useEffect(() => {
+    //
+  }, [poll]);
+
+  // Question Handling
   const addQuestion = function () {
     const qFields = [...questionFields];
     qFields.push({ question: null });
@@ -46,15 +81,12 @@ export default function ManagePoll(props) {
     }
   };
 
-  //Option Handling /////////////////////////////////////////////
+  // Option Handling
   const addOptions = function () {
     const oFields = [...optionFields];
     oFields.push({ option: null });
 
     if (oFields.length === 5) {
-      //setopError("You are only allowed to add 4 options");
-
-      //an alert for now
       alert('You are only allowed to add 4 options');
     } else {
       setOptionFields(oFields);
@@ -75,11 +107,11 @@ export default function ManagePoll(props) {
     }
   };
 
-  //On change handling /////////////////////////////////////////////
-  const handleQuestionChange = function (i, event) {
-    const qFields = [...questionFields];
-    qFields[i].value = event.target.value;
-    setQuestionFields(qFields);
+  // On change handling
+  const handleQuestionChange = function (event) {
+    const newPoll = poll;
+    newPoll.title = event.target.value;
+    setPoll(newPoll);
   };
 
   const handleOptionsChange = function (j, event) {
@@ -88,8 +120,14 @@ export default function ManagePoll(props) {
     setOptionFields(oFields);
   };
 
-  // Saveing a poll/////////////////////////////////////////////
-  const savePoll = function () {};
+  // Saving a poll
+  const savePoll = () => {
+    // TODO: Save all inputs into the new/existing poll
+  };
+
+  const openQuestion = (index) => {
+    // TODO: Display question in the right half of the page so it can be edited
+  };
 
   return (
     <div className='poll'>
@@ -110,6 +148,7 @@ export default function ManagePoll(props) {
               id='pollTitle'
               name='pollTitle poll__input'
               placeholder='Enter poll title'
+              value={poll.title}
             />
 
             <button id='btnExit' className='btn'>
@@ -129,20 +168,24 @@ export default function ManagePoll(props) {
           <form onSubmit={addQuestion}>
             {questionFields.map((questionField, i) => {
               return (
-                <div key={`${questionField}-${i}`}>
+                <div className='question__wrapper' key={`question-${i}`}>
                   <input
-                    id={('txtInputField', i)}
+                    href='#'
+                    className='questionInput'
+                    id={`question-${i}`}
+                    name={`question-${i}`}
                     data-idx={i}
-                    className='txtInputQuestion'
-                    type='text'
-                    placeholder='Enter a question'
-                    value={questionField.value || ''}
-                    onChange={(event) => handleQuestionChange(i, event)}
+                    type='button'
+                    value={`${i + 1}. ${
+                      questionField.value || 'Click to edit your question'
+                    }`}
+                    onClick={() => openQuestion(i)}
                   />
+
                   <button
-                    id='btnDelete'
-                    className='btn btn--colour-red'
-                    name='btnDeleteQuestion'
+                    id={`questionDelete-${i}`}
+                    className='btn btn--colour-red questionDelete'
+                    name={`questionDelete-${i}`}
                     type='button'
                     onClick={() => deleteQuestion(i)}
                   >
@@ -174,30 +217,32 @@ export default function ManagePoll(props) {
               type='text'
               placeholder='Enter your question'
               className='poll__input'
+              onChange={(event) => handleQuestionChange(event)}
             />
             <br></br>
             <br></br>
             <h2>Answers</h2>
             <br></br>
             <p id='opError'>{opError}</p>
-            {optionFields.map((optionField, j) => {
+            {optionFields.map((optionField, i) => {
               return (
-                <div key={`${optionField}-${j}`}>
+                <div className='option__wrapper' key={`option-${i}`}>
                   <input
-                    data-idx={j}
-                    id='txtInputQuestion'
+                    data-idx={i}
+                    id={`option-${i}`}
+                    name={`option-${i}`}
                     className='txtInputQuestion'
                     type='text'
-                    placeholder={'Option ' + (j + 1)}
+                    placeholder={'Option ' + (i + 1)}
                     value={optionField.value || ''}
-                    onChange={(event) => handleOptionsChange(j, event)}
+                    onChange={(event) => handleOptionsChange(i, event)}
                   />
                   <button
-                    id='btnDelete'
+                    id={`optionDelete-${i}`}
                     className='btn btn--colour-red'
-                    name='btnDeleteOption'
+                    name={`optionDelete-${i}`}
                     type='button'
-                    onClick={() => deleteOptions(j)}
+                    onClick={() => deleteOptions(i)}
                   >
                     Delete
                   </button>

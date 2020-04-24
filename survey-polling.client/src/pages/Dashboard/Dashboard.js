@@ -24,7 +24,7 @@ export default function Dashboard(props) {
       requestOptions
     )
       .then(async (response) => {
-        const data = await response.json(null);
+        const data = await response.json();
 
         if (!response.ok) {
           const error = (data && data.message) || response.status;
@@ -52,32 +52,33 @@ export default function Dashboard(props) {
   }, []);
 
   // ! This should happen in the ManagePoll page but it is here for testing.
-  const createPoll = (event) => {
+  const goToManagePoll = (event) => {
     event.preventDefault();
 
-    const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        hostId: parseInt(localStorage.getItem('userId')),
-        title: 'A poll for testing the API',
-      }),
-    };
+    history.push('/dashboard/poll/');
+    // const requestOptions = {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify({
+    //     hostId: parseInt(localStorage.getItem('userId')),
+    //     title: 'A poll for testing the API',
+    //   }),
+    // };
 
-    fetch(config.apiUrl + 'poll', requestOptions)
-      .then(async (response) => {
-        const data = await response.json();
+    // fetch(config.apiUrl + 'poll', requestOptions)
+    //   .then(async (response) => {
+    //     const data = await response.json();
 
-        if (!response.ok) {
-          const error = (data && data.message) || response.status;
-          return Promise.reject(error);
-        }
+    //     if (!response.ok) {
+    //       const error = (data && data.message) || response.status;
+    //       return Promise.reject(error);
+    //     }
 
-        history.push('/dashboard/poll/' + data.id);
-      })
-      .catch((error) => {
-        console.error('There was an error!', error);
-      });
+    //     history.push('/dashboard/poll/' + data.id);
+    //   })
+    //   .catch((error) => {
+    //     console.error('There was an error!', error);
+    //   });
   };
 
   const startPoll = (pollId) => {
@@ -195,7 +196,7 @@ export default function Dashboard(props) {
                   type='button'
                   value='New'
                   className='btn btn--colour-blue'
-                  onClick={createPoll}
+                  onClick={goToManagePoll}
                 />
               </div>
             </section>
@@ -215,7 +216,6 @@ export default function Dashboard(props) {
               </table>
             </section>
           </div>
-          <br></br>
         </div>
       </div>
     </div>

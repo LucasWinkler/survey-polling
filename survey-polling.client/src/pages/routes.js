@@ -31,7 +31,7 @@ export default () => (
       />
       <Route
         exact
-        path='/dashboard/poll/:id'
+        path='/dashboard/poll/:id?'
         render={(props) => (
           <ManagePoll {...props} title='Morum OSS | Manage Poll' />
         )}

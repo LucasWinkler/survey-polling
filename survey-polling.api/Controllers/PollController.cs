@@ -34,6 +34,7 @@ namespace survey_polling.api.Controllers
                 .ToListAsync();
         }
 
+        // GET: api/Poll/GetPollsbyHostId/2
         [Route("[action]/{hostId}")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Poll>>> GetPollsByHostId(int hostId)
@@ -42,6 +43,23 @@ namespace survey_polling.api.Controllers
                 .Include(p => p.Questions)
                 .Where(p => p.HostId == hostId)
                 .ToListAsync();
+        }
+
+        // GET: api/Poll/GetPollsByHostId/2/1
+        [Route("[action]/{hostId}/{pollId}")]
+        [HttpGet]
+        public async Task<ActionResult<Poll>> GetPollByHostId(int hostId, int pollId)
+        {
+            var poll = await _context.Polls
+                .Include(p => p.Questions)
+                .FirstOrDefaultAsync(p => p.HostId == hostId && p.Id == pollId);
+
+            if (poll == null)
+            {
+                return NotFound();
+            }
+
+            return poll;
         }
 
         // GET: api/Poll/5
